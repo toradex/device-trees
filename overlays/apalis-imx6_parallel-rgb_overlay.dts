@@ -1,0 +1,14 @@
+// Enable the parallel RGB interface on the Apalis iMX6Q. Make sure to also select a valid display configuration.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+        compatible = "toradex,apalis_imx6q";
+        fragment@0 {
+                target-path = "/disp0";
+                __overlay__ {
+                        status = "okay";
+                };
+        };
+};
