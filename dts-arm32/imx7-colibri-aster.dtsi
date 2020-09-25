@@ -1,0 +1,233 @@
+/*
+ * Copyright 2017-2019 Toradex AG
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ */
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/pwm/pwm.h>
+
+/ {
+	chosen {
+		bootargs = "console=ttymxc0,115200";
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpiokeys>;
+
+		power {
+			label = "Wake-Up";
+			gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_WAKEUP>;
+			debounce-interval = <10>;
+			wakeup-source;
+		};
+	};
+
+	panel_dpi: panel-dpi {
+		compatible = "panel-dpi";
+		backlight = <&bl>;
+		power-supply = <&reg_3v3>;
+
+		width-mm = <115>;
+		height-mm = <86>;
+
+		data-mapping = "bgr666";
+
+		/* VESA DMT v1.13 mode VGA 640x480 60Hz */
+		panel-timing {
+			clock-frequency = <25175000>;
+			hactive = <640>;
+			vactive = <480>;
+			hsync-len = <96>;
+			hfront-porch = <16>;
+			hback-porch = <48>;
+			vsync-len = <2>;
+			vfront-porch = <10>;
+			vback-porch = <33>;
+		};
+
+		port {
+			lcd_panel_in: endpoint {
+				remote-endpoint = <&lcdif_out>;
+			};
+		};
+	};
+
+	reg_3v3: regulator-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+	};
+
+	reg_5v0: regulator-5v0 {
+		compatible = "regulator-fixed";
+		regulator-name = "5V";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+	};
+
+	reg_usbh_vbus: regulator-usbh-vbus {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbh_reg>;
+		regulator-name = "VCC_USB[1-4]";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		gpio = <&gpio4 7 GPIO_ACTIVE_LOW>;
+		vin-supply = <&reg_5v0>;
+	};
+};
+
+&bl {
+	brightness-levels = <0 45 63 88 119 158 203 255>;
+	default-brightness-level = <4>;
+	pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
+	status = "okay";
+};
+
+&adc1 {
+	status = "okay";
+};
+
+&adc2 {
+	status = "okay";
+};
+
+&ecspi3 {
+	fsl,spi-num-chipselects = <2>;
+	cs-gpios = <
+		&gpio4 11 GPIO_ACTIVE_HIGH
+		&gpio4 23 GPIO_ACTIVE_HIGH
+	>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ecspi3 &pinctrl_ecspi3_cs>;
+	status = "okay";
+
+	spidev0: spidev@0 {
+		compatible = "toradex,evalspi";
+		reg = <0>;
+		spi-max-frequency = <23000000>;
+	};
+
+	spidev1: spidev@1 {
+		compatible = "toradex,evalspi";
+		reg = <1>;
+		spi-max-frequency = <23000000>;
+	};
+};
+
+&fec1 {
+	status = "okay";
+};
+
+&i2c4 {
+	status = "okay";
+
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_mtouch>;
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
+		reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+
+	/* M41T0M6 real time clock on carrier board */
+	rtc: m41t0m6@68 {
+		compatible = "st,m41t0";
+		reg = <0x68>;
+	};
+};
+
+&lcdif {
+	status = "okay";
+
+	port {
+		lcdif_out: endpoint {
+			remote-endpoint = <&lcd_panel_in>;
+		};
+	};
+};
+
+&pwm1 {
+	status = "okay";
+};
+
+&pwm2 {
+	status = "okay";
+};
+
+&pwm3 {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
+};
+
+&uart1 {
+	status = "okay";
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+};
+
+&usbotg1 {
+	status = "okay";
+};
+
+/* The define SD_1_8 allows to use the SD interface at a higher speed mode
+ * if the card supports it. For this the signaling voltage is switched from
+ * 3.3V to 1.8V under the usdhc1's drivers control.
+ * All pins supplied with NVCC_SD1 must be able to cope with this
+ * and must (MUST!!!) not be driven with a voltage higher than 1.8V or
+ * the interface will not work.
+ */
+/* #define SD_1_8 */
+&usdhc1 {
+#ifdef SD_1_8
+	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_cd_usdhc1>;
+	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_cd_usdhc1>;
+	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_cd_usdhc1>;
+	vmmc-supply = <&reg_3p3v>;
+	vqmmc-supply = <&reg_LDO2>;
+#else
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_cd_usdhc1>;
+	no-1-8-v;
+#endif
+	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+	disable-wp;
+	wakeup-source;
+	keep-power-in-suspend;
+	status = "okay";
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio1 &pinctrl_gpio2 &pinctrl_gpio3 &pinctrl_gpio4>;
+
+	pinctrl_mtouch: mtouch-grp { /* ATMEL MXT TOUCH */
+		fsl,pins = <
+			MX7D_PAD_EPDC_DATA15__GPIO2_IO15        0x74 /* SODIMM 107 */
+			MX7D_PAD_EPDC_BDR0__GPIO2_IO28          0x74 /* SODIMM 106 */
+		>;
+	};
+};
