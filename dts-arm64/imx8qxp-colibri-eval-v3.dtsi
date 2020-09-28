@@ -180,11 +180,6 @@
 	status = "okay";
 };
 
-/* Colibri SDCard */
-&usdhc2 {
-	status = "okay";
-};
-
 &usbotg1 {
         extcon = <&extcon_usbc_det &extcon_usbc_det>;
         vbus-supply = <&reg_usbh_vbus>;
@@ -199,6 +194,15 @@
 &usbotg3 {
         dr_mode = "host";
         status = "okay";
+};
+
+&usbphy1 {
+        status = "okay";
+};
+
+/* Colibri SDCard */
+&usdhc2 {
+	status = "okay";
 };
 
 &vpu_encoder {
