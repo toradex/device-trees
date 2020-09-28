@@ -1,0 +1,13 @@
+// Disable the parallel RGB interface on the Apalis iMX6Q.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q";
+};
+
+&lcd_display {
+	status = "disabled";
+};
+

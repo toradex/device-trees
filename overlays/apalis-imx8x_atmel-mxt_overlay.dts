@@ -1,0 +1,42 @@
+// Atmel MXT touchscreen for the 7inch and 10inch display orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+#include "dt-bindings/interrupt-controller/irq.h"
+#include "dt-bindings/gpio/gpio.h"
+#include "dt-bindings/pinctrl/pads-imx8qxp.h"
+
+/ {
+	compatible = "toradex,apalis-imx8x";
+};
+
+&i2c1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_touch>;
+		reg = <0x4a>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;		/* Apalis GPIO5 */
+		reset-gpios = <&lsio_gpio3 18 GPIO_ACTIVE_HIGH>;	/* Apalis GPIO6 */
+		status = "okay";
+	};
+};
+
+&iomuxc {
+	apalis-imx8qxp {
+		/* Apalis GPIO5+6 */
+		pinctrl_touch: touchgrp {
+			fsl,pins = <
+				IMX8QXP_QSPI0B_SCLK_LSIO_GPIO3_IO17		0x21		/* MXM3 11 */
+				IMX8QXP_QSPI0B_DATA0_LSIO_GPIO3_IO18		0x21		/* MXM3 13 */
+			>;
+		};
+	};
+};
+

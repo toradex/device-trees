@@ -1,0 +1,105 @@
+// Enable the dsi to hdmi adapter orderable at Toradex for Colibri iMX8X
+
+#include "dt-bindings/gpio/gpio.h"
+#include "dt-bindings/pinctrl/pads-imx8qxp.h"
+
+/dts-v1/;
+/plugin/;
+/ {
+	compatible = "toradex,colibri-imx8x";
+};
+
+&i2c0_mipi_lvds0 {
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* DSI to HDMI Adapter V1.1A */
+	i2c-switch@70 {
+		compatible = "nxp,pca9540";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x70>;
+		i2c-mux-idle-disconnect;
+
+		i2c_sw0: i2c-sw@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0>;
+
+			/* DDC/EDID */
+		};
+
+		i2c-sw@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <1>;
+
+			lt8912@48 {
+				compatible = "lontium,lt8912";
+				ddc-i2c-bus = <&i2c_sw0>;
+				hpd-gpios = <&lsio_gpio1 31 GPIO_ACTIVE_HIGH>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_gpio_hpd>;
+				reg = <0x48>;
+
+				port {
+					lt8912_1_in: endpoint {
+						remote-endpoint = <&mipi0_dsi_host_out>;
+					};
+				};
+			};
+		};
+	};
+};
+
+&iomuxc {
+	colibri-imx8qxp {
+		/* DSI/LVDS Hot Plug Detect on FFC (X2) */
+		pinctrl_gpio_hpd: gpio-hpd {
+			fsl,pins = <
+				IMX8QXP_MIPI_DSI1_GPIO0_00_LSIO_GPIO1_IO31		0x20		/* SODIMM 138 */
+			>;
+		};
+	};
+};
+
+&ldb1 {
+	status = "disabled";
+};
+
+&ldb1_phy {
+	status = "disabled";
+};
+
+&ldb2 {
+	status = "okay";
+};
+
+&ldb2_phy {
+	status = "okay";
+};
+
+&mipi0_dsi_host {
+	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	port@1 {
+		reg = <1>;
+		mipi0_dsi_host_out: endpoint {
+			remote-endpoint = <&lt8912_1_in>;
+		};
+	};
+};
+
+&mipi0_dphy {
+	status = "okay";
+};
+
+&mipi1_dsi_host {
+	status = "okay";
+};
+

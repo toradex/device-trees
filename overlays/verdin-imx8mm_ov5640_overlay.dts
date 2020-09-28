@@ -1,0 +1,81 @@
+// CSI Camera Module 5MP OV5640 orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx8mm-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "toradex,verdin-imx8mm";
+};
+
+&csi1_bridge {
+	fsl,mipi-mode;
+	status = "okay";
+
+	port {
+		csi1_ep: endpoint {
+			remote-endpoint = <&csi1_mipi_ep>;
+		};
+	};
+};
+
+/* Verdin I2C_4_CSI */
+&i2c3 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	ov5640_mipi@3c {
+		assigned-clocks = <&clk IMX8MM_CLK_CLKO1>;
+		assigned-clock-parents = <&clk IMX8MM_CLK_24M>;
+		assigned-clock-rates = <24000000>;
+		compatible = "ovti,ov5640_mipi";
+		clock-names = "csi_mclk";
+		clocks = <&clk IMX8MM_CLK_CLKO1>;
+		DOVDD-supply = <&reg_3p3v>;
+		AVDD-supply = <&reg_3p3v>;
+		DVDD-supply = <&reg_3p3v>;
+		PVDD-supply = <&reg_3p3v>;
+		csi_id = <0>;
+		mclk = <24000000>;
+		mclk_source = <0>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
+		pwn-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
+		reg = <0x3c>;
+		rst-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+
+		port {
+			ov5640_mipi1_ep: endpoint {
+				remote-endpoint = <&mipi1_sensor_ep>;
+			};
+		};
+	};
+};
+
+&mipi_csi_1 {
+	mipi-phy-supply = <&reg_mipi_phy>;
+	status = "okay";
+
+	port {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		mipi1_sensor_ep: endpoint@1 {
+			csis-hs-settle = <13>;
+			csis-clk-settle = <2>;
+			csis-wclk;
+			data-lanes = <2>;
+			reg = <1>;
+			remote-endpoint = <&ov5640_mipi1_ep>;
+		};
+
+		csi1_mipi_ep: endpoint@2 {
+			reg = <2>;
+			remote-endpoint = <&csi1_ep>;
+		};
+	};
+};

@@ -1,0 +1,35 @@
+// LT170410 display (10inch) with a resolution of 1280x800 pixel. This display can be ordered at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q",
+		     "toradex,apalis-imx8",
+		     "toradex,apalis-imx8x",
+		     "toradex,verdin-imx8mm";
+};
+
+&{/panel-lvds} {
+	status = "okay";
+
+	data-mapping = "vesa-24";
+	width-mm = <217>;
+	height-mm = <136>;
+
+	panel-timing {
+		clock-frequency = <68930000>;
+		hactive = <1280>;
+		vactive = <800>;
+		hback-porch = <64>;
+		hfront-porch = <64>;
+		vback-porch = <5>;
+		vfront-porch = <5>;
+		hsync-len = <40>;
+		vsync-len = <6>;
+		hsync-active = <0>;
+		vsync-active = <0>;
+		pixelclk-active = <0>;
+	};
+};
+

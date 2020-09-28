@@ -1,0 +1,46 @@
+// Enable the resistive touch controller (AD7879) on the module
+
+/dts-v1/;
+/plugin/;
+
+#include "dt-bindings/interrupt-controller/irq.h"
+#include "dt-bindings/gpio/gpio.h"
+#include "dt-bindings/pinctrl/pads-imx8qxp.h"
+
+/ {
+	compatible = "toradex,apalis-imx8x";
+};
+
+&i2c0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* Touch controller */
+	ad7879@2c {
+		compatible = "adi,ad7879-1";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ad7879_int>;
+		reg = <0x2c>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+		touchscreen-max-pressure = <4096>;
+		adi,resistance-plate-x = <120>;
+		adi,first-conversion-delay = /bits/ 8 <3>;
+		adi,acquisition-time = /bits/ 8 <1>;
+		adi,median-filter-size = /bits/ 8 <2>;
+		adi,averaging = /bits/ 8 <1>;
+		adi,conversion-interval = /bits/ 8 <255>;
+	};
+};
+
+&iomuxc {
+	apalis-imx8qxp {
+		/* On-module touch pen-down interrupt */
+		pinctrl_ad7879_int: ad7879-int {
+			fsl,pins = <
+				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05		0x21
+			>;
+		};
+	};
+};
+

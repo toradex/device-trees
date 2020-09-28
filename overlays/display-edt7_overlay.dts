@@ -1,0 +1,32 @@
+// EDT7 display with a resolution of 800x480 pixel
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q",
+		     "toradex,apalis-imx8x",
+		     "toradex,colibri_imx6dl",
+		     "toradex,colibri-imx6ull",
+		     "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7s",
+		     "toradex,colibri-imx8x";
+};
+
+&{/panel-dpi} {
+	status = "okay";
+	width-mm = <155>;
+	height-mm = <91>;
+	panel-timing {
+		clock-frequency = <33230769>;
+		hactive = <800>;
+		vactive = <480>;
+		hsync-len = <128>;
+		hfront-porch = <40>;
+		hback-porch = <88>;
+		vsync-len = <1>;
+		vfront-porch = <10>;
+		vback-porch = <33>;
+	};
+};
+
