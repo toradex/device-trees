@@ -4,31 +4,303 @@
  */
 
 / {
+	aliases {
+		rtc0 = &rtc_i2c;
+		rtc1 = &rtc;
+	};
 
+	leds {
+		compatible = "gpio-leds";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_leds_ixora>;
+
+		/* MXM3_188 */
+		led4-green {
+			label = "LED_4_GREEN";
+			gpios = <&lsio_gpio5 27 GPIO_ACTIVE_HIGH>;
+		};
+		/* MXM3_178 */
+		led4-red {
+			label = "LED_4_RED";
+			gpios = <&lsio_gpio5 29 GPIO_ACTIVE_HIGH>;
+		};
+		/* MXM3_152 */
+		led5-green {
+			label = "LED_5_GREEN";
+			gpios = <&lsio_gpio5 20 GPIO_ACTIVE_HIGH>;
+		};
+		/* MXM3_156 */
+		led5-red {
+			label = "LED_5_RED";
+			gpios = <&lsio_gpio5 21 GPIO_ACTIVE_HIGH>;
+		};
+	};
+
+	reg_usb_host_vbus: regulator-usb-host-vbus {
+		regulator-name = "VCC_USBH(2|4)";
+	};
+};
+
+&adc0 {
+	status = "okay";
+};
+
+&adc1 {
+	status = "okay";
+};
+
+&amix {
+	status = "okay";
+};
+
+&asrc0 {
+	status = "okay";
+};
+
+&backlight {
+	default-brightness-level = <4>;
+	brightness-levels = <0 45 63 88 119 158 203 255>;
+	pwms = <&pwm_lvds1 0 6666667 PWM_POLARITY_INVERTED>;
+	status = "okay";
+};
+
+&dc0_dpr1_channel1 {
+	status = "okay";
+};
+
+&dc0_dpr1_channel2 {
+	status = "okay";
+};
+
+&dc0_dpr1_channel3 {
+	status = "okay";
+};
+
+&dc0_dpr2_channel1 {
+	status = "okay";
+};
+
+&dc0_dpr2_channel2 {
+	status = "okay";
+};
+
+&dc0_dpr2_channel3 {
+	status = "okay";
+};
+
+&dc0_pc {
+	status = "okay";
+};
+
+&dc0_prg1 {
+	status = "okay";
+};
+
+&dc0_prg2 {
+	status = "okay";
+};
+
+&dc0_prg3 {
+	status = "okay";
+};
+
+&dc0_prg4 {
+	status = "okay";
+};
+
+&dc0_prg5 {
+	status = "okay";
+};
+
+&dc0_prg6 {
+	status = "okay";
+};
+
+&dc0_prg7 {
+	status = "okay";
+};
+
+&dc0_prg8 {
+	status = "okay";
+};
+
+&dc0_prg9 {
+	status = "okay";
+};
+
+&dc1_dpr1_channel1 {
+	status = "okay";
+};
+
+&dc1_dpr1_channel2 {
+	status = "okay";
+};
+
+&dc1_dpr1_channel3 {
+	status = "okay";
+};
+
+&dc1_dpr2_channel1 {
+	status = "okay";
+};
+
+&dc1_dpr2_channel2 {
+	status = "okay";
+};
+
+&dc1_dpr2_channel3 {
+	status = "okay";
+};
+
+&dc1_pc {
+	status = "okay";
+};
+
+&dc1_prg1 {
+	status = "okay";
+};
+
+&dc1_prg2 {
+	status = "okay";
+};
+
+&dc1_prg3 {
+	status = "okay";
+};
+
+&dc1_prg4 {
+	status = "okay";
+};
+
+&dc1_prg5 {
+	status = "okay";
+};
+
+&dc1_prg6 {
+	status = "okay";
+};
+
+&dc1_prg7 {
+	status = "okay";
+};
+
+&dc1_prg8 {
+	status = "okay";
+};
+
+&dc1_prg9 {
+	status = "okay";
+};
+
+&dpu1 {
+	status = "okay";
+};
+
+&dpu2 {
+	status = "okay";
 };
 
 &fec1 {
 	status = "okay";
 };
 
-&lsio_gpio5 {
-	ngpios = <32>;
-	gpio-line-names = "gpio5-00", "gpio5-01", "gpio5-02", "gpio5-03",
-			  "gpio5-04", "gpio5-05", "gpio5-06", "gpio5-07",
-			  "gpio5-08", "gpio5-09", "gpio5-10", "gpio5-11",
-			  "gpio5-12", "gpio5-13", "gpio5-14", "gpio5-15",
-			  "gpio5-16", "gpio5-17", "gpio5-18", "gpio5-19",
-			  "LED-5-GREEN", "LED-5-RED", "gpio5-22", "gpio5-23",
-			  "gpio5-24", "UART24-FORCEOFF", "gpio5-26",
-			  "LED-4-GREEN", "gpio5-28", "LED-4-RED", "gpio5-30",
-			  "gpio5-31";
+&gpu_3d0{
+	status = "okay";
+};
+
+&gpu_3d1{
+	status = "okay";
+};
+
+/* Apalis HDMI1 */
+&hdmi {
+	status = "okay";
+};
+
+&hdmi_lpcg_apb {
+	status = "okay";
+};
+
+&hdmi_lpcg_apb_mux_csr {
+	status = "okay";
+};
+
+&hdmi_lpcg_apb_mux_ctrl {
+	status = "okay";
+};
+
+&hdmi_lpcg_gpio_ipg {
+	status = "okay";
+};
+
+&hdmi_lpcg_i2c0 {
+	status = "okay";
+};
+
+&hdmi_lpcg_i2s {
+	status = "okay";
+};
+
+&hdmi_lpcg_lis_ipg {
+	status = "okay";
+};
+
+&hdmi_lpcg_msi_hclk {
+	status = "okay";
+};
+
+&hdmi_lpcg_phy {
+	status = "okay";
+};
+
+&hdmi_lpcg_pwm_ipg {
+	status = "okay";
+};
+
+&hdmi_lpcg_pxl {
+	status = "okay";
+};
+
+/* Apalis I2C2 (DDC) */
+&i2c0 {
+	status = "okay";
+};
+
+/* Apalis I2C1 */
+&i2c2 {
+	status = "okay";
+
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
+		reg = <0x4a>;
+		interrupt-parent = <&lsio_gpio4>;
+		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;    /* Apalis GPIO5 */
+		reset-gpios = <&lsio_gpio4 2 GPIO_ACTIVE_HIGH>; /* Apalis GPIO6 */
+	};
+
+	/* M41T0M6 real time clock on carrier board */
+	rtc_i2c: rtc@68 {
+		compatible = "st,m41t0";
+		reg = <0x68>;
+	};
+};
+
+/* Apalis I2C3 (CAM) */
+&i2c3 {
+	status = "okay";
+};
+
+&imx8_gpu_ss {
+	status = "okay";
 };
 
 &iomuxc {
 	pinctrl-0 = <&pinctrl_cam1_gpios>, <&pinctrl_dap1_gpios>,
 		    <&pinctrl_esai0_gpios>, <&pinctrl_fec2_gpios>,
-		    <&pinctrl_gpio3>, <&pinctrl_gpio4>,
-		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_leds_ixora>,
+		    <&pinctrl_gpio3>, <&pinctrl_gpio4>, <&pinctrl_gpio_usbh_oc_n>,
 		    <&pinctrl_lpuart1ctrl>, <&pinctrl_lvds0_i2c0_gpio>,
 		    <&pinctrl_lvds1_i2c0_gpios>, <&pinctrl_mipi_dsi_0_1_en>,
 		    <&pinctrl_mipi_dsi1_gpios>, <&pinctrl_mlb_gpios>,
@@ -52,6 +324,41 @@
 	};
 };
 
+&irqsteer_csi0 {
+	status = "okay";
+};
+
+&irqsteer_csi1 {
+	status = "okay";
+};
+
+&irqsteer_hdmi {
+	status = "okay";
+};
+
+&lsio_gpio5 {
+	ngpios = <32>;
+	gpio-line-names = "gpio5-00", "gpio5-01", "gpio5-02", "gpio5-03",
+			  "gpio5-04", "gpio5-05", "gpio5-06", "gpio5-07",
+			  "gpio5-08", "gpio5-09", "gpio5-10", "gpio5-11",
+			  "gpio5-12", "gpio5-13", "gpio5-14", "gpio5-15",
+			  "gpio5-16", "gpio5-17", "gpio5-18", "gpio5-19",
+			  "LED-5-GREEN", "LED-5-RED", "gpio5-22", "gpio5-23",
+			  "gpio5-24", "UART24-FORCEOFF", "gpio5-26",
+			  "LED-4-GREEN", "gpio5-28", "LED-4-RED", "gpio5-30",
+			  "gpio5-31";
+};
+
+/* Apalis SPI1 */
+&lpspi0 {
+	status = "okay";
+};
+
+/* Apalis SPI2 */
+&lpspi2 {
+	status = "okay";
+};
+
 /* Apalis UART3 */
 &lpuart0 {
 	status = "okay";
@@ -72,7 +379,98 @@
 	status = "okay";
 };
 
+/* Apalis PCIE1 */
+&pciea{
+	status = "okay";
+};
+
+/* Apalis PWM3, MXM3 pin 6 */
+&pwm0 {
+	status = "okay";
+};
+
+/* Apalis PWM4, MXM3 pin 8 */
+&pwm1 {
+	status = "okay";
+};
+
+/* Apalis PWM1, MXM3 pin 2 */
+&pwm2 {
+	status = "okay";
+};
+
+/* Apalis PWM2, MXM3 pin 4 */
+&pwm3 {
+	status = "okay";
+};
+
+&pwm_lvds1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm_bkl>;
+	status = "okay";
+};
+
+&sai1 {
+	status = "okay";
+};
+
+&sai5 {
+	status = "okay";
+};
+
+&sai5_lpcg {
+	status = "okay";
+};
+
+/* Apalis SATA1 */
+&sata {
+	status = "okay";
+};
+
+/* Apalis SPDIF1 */
+&spdif0 {
+	status = "okay";
+};
+
+&spdif1 {
+	status = "okay";
+};
+
+&spdif1_lpcg {
+	status = "okay";
+};
+
+/* Apalis USBH2, Apalis USBH3 and on-module Wi-Fi via on-module HSIC Hub */
+&usbh1 {
+	vbus-supply = <&reg_usb_host_vbus>;
+	status = "okay";
+};
+
+/* Apalis USBO1 */
+&usbotg1 {
+	status = "okay";
+};
+
+/* Apalis USBH4 SuperSpeed */
+&usbotg3 {
+	dr_mode = "host";
+	vbus-supply = <&reg_usb_host_vbus>;
+	status = "okay";
+};
+
 /* Apalis MMC1 */
 &usdhc2 {
+	status = "okay";
+};
+
+&vpu_decoder {
+	status = "okay";
+};
+
+&vpu_encoder {
+	status = "okay";
+};
+
+&wakeup_key {
 	status = "okay";
 };
