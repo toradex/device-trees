@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: GPL-2.0+ OR X11
+/*
+ * Copyright 2020 Toradex
+ */
+
+/dts-v1/;
+
+#include "imx8qm-apalis-v1.1.dtsi"
+#include "imx8qm-apalis-eval.dtsi"
+
+/ {
+	model = "Toradex Apalis iMX8QM/QP V1.1 on Apalis Evaluation Board";
+	compatible = "toradex,apalis-imx8-v1.1-eval",
+		     "toradex,apalis-imx8-eval",
+		     "toradex,apalis-imx8",
+		     "toradex,apalis-imx8",
+		     "fsl,imx8qm";
+};

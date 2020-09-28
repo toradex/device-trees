@@ -1,0 +1,301 @@
+// SPDX-License-Identifier: GPL-2.0+ OR X11
+/*
+ * Copyright 2018-2019 Toradex
+ */
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/pwm/pwm.h>
+
+/ {
+	chosen {
+		bootargs = "console=ttymxc0,115200";
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpiokeys>;
+
+		power {
+			label = "Wake-Up";
+			gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_WAKEUP>;
+			debounce-interval = <10>;
+			gpio-key,wakeup;
+		};
+	};
+
+	extcon_usbc_det: usbc_det {
+		compatible = "linux,extcon-usb-gpio";
+		debounce = <25>;
+		id-gpio = <&gpio7 14 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbc_det>;
+	};
+
+	reg_usbh_vbus: regulator-usbh-vbus {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbh_reg>;
+		regulator-name = "VCC_USB[1-4]";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		gpio = <&gpio4 7 GPIO_ACTIVE_LOW>;
+		vin-supply = <&reg_5v0>;
+	};
+
+	reg_3v3: regulator-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+	};
+
+	reg_5v0: regulator-5v0 {
+		compatible = "regulator-fixed";
+		regulator-name = "5V";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+	};
+};
+
+&bl {
+	brightness-levels = <0 45 63 88 119 158 203 255>;
+	default-brightness-level = <4>;
+	pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
+	status = "okay";
+};
+
+&adc1 {
+	status = "okay";
+};
+
+&adc2 {
+	status = "okay";
+};
+
+&epxp {
+	status = "okay";
+};
+
+&ecspi3 {
+	status = "okay";
+
+	spidev0: spidev@0 {
+		compatible = "toradex,evalspi";
+		reg = <0>;
+		spi-max-frequency = <23000000>;
+		status = "okay";
+	};
+};
+
+&fec1 {
+	status = "okay";
+};
+
+&i2c4 {
+	status = "okay";
+
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpiotouch>;
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <15 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 107 */
+		reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>; /* SODIMM 106 */
+		status = "disabled";
+	};
+
+	/* M41T0M6 real time clock on carrier board */
+	rtc: m41t0m6@68 {
+		compatible = "st,m41t0";
+		reg = <0x68>;
+	};
+};
+
+&lcdif {
+	display = <&display0>;
+	status = "okay";
+
+	display0: lcd-display {
+		bits-per-pixel = <16>;
+		bus-width = <18>;
+
+		display-timings {
+			native-mode = <&timing_vga>;
+
+			/* Standard VGA timing */
+			timing_vga: 640x480 {
+				clock-frequency = <25175000>;
+				hactive = <640>;
+				vactive = <480>;
+				hback-porch = <40>;
+				hfront-porch = <24>;
+				vback-porch = <32>;
+				vfront-porch = <11>;
+				hsync-len = <96>;
+				vsync-len = <2>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+
+			/* WVGA Timing, e.g. EDT ET070080DH6 */
+			timing_wvga: 800x480 {
+				clock-frequency = <33260000>;
+				hactive = <800>;
+				vactive = <480>;
+				hback-porch = <216>;
+				hfront-porch = <40>;
+				vback-porch = <35>;
+				vfront-porch = <10>;
+				hsync-len = <128>;
+				vsync-len = <2>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+
+			/* Standard SVGA timing */
+			timing_svga: 800x600 {
+				clock-frequency = <40000000>;
+				hactive = <800>;
+				vactive = <600>;
+				hback-porch = <88>;
+				hfront-porch = <40>;
+				vback-porch = <23>;
+				vfront-porch = <1>;
+				hsync-len = <128>;
+				vsync-len = <4>;
+
+				de-active = <1>;
+				hsync-active = <1>;
+				vsync-active = <1>;
+				pixelclk-active = <0>;
+			};
+
+			/* Standard XGA timing */
+			timing_xga: 1024x768 {
+				clock-frequency = <65000000>;
+				hactive = <1024>;
+				vactive = <768>;
+				hback-porch = <160>;
+				hfront-porch = <24>;
+				vback-porch = <29>;
+				vfront-porch = <3>;
+				hsync-len = <136>;
+				vsync-len = <6>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+		};
+	};
+};
+
+&pwm1 {
+	status = "okay";
+};
+
+&pwm2 {
+	status = "okay";
+};
+
+&pwm3 {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
+};
+
+&uart1 {
+	status = "okay";
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+};
+
+&usbotg1 {
+	extcon = <&extcon_usbc_det>,  <&extcon_usbc_det>;
+	vbus-supply = <&reg_usbh_vbus>;
+	status = "okay";
+};
+
+&gpio2 {
+	/*
+	 * uart25 turns the UART transceiver for UART2 and 5 on. If one wants to
+	 * turn the transceiver off, that property has to be deleted and the
+	 * gpio handled in userspace.
+	 * The same applies to uart1_tx_on where the UART transceiver is
+	 * turned on.
+	 */
+	uart25_tx_on {
+		gpio-hog;
+		gpios = <27 0>; /* SODIMM 104 */
+		output-high;
+	};
+};
+
+&gpio5 {
+	uart1_tx_on {
+		gpio-hog;
+		gpios = <17 0>; /* SODIMM 102 */
+		output-high;
+	};
+};
+
+/* The define SD_1_8 allows to use the SD interface at a higher speed mode
+ * if the card supports it. For this the signaling voltage is switched from
+ * 3.3V to 1.8V under the usdhc1's drivers control.
+ * All pins supplied with NVCC_SD1 must be able to cope with this
+ * and must (MUST!!!) not be driven with a voltage higher than 1.8V or
+ * the interface will not work.
+ */
+#define SD_1_8
+&usdhc1 {
+#ifdef SD_1_8
+	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_cd_usdhc1>;
+	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_cd_usdhc1>;
+	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_cd_usdhc1>;
+	vqmmc-supply = <&reg_LDO2>;
+	sd-uhs-sdr12;
+	sd-uhs-sdr25;
+	sd-uhs-sdr50;
+	sd-uhs-sdr104;
+#else
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_cd_usdhc1>;
+	no-1-8-v;
+#endif
+	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+	disable-wp;
+	enable-sdio-wakeup;
+	keep-power-in-suspend;
+	wakeup-source;
+	vmmc-supply = <&reg_3v3>;
+	status = "okay";
+};
+
+&iomuxc {
+	pinctrl_gpiotouch: touchgpios {
+		fsl,pins = <
+			MX7D_PAD_GPIO1_IO09__GPIO1_IO9		0x74
+			MX7D_PAD_GPIO1_IO10__GPIO1_IO10		0x14
+		>;
+	};
+};
+

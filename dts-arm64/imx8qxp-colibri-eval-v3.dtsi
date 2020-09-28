@@ -1,0 +1,215 @@
+// SPDX-License-Identifier: GPL-2.0+ OR X11
+/*
+ * Copyright 2018-2020 Toradex
+ */
+
+/ {
+	aliases {
+		rtc0 = &rtc_i2c;
+		rtc1 = &rtc;
+        };
+
+	/* fixed crystal dedicated to mcp25xx */
+	clk16m: clock-16mhz-fixed {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <16000000>;
+	};
+
+	extcon_usbc_det: usbc_det {
+		compatible = "linux,extcon-usb-gpio";
+		debounce = <25>;
+		id-gpio = <&lsio_gpio5 9 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbc_det>;
+        };
+
+	panel_dpi: panel-dpi {
+		/*
+		 * edt,et057090dhu: EDT 5.7" LCD TFT
+		 * edt,et070080dh6: EDT 7.0" LCD TFT
+		 * logictechno,lt161010-2nhc: Cap. Touch Display 7" Parallel
+		 * logictechno,lt161010-2nhr: Res. Touch Display 7" Paralle
+		 * logictechno,lt170410-2whc: Cap. Touch Display 10.1" LVDS
+		 * tpk,f07a-0102: Capacitive Multi-Touch Display Fusion 7"
+		 * tpk,f10a-0102: Capacitive Multi-Touch Display Fusion 10"
+		 */
+		compatible = "panel-dpi";
+		backlight = <&backlight>;
+		power-supply = <&reg_3v3>;
+
+		width-mm = <217>;
+		height-mm = <136>;
+
+		data-mapping = "bgr666";
+		status = "disabled";
+
+		panel-timing {
+			/* Default VESA VGA display timings */
+			clock-frequency = <25175000>;
+			hactive = <640>;
+			hback-porch = <48>;
+			hfront-porch = <16>;
+			hsync-len = <96>;
+			vactive = <480>;
+			vback-porch = <31>;
+			vfront-porch = <11>;
+			vsync-len = <2>;
+			pixelclk-active = <0>;
+		};
+	};
+
+	reg_3v3: regulator-3v3 {
+		compatible = "regulator-fixed";
+		regulator-name = "3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+	};
+
+	reg_usbh_vbus: regulator-usbh-vbus {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbh1_reg>;
+		regulator-name = "usbh_vbus";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		gpio = <&lsio_gpio4 3 GPIO_ACTIVE_LOW>;
+		regulator-always-on;
+        };
+};
+
+/* Colibri Analogue Inputs */
+&adc0 {
+	status = "okay";
+};
+
+/* Colibri PWM_A */
+&adma_pwm {
+	status = "okay";
+};
+
+/* Colibri Ethernet */
+&fec1 {
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+
+	/* M41T0M6 real time clock on carrier board */
+	rtc_i2c: rtc@68 {
+		compatible = "st,m41t0";
+		reg = <0x68>;
+	};
+};
+
+&jpegdec {
+	status = "okay";
+};
+
+&jpegenc {
+	status = "okay";
+};
+
+/* Colibri SPI */
+&lpspi2 {
+        status = "okay";
+
+        mcp2515: can@0 {
+                compatible = "microchip,mcp2515";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_can_int>;
+                reg = <0>;
+                clocks = <&clk16m>;
+                interrupt-parent = <&lsio_gpio3>;
+                interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+                spi-max-frequency = <10000000>;
+                status = "okay";
+        };
+
+        spidev0: spidev@0 {
+                compatible = "toradex,evalspi";
+                reg = <0>;
+                spi-max-frequency = <10000000>;
+                status = "disabled";
+        };
+};
+
+/* Colibri UART_B */
+&lpuart0 {
+	status = "okay";
+};
+
+/* Colibri UART_C */
+&lpuart2 {
+	status = "okay";
+};
+
+/* Colibri UART_A */
+&lpuart3 {
+	status= "okay";
+};
+
+&lsio_gpio3 {
+	/*
+	 * Add GPIO3_10 as a wakeup source:
+	 * Pin:  157	SC_P_QSPI0A_DATA1 (SODIMM_45)
+	 * Type: 6	SC_PAD_WAKEUP_RISE_EDGE
+	 * Line: 10	GPIO3_IO10
+	 */
+	pad-wakeup = <IMX8QXP_QSPI0A_DATA1 6 10>;
+	pad-wakeup-num = <1>;
+ };
+
+/* Colibri PWM_B */
+&pwm0 {
+	status = "okay";
+};
+
+/* Colibri PWM_C */
+&pwm1 {
+	status = "okay";
+};
+
+/* Colibri PWM_D */
+&pwm2 {
+	status = "okay";
+};
+
+&usb3phynop1 {
+	status = "okay";
+};
+
+/* Colibri SDCard */
+&usdhc2 {
+	status = "okay";
+};
+
+&usbotg1 {
+        extcon = <&extcon_usbc_det &extcon_usbc_det>;
+        vbus-supply = <&reg_usbh_vbus>;
+        srp-disable;
+        hnp-disable;
+        adp-disable;
+        power-polarity-active-high;
+        disable-over-current;
+        status = "okay";
+};
+
+&usbotg3 {
+        dr_mode = "host";
+        status = "okay";
+};
+
+&vpu_encoder {
+        status = "okay";
+};
+
+&vpu_decoder {
+        status = "okay";
+};
+
+&vpu_lpcg {
+        status = "okay";
+};
+

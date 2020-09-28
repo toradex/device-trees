@@ -1,0 +1,78 @@
+// SPDX-License-Identifier: GPL-2.0+ OR X11
+/*
+ * Copyright 2019 Toradex
+ */
+
+/ {
+
+};
+
+&fec1 {
+	status = "okay";
+};
+
+&lsio_gpio5 {
+	ngpios = <32>;
+	gpio-line-names = "gpio5-00", "gpio5-01", "gpio5-02", "gpio5-03",
+			  "gpio5-04", "gpio5-05", "gpio5-06", "gpio5-07",
+			  "gpio5-08", "gpio5-09", "gpio5-10", "gpio5-11",
+			  "gpio5-12", "gpio5-13", "gpio5-14", "gpio5-15",
+			  "gpio5-16", "gpio5-17", "gpio5-18", "gpio5-19",
+			  "LED-5-GREEN", "LED-5-RED", "gpio5-22", "gpio5-23",
+			  "gpio5-24", "UART24-FORCEOFF", "gpio5-26",
+			  "LED-4-GREEN", "gpio5-28", "LED-4-RED", "gpio5-30",
+			  "gpio5-31";
+};
+
+&iomuxc {
+	pinctrl-0 = <&pinctrl_cam1_gpios>, <&pinctrl_dap1_gpios>,
+		    <&pinctrl_esai0_gpios>, <&pinctrl_fec2_gpios>,
+		    <&pinctrl_gpio3>, <&pinctrl_gpio4>,
+		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_leds_ixora>,
+		    <&pinctrl_lpuart1ctrl>, <&pinctrl_lvds0_i2c0_gpio>,
+		    <&pinctrl_lvds1_i2c0_gpios>, <&pinctrl_mipi_dsi_0_1_en>,
+		    <&pinctrl_mipi_dsi1_gpios>, <&pinctrl_mlb_gpios>,
+		    <&pinctrl_qspi1a_gpios>, <&pinctrl_sata1_act>,
+		    <&pinctrl_sim0_gpios>, <&pinctrl_usdhc1_gpios>,
+		    <&pinctrl_uart24_forceoff>;
+
+	pinctrl_leds_ixora: ledsixoragrp {
+		fsl,pins = <
+			IMX8QM_USDHC2_DATA1_LSIO_GPIO5_IO27 			0x41 /* LED_4_GREEN */
+			IMX8QM_USDHC2_DATA3_LSIO_GPIO5_IO29 			0x41 /* LED_4_RED */
+			IMX8QM_USDHC1_DATA5_LSIO_GPIO5_IO20 			0x41 /* LED_5_GREEN */
+			IMX8QM_USDHC1_DATA6_LSIO_GPIO5_IO21 			0x41 /* LED_5_RED */
+		>;
+	};
+
+	pinctrl_uart24_forceoff: uart24forceoffgrp {
+		fsl,pins = <
+			IMX8QM_USDHC2_CMD_LSIO_GPIO5_IO25 			0x21
+		>;
+	};
+};
+
+/* Apalis UART3 */
+&lpuart0 {
+	status = "okay";
+};
+
+/* Apalis UART1 */
+&lpuart1 {
+	status = "okay";
+};
+
+/* Apalis UART4 */
+&lpuart2 {
+	status = "okay";
+};
+
+/* Apalis UART2 */
+&lpuart3 {
+	status = "okay";
+};
+
+/* Apalis MMC1 */
+&usdhc2 {
+	status = "okay";
+};

@@ -1,0 +1,219 @@
+/*
+ * Copyright 2014-2018 Toradex AG
+ * Copyright 2012 Freescale Semiconductor, Inc.
+ * Copyright 2011 Linaro Ltd.
+ *
+ * The code contained herein is licensed under the GNU General Public
+ * License. You may obtain a copy of the GNU General Public License
+ * Version 2 or later at the following locations:
+ *
+ * http://www.opensource.org/licenses/gpl-license.html
+ * http://www.gnu.org/copyleft/gpl.html
+ */
+
+/dts-v1/;
+
+#include <dt-bindings/input/input.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/pwm/pwm.h>
+#include "imx6dl.dtsi"
+#include "imx6qdl-colibri.dtsi"
+
+/ {
+	model = "Toradex Colibri iMX6DL/S on Colibri Aster Board";
+	compatible = "toradex,colibri_imx6dl-aster", "toradex,colibri_imx6dl", "fsl,imx6dl";
+
+	aliases {
+		i2c0 = &i2cddc;
+		i2c1 = &i2c2;
+		i2c2 = &i2c3;
+	};
+
+	aliases {
+		rtc0 = &rtc_i2c;
+		rtc1 = &snvs_rtc;
+	};
+
+	aliases {
+		/* the following, together with kernel patches, forces a fixed assignment
+		   between device id and usdhc controller */
+		/* i.e. the eMMC on usdhc3 will be /dev/mmcblk0 */
+		mmc0 = &usdhc3; /* eMMC */
+		mmc1 = &usdhc1; /* MMC 4bit slot */
+	};
+
+	extcon_usbc_det: usbc_det {
+		compatible = "linux,extcon-usb-gpio";
+		debounce = <25>;
+		id-gpio = <&gpio7 12 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbc_det>;
+	};
+
+	gpio-keys {
+		compatible = "gpio-keys";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_keys>;
+
+		wakeup {
+			label = "Wake-Up";
+			gpios = <&gpio2 22 GPIO_ACTIVE_HIGH>;
+			linux,code = <KEY_WAKEUP>;
+			debounce-interval = <10>;
+			gpio-key,wakeup;
+		};
+	};
+};
+
+&reg_usb_host_vbus {
+	status = "okay";
+};
+
+&backlight {
+	brightness-levels = <0 45 63 88 119 158 203 255>;
+	default-brightness-level = <4>;
+	pwms = <&pwm3 0 6666667 PWM_POLARITY_INVERTED>;
+	status = "okay";
+};
+
+&ecspi4 {
+	fsl,spi-num-chipselects = <2>;
+	cs-gpios = <
+		&gpio5 2 GPIO_ACTIVE_HIGH
+		&gpio5 4 GPIO_ACTIVE_HIGH
+	>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_ecspi4 &pinctrl_csi_gpio_2>;
+	status = "okay";
+
+	spidev0: spidev@0 {
+		compatible = "toradex,evalspi";
+		reg = <0>;
+		spi-max-frequency = <23000000>;
+	};
+
+	spidev1: spidev@1 {
+		compatible = "toradex,evalspi";
+		reg = <1>;
+		spi-max-frequency = <23000000>;
+	};
+};
+
+/*
+ * I2C: I2C3_SDA/SCL on SODIMM 194/196 (e.g. RTC on carrier
+ * board)
+ */
+&i2c3 {
+	status = "okay";
+
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_mxt_ts>;
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <24 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 107 */
+		reset-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>; /* SODIMM 106 */
+		/*
+		 * Note: When the status is set to okay, to avoid pinmux
+		 * conflict, one should remove the pinctrl_weim_cs1 and
+		 * pinctrl_weim_cs2 pingroup from the weim pinctrl-0
+		 * property or disable weim node.
+		 */
+		status = "disabled";
+	};
+
+	/* M41T0M6 real time clock on carrier board */
+	rtc_i2c: rtc@68 {
+		compatible = "st,m41t0";
+		reg = <0x68>;
+	};
+};
+
+&iomuxc {
+	/*
+	 * Mux all pins which are unused to be GPIOs
+	 * so they are ready for export to user space
+	 */
+	pinctrl-names = "default";
+	pinctrl-0 = <
+		&pinctrl_weim_gpio_1 &pinctrl_weim_gpio_2
+		&pinctrl_weim_gpio_3 &pinctrl_weim_gpio_4
+		&pinctrl_weim_gpio_5 &pinctrl_weim_gpio_6
+		&pinctrl_csi_gpio_1
+		&pinctrl_gpio_1
+		&pinctrl_gpio_2
+		&pinctrl_usbh_oc_1 &pinctrl_usbc_id_1
+	>;
+
+	gpio {
+		pinctrl_gpios: gpios {
+			fsl,pins = <
+				MX6QDL_PAD_GPIO_9__GPIO1_IO09	0x1b0b0 /* SODIMM 28 */
+				MX6QDL_PAD_SD4_DAT2__GPIO2_IO10	0x1b0b0 /* SODIMM 30 */
+			>;
+		};
+
+		pinctrl_mxt_ts: mxt-ts {
+			fsl,pins = <
+				MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x130b0 /* SODIMM 107 */
+				MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x130b0 /* SODIMM 106 */
+			>;
+		};
+	};
+};
+
+&lcd {
+	status = "okay";
+};
+
+&mxcfb1 {
+	status = "okay";
+};
+
+&mxcfb2 {
+	status = "okay";
+};
+
+&pwm1 {
+	status = "okay";
+};
+
+&pwm2 {
+	status = "okay";
+};
+
+&pwm3 {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
+};
+
+&uart1 {
+	status = "okay";
+};
+
+&uart2 {
+	status = "okay";
+};
+
+&uart3 {
+	status = "okay";
+};
+
+&usbh1 {
+	status = "okay";
+};
+
+&usbotg {
+	status = "okay";
+	extcon = <&extcon_usbc_det>, <&extcon_usbc_det>;
+};
+
+/* MMC */
+&usdhc1 {
+	status = "okay";
+};

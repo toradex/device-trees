@@ -1,0 +1,16 @@
+// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+/*
+ * Copyright 2018 Toradex AG
+ */
+
+/dts-v1/;
+
+#include "imx6ull-colibri-nonwifi.dtsi"
+#include "imx6ull-colibri-iris.dtsi"
+
+/ {
+	model = "Toradex Colibri iMX6ULL 256MB on Colibri Iris";
+	compatible = "toradex,colibri-imx6ull-iris",
+		     "toradex,colibri-imx6ull",
+		     "fsl,imx6ull";
+};
