@@ -357,6 +357,11 @@
 		reg = <0x43>;
 		inital_io_dir = <0xff>;
 		inital_output = <0x05>;
+		gpio-line-names = "Wi-Fi_W_DISABLE", "Wi-Fi_WKUP_WLAN",
+			"PWR_EN_+V3.3_WiFi_N", "PCIe_REF_CLK_EN",
+			"USB_RESET_N", "USB_BYPASS_N", "Wi-Fi_PDn",
+			"Wi-Fi_WKUP_BT";
+
 	};
 
 	/* Touch controller */
@@ -1161,6 +1166,7 @@
 
 /* On-module PCIe for wifi */
 &pcieb{
+	compatible = "fsl,imx8qxp-pcie","snps,dw-pcie";
 	/*
 	 * WARNING! Enabling "epdev_on-supply" leads a crash of pcie driver on
 	 * system suspend.
