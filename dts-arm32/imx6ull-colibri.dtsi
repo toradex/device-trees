@@ -28,12 +28,6 @@
 		};
 	};
 
-	cpus {
-		cpu0: cpu@0 {
-			dc-supply = <&reg_soc_in>;
-		};
-	};
-
 	bl: backlight {
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
@@ -104,6 +98,10 @@
 	vref-supply = <&reg_module_3v3_avdd>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_adc1>;
+};
+
+&cpu0 {
+	dc-supply = <&reg_soc_in>;
 };
 
 /* Colibri SPI */
