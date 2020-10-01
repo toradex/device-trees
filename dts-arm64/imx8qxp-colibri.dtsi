@@ -50,6 +50,19 @@
                 };
         };
 
+	pcie_refclk: pcie-clock-generator {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+	};
+
+	pcie_refclk_gate: pcie-ref-clock {
+		compatible = "gpio-gate-clock";
+		#clock-cells = <0>;
+		clocks = <&pcie_refclk>;
+		enable-gpios = <&gpio_expander_43 3 GPIO_ACTIVE_HIGH>;
+	};
+
 	reg_module_3v3: regulator-module-3v3 {
 		compatible = "regulator-fixed";
 		regulator-name = "+V3.3";
@@ -333,6 +346,10 @@
 
 &gpu_3d0 {
 	status = "okay";
+};
+
+&hsio_refb_clk {
+	status = "disabled";
 };
 
 /* On-module I2C */
@@ -1167,15 +1184,24 @@
 /* On-module PCIe for wifi */
 &pcieb{
 	compatible = "fsl,imx8qxp-pcie","snps,dw-pcie";
-	/*
-	 * WARNING! Enabling "epdev_on-supply" leads a crash of pcie driver on
-	 * system suspend.
-	 */
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pcieb &pinctrl_wifi>;
-	clkreq-gpio = <&gpio_expander_43 3 GPIO_ACTIVE_HIGH>;
+	clocks = <&pcieb_lpcg 0>,
+		 <&pcieb_lpcg 1>,
+		 <&pcieb_lpcg 2>,
+		 <&phyx1_lpcg 0>,
+		 <&phyx1_crr1_lpcg 0>,
+		 <&pcieb_crr3_lpcg 0>,
+		 <&misc_crr5_lpcg 0>,
+		 <&pcie_refclk_gate>;
+		 clock-names = "pcie", "pcie_bus", "pcie_inbound_axi",
+		 "pcie_phy", "phy_per", "pcie_per", "misc_per",
+		 "pcie_ext";
+
+	clkreq-gpio = <&lsio_gpio4 1 GPIO_ACTIVE_LOW>;
 	ext_osc = <1>;
 	fsl,max-link-speed = <1>;
+	hard-wired = <1>;
 	disable-gpio = <&gpio_expander_43 6 GPIO_ACTIVE_LOW>;
 	power-on-gpio = <&gpio_expander_43 2 GPIO_ACTIVE_LOW>;
 	reserved-region = <&rpmsg_reserved>;
