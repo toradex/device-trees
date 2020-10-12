@@ -362,23 +362,6 @@
         clock-frequency = <100000>;
         status = "okay";
 
-	/* Touch controller */
-        ad7879@2c {
-		compatible = "adi,ad7879-1";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ad7879_int>;
-		reg = <0x2c>;
-		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		touchscreen-max-pressure = <4096>;
-		adi,resistance-plate-x = <120>;
-		adi,first-conversion-delay = /bits/ 8 <3>;
-		adi,acquisition-time = /bits/ 8 <1>;
-		adi,median-filter-size = /bits/ 8 <2>;
-		adi,averaging = /bits/ 8 <1>;
-		adi,conversion-interval = /bits/ 8 <255>;
-        };
-
 	/* On-Module EEPROM */
         eeprom: eeprom@50 {
 		compatible = "atmel,24c02";
@@ -451,18 +434,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lpi2c1>;
 	clock-frequency = <100000>;
-
-	/* Atmel maxtouch controller */
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
-		reg = <0x4a>;
-		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;    /* Apalis GPIO5 */
-		reset-gpios = <&lsio_gpio3 18 GPIO_ACTIVE_HIGH>; /* Apalis GPIO6 */
-		status = "disabled";
-        };
 };
 
 /* Apalis I2C3 (CAM) */
@@ -997,13 +968,6 @@
 		pinctrl_reset_moci: gpioresetmocigrp {
 			fsl,pins = <
 				IMX8QXP_PCIE_CTRL0_CLKREQ_B_LSIO_GPIO4_IO01	0x11
-			>;
-		};
-
-		/* On-module touch pen-down interrupt */
-		pinctrl_ad7879_int: ad7879-int {
-			fsl,pins = <
-				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05	0x21
 			>;
 		};
 

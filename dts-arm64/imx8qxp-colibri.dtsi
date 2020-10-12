@@ -381,23 +381,6 @@
 
 	};
 
-	/* Touch controller */
-        ad7879@2c {
-		compatible = "adi,ad7879-1";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ad7879_int>;
-		reg = <0x2c>;
-		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
-		touchscreen-max-pressure = <4096>;
-		adi,resistance-plate-x = <120>;
-		adi,first-conversion-delay = /bits/ 8 <3>;
-		adi,acquisition-time = /bits/ 8 <1>;
-		adi,median-filter-size = /bits/ 8 <2>;
-		adi,averaging = /bits/ 8 <1>;
-		adi,conversion-interval = /bits/ 8 <255>;
-        };
-
 	sgtl5000_a: sgtl5000@a {
 		compatible = "fsl,sgtl5000";
 		#sound-dai-cells = <0>;
@@ -456,18 +439,6 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c1>;
-
-	/* Atmel maxtouch controller */
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_mxt_ts>;
-		reg = <0x4a>;
-		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <20 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM 107 */
-		reset-gpios = <&lsio_gpio3 24 GPIO_ACTIVE_HIGH>;     /* SODIMM 106 */
-		status = "disabled";
-	};
 };
 
 &imx8_gpu_ss {
@@ -477,16 +448,9 @@
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hog0>, <&pinctrl_hog1>, <&pinctrl_hog2>,
-			<&pinctrl_ext_io0>, <&pinctrl_mxt_ts>;
+		    <&pinctrl_ext_io0>;
 
 	colibri-imx8qxp {
-		/* On-module touch pen-down interrupt */
-		pinctrl_ad7879_int: ad7879-int {
-			fsl,pins = <
-				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05	0x21
-			>;
-		};
-
 		/* Colibri Analogue Inputs */
 		pinctrl_adc0: adc0grp {
 			fsl,pins = <
@@ -953,13 +917,6 @@
 		pinctrl_wifi: wifigrp {
 			fsl,pins = <
 				IMX8QXP_SCU_BOOT_MODE3_SCU_DSC_RTC_CLOCK_OUTPUT_32K 0x20
-			>;
-		};
-
-		pinctrl_mxt_ts: mxt-ts {
-			fsl,pins = <
-				IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20		0x20		/* SODIMM 107 */
-				IMX8QXP_QSPI0B_SS1_B_LSIO_GPIO3_IO24		0x20		/* SODIMM 106 */
 			>;
 		};
 	};
