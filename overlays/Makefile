@@ -29,6 +29,7 @@ dtb-y += apalis-imx8x_ad7879_overlay.dtbo
 dtb-y += apalis-imx8x_atmel-mxt_overlay.dtbo
 dtb-y += apalis-imx8x_display-lt161010_overlay.dtbo
 dtb-y += apalis-imx8x_display-lt170410_overlay.dtbo
+dtb-y += apalis-imx8x_parallel-rgb_overlay.dtbo
 dtb-y += colibri-imx6-aster_atmel-mxt_overlay.dtbo
 dtb-y += colibri-imx6-eval_atmel-mxt_overlay.dtbo
 dtb-y += colibri-imx7-aster_atmel-mxt_overlay.dtbo
