@@ -23,15 +23,14 @@
 		interrupt-parent = <&gpio2>;
 		interrupts = <24 IRQ_TYPE_EDGE_FALLING>;
 		reset-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;
-		status = "okay";
 	};
 };
 
 &iomuxc {
 	pinctrl_atmel_mxt_ts: atmelmxttsgrp {
 		fsl,pins = <
-			MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x1b0b1
-			MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x1b0b1
+			MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x1b0b1	/* SODIMM_106 */
+			MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x1b0b1	/* SODIMM_107 */
 		>;
 	};
 };

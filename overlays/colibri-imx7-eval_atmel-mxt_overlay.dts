@@ -8,7 +8,8 @@
 #include <imx7d-pinfunc.h>
 
 / {
-	compatible = "toradex,colibri-imx7d-emmc";
+	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7d-emmc";
 };
 
 &i2c4 {
@@ -27,17 +28,13 @@
 	};
 };
 
-&iomuxc_lpsr  {
+&iomuxc {
 	pinctrl_atmel_mxt_ts: atmelmxttsgrp {
 		fsl,pins = <
 			MX7D_PAD_GPIO1_IO09__GPIO1_IO9	0x59
 			MX7D_PAD_GPIO1_IO10__GPIO1_IO10	0x59
 		>;
 	};
-};
-
-&uart1 {
-	pinctrl-0 = <&pinctrl_uart1 &pinctrl_uart1_ctrl1>;
 };
 
 &pwm2 {

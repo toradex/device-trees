@@ -14,13 +14,15 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 
+	/* Atmel maxtouch controller */
 	atmel_mxt_ts: atmel_mxt_ts@4a {
 		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_pcap_1>;
 		reg = <0x4a>;
 		interrupt-parent = <&gpio1>;
 		interrupts = <9 IRQ_TYPE_EDGE_FALLING>;
 		reset-gpios = <&gpio2 10 GPIO_ACTIVE_HIGH>;
-		status = "okay";
 	};
 };
 
