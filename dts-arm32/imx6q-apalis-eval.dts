@@ -45,48 +45,6 @@
 		};
 	};
 
-	lcd_display: display@di0 {
-		compatible = "fsl,imx-parallel-display";
-		#address-cells = <1>;
-		#size-cells = <0>;
-		interface-pix-fmt = "rgb24";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ipu1_lcdif>;
-		status = "okay";
-
-		port@0 {
-			reg = <0>;
-
-			lcd_display_in: endpoint {
-				remote-endpoint = <&ipu1_di1_disp1>;
-			};
-		};
-
-		port@1 {
-			reg = <1>;
-
-			lcd_display_out: endpoint {
-				remote-endpoint = <&lcd_panel_in>;
-			};
-		};
-	};
-
-	panel: panel {
-		/*
-		 * edt,et057090dhu: EDT 5.7" LCD TFT
-		 * edt,et070080dh6: EDT 7.0" LCD TFT
-		 */
-		compatible = "edt,et057090dhu";
-		backlight = <&backlight>;
-		power-supply = <&reg_3v3_sw>;
-
-		port {
-			lcd_panel_in: endpoint {
-				remote-endpoint = <&lcd_display_out>;
-			};
-		};
-	};
-
 	reg_pcie_switch: regulator-pcie-switch {
 		compatible = "regulator-fixed";
 		regulator-name = "pcie_switch";
@@ -314,18 +272,6 @@
 	};
 };
 
-&ipu1_di1_disp1 {
-	remote-endpoint = <&lcd_display_in>;
-};
-
-&lcd {
-	status = "okay";
-};
-
-&ldb {
-	status = "okay";
-};
-
 &mipi_csi {
 	ipu_id = <0>;
 	csi_id = <1>;
@@ -334,15 +280,7 @@
 	status = "okay";
 };
 
-&mxcfb1 {
-	status = "okay";
-};
-
 &mxcfb2 {
-	status = "okay";
-};
-
-&mxcfb3 {
 	status = "okay";
 };
 
