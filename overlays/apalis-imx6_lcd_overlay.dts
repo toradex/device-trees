@@ -7,7 +7,11 @@
 	compatible = "toradex,apalis_imx6q";
 };
 
-&lcd_display {
-	status = "disabled";
+&lcd {
+    status = "okay";
+};
+
+&mxcfb3 {
+    status = "okay";
 };
 
