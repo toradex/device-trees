@@ -1,0 +1,19 @@
+// Enable a generic LVDS display.
+
+/dts-v1/;
+/plugin/;
+/ {
+	compatible = "toradex,apalis-imx8";
+};
+
+&ldb2 {
+	status = "okay";
+};
+
+&ldb2_phy {
+	status = "okay";
+};
+
+&panel_lvds {
+	status = "okay";
+};
