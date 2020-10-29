@@ -50,12 +50,14 @@
 		};
 	};
 
-	lvds1_panel {
-		compatible = "logictechno,lt170410-2whc";
+	panel_lvds: panel-lvds {
+		compatible = "panel-lvds";
 		backlight = <&backlight>;
 
+		status = "disabled";
+
 		port {
-			panel_lvds1_in: endpoint {
+			panel_lvds_in: endpoint {
 				remote-endpoint = <&lvds1_out>;
 			};
 		};
@@ -1236,11 +1238,11 @@
 };
 
 &ldb2_phy {
-	status = "okay";
+	status = "disabled";
 };
 
 &ldb2 {
-	status = "okay";
+	status = "disabled";
 
 	lvds-channel@0 {
 		fsl,data-mapping = "spwg";
@@ -1251,7 +1253,7 @@
 			reg = <1>;
 
 			lvds1_out: endpoint {
-				remote-endpoint = <&panel_lvds1_in>;
+				remote-endpoint = <&panel_lvds_in>;
 			};
 		};
 	};
@@ -1586,7 +1588,6 @@
 	#pwm-cells = <3>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm_bkl>;
-	status = "okay";
 };
 
 /* Apalis PWM3, MXM3 pin 6 */

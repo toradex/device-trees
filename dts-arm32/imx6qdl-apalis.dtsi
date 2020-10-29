@@ -720,7 +720,7 @@
 	lvds-channel@0 {
 		reg = <0>;
 		fsl,data-mapping = "spwg"; /* "jeida"; */
-		fsl,data-width = <18>;
+		fsl,data-width = <24>;
 		crtc = "ipu2-di1";
 		primary;
 

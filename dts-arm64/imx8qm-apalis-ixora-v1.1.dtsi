@@ -279,6 +279,7 @@
 		interrupt-parent = <&lsio_gpio4>;
 		interrupts = <1 IRQ_TYPE_EDGE_FALLING>;    /* Apalis GPIO5 */
 		reset-gpios = <&lsio_gpio4 2 GPIO_ACTIVE_HIGH>; /* Apalis GPIO6 */
+		status = "disabled";
 	};
 
 	/* M41T0M6 real time clock on carrier board */
