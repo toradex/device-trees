@@ -1,32 +1,31 @@
-// LT170410 display (10inch) with a resolution of 1280x800 pixel. This display can be ordered at Toradex.
+// LT170410 display (10inch) connected to DPI-LVDS converter with a resolution of 1280x800 pixel.
+// This display can be ordered at Toradex.
 
 /dts-v1/;
 /plugin/;
+
 / {
 	compatible = "toradex,colibri-imx8x";
 };
 
-&adma_lcdif {
+&{/panel-dpi} {
 	status = "okay";
-};
 
-&{/panel} {
-	compatible = "panel-dpi";
+	data-mapping = "rgb24";
 
 	width-mm = <217>;
 	height-mm = <136>;
 
-	data-mapping = "bgr666";
-
 	panel-timing {
 		clock-frequency = <68930000>;
+
 		hactive = <1280>;
-		vactive = <800>;
 		hback-porch = <64>;
 		hfront-porch = <64>;
+		hsync-len = <40>;
+		vactive = <800>;
 		vback-porch = <5>;
 		vfront-porch = <5>;
-		hsync-len = <40>;
 		vsync-len = <6>;
 
 		de-active = <1>;

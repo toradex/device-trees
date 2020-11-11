@@ -1,0 +1,35 @@
+// LT170410 display (10inch) with a resolution of 1280x800 pixel. This display can be ordered at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+#include "dt-bindings/pwm/pwm.h"
+
+/ {
+	compatible = "toradex,apalis-imx8x";
+};
+
+&backlight {
+	brightness-levels = <0 45 63 88 119 158 203 255>;
+	default-brightness-level = <4>;
+	pwms = <&pwm_mipi_lvds1 0 6666667 PWM_POLARITY_INVERTED>;
+	status = "okay";
+};
+
+&ldb1 {
+	status = "okay";
+};
+
+&ldb1_phy {
+	status = "okay";
+};
+
+&panel_lvds {
+	status = "okay";
+};
+
+/* Apalis BKL1_PWM */
+&pwm_mipi_lvds1 {
+	status = "okay";
+};
+

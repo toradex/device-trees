@@ -19,6 +19,8 @@
 	atmel_mxt_ts: atmel_mxt_ts@4a {
 		compatible = "atmel,maxtouch";
 		reg = <0x4a>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_apalis_gpio5 &pinctrl_apalis_gpio6>;
 		interrupt-parent = <&gpio6>;
 		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
 		reset-gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
