@@ -162,17 +162,6 @@
 
 /* the PCAPs use SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm2, pwm3.
    so if you enable one of the PCAP controllers disable the pwms */
-	/* Atmel maxtouch controller */
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpiotouch>;
-		reg = <0x4a>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <9 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 28 */
-		reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>; /* SODIMM 30 */
-		status = "disabled";
-	};
 
 	touch: touchrevf0710a@10 {
 		compatible = "touchrevolution,fusion-f0710a";

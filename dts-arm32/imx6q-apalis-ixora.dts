@@ -131,14 +131,6 @@
 	};
 };
 
-&backlight {
-	brightness-levels = <0 45 63 88 119 158 203 255>;
-	default-brightness-level = <4>;
-	power-supply = <&reg_3v3_sw>;
-	pwms = <&pwm4 0 6666667 PWM_POLARITY_INVERTED>;
-	status = "okay";
-};
-
 &can1 {
 	xceiver-supply = <&reg_3v3_sw>;
 	status = "okay";
@@ -169,22 +161,6 @@
 		reg = <0>;
 		spi-max-frequency = <18000000>;
 	};
-};
-
-&hdmi_audio {
-	status = "okay";
-};
-
-&hdmi_cec {
-	status = "okay";
-};
-
-&hdmi_core {
-	status = "okay";
-};
-
-&hdmi_video {
-	status = "okay";
 };
 
 /* I2C1_SDA/SCL on MXM3 209/211 (e.g. RTC on carrier board) */
@@ -273,44 +249,8 @@
 	};
 };
 
-/*
- * DDC_I2C: I2C2_SDA/SCL on MXM3 205/207
- */
-&i2cddc {
-	status = "okay";
-
-	hdmi_ddc: edid@50 {
-		compatible = "fsl,imx6-hdmi-i2c";
-		reg = <0x50>;
-	};
-};
-
 &ipu1_di1_disp1 {
 	remote-endpoint = <&lcd_display_in>;
-};
-
-&lcd {
-	status = "okay";
-};
-
-&ldb {
-	status = "okay";
-};
-
-&mxcfb1 {
-	status = "okay";
-};
-
-&mxcfb2 {
-	status = "okay";
-};
-
-&mxcfb3 {
-	status = "okay";
-};
-
-&mxcfb4 {
-	status = "okay";
 };
 
 &pcie {
@@ -346,10 +286,6 @@
 };
 
 &sata {
-	status = "okay";
-};
-
-&sound_hdmi {
 	status = "okay";
 };
 
@@ -403,10 +339,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc2 &pinctrl_sd_cd>;
 	cd-gpios = <&gpio6 14 GPIO_ACTIVE_LOW>;
-	status = "okay";
-};
-
-&vdac {
 	status = "okay";
 };
 

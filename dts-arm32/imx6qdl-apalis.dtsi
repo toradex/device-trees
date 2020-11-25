@@ -63,22 +63,35 @@
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bl_on>;
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
 		enable-gpios = <&gpio3 13 GPIO_ACTIVE_HIGH>;
+		power-supply = <&reg_module_3v3>;
+		pwms = <&pwm4 0 6666667 PWM_POLARITY_INVERTED>;
 		status = "disabled";
 	};
 
-	/* DDC_I2C: I2C2_SDA/SCL on MXM3 205/207 */
+	/*
+	 * HDMI_TX_DDC: I2C2_DDC_SDA/SCL on MXM3 205/207
+	 */
 	i2cddc: i2c@0 {
 		compatible = "i2c-gpio";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_i2c_ddc>;
-		gpios = <&gpio3 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN) /* sda */
+		gpios = <
+			 &gpio3 16 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN) /* sda */
 			 &gpio2 30 (GPIO_ACTIVE_HIGH|GPIO_OPEN_DRAIN) /* scl */
 			>;
 		i2c-gpio,delay-us = <2>;	/* ~100 kHz */
 		#address-cells = <1>;
 		#size-cells = <0>;
 		status = "disabled";
+
+		hdmi_ddc: edid@50 {
+			compatible = "fsl,imx6-hdmi-i2c";
+			reg = <0x50>;
+			status = "disabled";
+		};
 	};
 
 	lcd: lcd@0 {
@@ -537,6 +550,17 @@
 	scl-gpios = <&gpio5 27 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio5 26 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	status = "disabled";
+
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		reg = <0x4a>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_apalis_gpio5 &pinctrl_apalis_gpio6>;
+		interrupt-parent = <&gpio6>;
+		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
+		reset-gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
+		status = "disabled";
+	};
 };
 
 /*
@@ -674,7 +698,7 @@
 		/* ADC converstion time: 80 clocks */
 		st,sample-time = <4>;
 
-		stmpe_touchscreen {
+		stmpe_ts: stmpe_touchscreen {
 			compatible = "st,stmpe-ts";
 			/* 8 sample average control */
 			st,ave-ctrl = <3>;
@@ -689,6 +713,7 @@
 			st,settling = <3>;
 			/* 5 ms touch detect interrupt delay */
 			st,touch-det-delay = <5>;
+			status = "disabled";
 		};
 
 		stmpe_adc {

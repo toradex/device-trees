@@ -168,13 +168,6 @@
 	};
 };
 
-&backlight {
-	brightness-levels = <0 45 63 88 119 158 203 255>;
-	default-brightness-level = <4>;
-	pwms = <&pwm4 0 6666667 PWM_POLARITY_INVERTED>;
-	status = "okay";
-};
-
 /* Apalis SPI1 */
 &ecspi1 {
 	status = "okay";
@@ -194,22 +187,6 @@
 &can2 {
 	status = "okay";
 	xceiver-supply = <&reg_can2_supply>;
-};
-
-&hdmi_audio {
-	status = "okay";
-};
-
-&hdmi_cec {
-	status = "okay";
-};
-
-&hdmi_core {
-	status = "okay";
-};
-
-&hdmi_video {
-	status = "okay";
 };
 
 /* I2C1_SDA/SCL on MXM3 209/211 (e.g. RTC on carrier board) */
@@ -318,22 +295,6 @@
 	};
 };
 
-/*
- * DDC_I2C: I2C2_SDA/SCL on MXM3 205/207
- */
-&i2cddc {
-	status = "okay";
-
-	hdmi_ddc: edid@50 {
-		compatible = "fsl,imx6-hdmi-i2c";
-		reg = <0x50>;
-	};
-};
-
-&lcd {
-	status = "okay";
-};
-
 &mipi_csi {
 	ipu_id = <0>;
 	csi_id = <1>;
@@ -342,28 +303,8 @@
 	status = "okay";
 };
 
-&mxcfb1 {
-	status = "okay";
-};
-
-&mxcfb2 {
-	status = "okay";
-};
-
-&mxcfb3 {
-	status = "okay";
-};
-
-&mxcfb4 {
-	status = "okay";
-};
-
 &ipu1_di1_disp1 {
 	remote-endpoint = <&lcd_display_in>;
-};
-
-&ldb {
-	status = "okay";
 };
 
 &pcie {
@@ -399,10 +340,6 @@
 };
 
 &sata {
-	status = "okay";
-};
-
-&sound_hdmi {
 	status = "okay";
 };
 
