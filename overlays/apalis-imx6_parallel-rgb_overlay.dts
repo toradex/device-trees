@@ -5,10 +5,20 @@
 
 / {
         compatible = "toradex,apalis_imx6q";
-        fragment@0 {
-                target-path = "/disp0";
-                __overlay__ {
-                        status = "okay";
-                };
-        };
+};
+
+&backlight {
+	status = "okay";
+};
+
+&lcd_display {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
 };

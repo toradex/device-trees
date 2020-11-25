@@ -3,25 +3,15 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/gpio/gpio.h>
-#include <dt-bindings/interrupt-controller/irq.h>
-
 / {
 	compatible = "toradex,apalis_imx6q";
 };
 
 &i2c1 {
-	#address-cells = <1>;
-	#size-cells = <0>;
 	status = "okay";
+};
 
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		reg = <0x4a>;
-		interrupt-parent = <&gpio6>;
-		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-		reset-gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};
+&atmel_mxt_ts {
+	status = "okay";
 };
 
