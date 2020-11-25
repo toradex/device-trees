@@ -57,8 +57,11 @@
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bl_on>;
-		pwms = <&pwm4 0 5000000>;
+		brightness-levels = <0 127 191 223 239 247 251 255>;
+		default-brightness-level = <1>;
 		enable-gpios = <&gpio3 13 GPIO_ACTIVE_HIGH>;
+		power-supply = <&reg_module_3v3>;
+		pwms = <&pwm4 0 5000000>;
 		status = "disabled";
 	};
 
@@ -75,6 +78,37 @@
 
 			lcd_display_in: endpoint {
 				remote-endpoint = <&ipu1_di1_disp1>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+
+			lcd_display_out: endpoint {
+				remote-endpoint = <&lcd_panel_in>;
+			};
+		};
+	};
+
+	panel_dpi: panel-dpi {
+		compatible = "panel-dpi";
+
+		backlight = <&backlight>;
+
+		width-mm = <115>;
+		height-mm = <86>;
+
+		/*
+		 * Due to pinout, only 24-bit mode is compatible with 16-bit or
+		 * 18-bit displays. Specifying data-mapping in the panel node
+		 * allows to use bus flags such as pixel clock polarity.
+		 */
+		data-mapping = "rgb24";
+		status = "disabled";
+
+		port {
+			lcd_panel_in: endpoint {
+				remote-endpoint = <&lcd_display_out>;
 			};
 		};
 	};
@@ -466,6 +500,18 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c1>;
 	status = "disabled";
+
+	atmel_mxt_ts: atmel_mxt_ts@4a {
+		compatible = "atmel,maxtouch";
+		reg = <0x4a>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_apalis_gpio5 &pinctrl_apalis_gpio6>;
+		interrupt-parent = <&gpio6>;
+		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
+		reset-gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
+		status = "disabled";
+	};
+
 };
 
 /*
@@ -638,6 +684,10 @@
 	status = "disabled";
 };
 
+&ipu1_di1_disp1 {
+	remote-endpoint = <&lcd_display_in>;
+};
+
 &ipu2_di0_disp0 {
 	remote-endpoint = <&vga_display_in>;
 };
@@ -751,6 +801,15 @@
 };
 
 &iomuxc {
+	/*
+	 * Mux the Apalis GPIOs
+	 */
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_apalis_gpio1 &pinctrl_apalis_gpio2
+		     &pinctrl_apalis_gpio3 &pinctrl_apalis_gpio4
+		     &pinctrl_apalis_gpio7 &pinctrl_apalis_gpio8
+		    >;
+
 	pinctrl_apalis_gpio1: gpio2io04grp {
 		fsl,pins = <
 			MX6QDL_PAD_NANDF_D4__GPIO2_IO04 0x130b0
