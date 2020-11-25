@@ -1,4 +1,4 @@
-// Enable the parallel RGB interface on the Apalis iMX6Q
+// Enable the VGA interface on the Apalis iMX6Q
 
 /dts-v1/;
 /plugin/;
@@ -7,15 +7,11 @@
 	compatible = "toradex,apalis_imx6q";
 };
 
-&backlight {
+&vdac {
     status = "okay";
 };
 
-&lcd {
-    status = "okay";
-};
-
-&mxcfb3 {
+&mxcfb4 {
     status = "okay";
 };
 

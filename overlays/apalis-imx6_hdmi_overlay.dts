@@ -1,0 +1,41 @@
+// Enable the HDMI interface on the Apalis iMX6Q
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q";
+};
+
+&hdmi_audio {
+	status = "okay";
+};
+
+&hdmi_cec {
+	status = "okay";
+};
+
+&hdmi_ddc {
+	status = "okay";
+};
+
+&hdmi_core {
+	status = "okay";
+};
+
+&hdmi_video {
+	status = "okay";
+};
+
+&i2cddc {
+	status = "okay";
+};
+
+&mxcfb2 {
+	status = "okay";
+};
+
+&sound_hdmi {
+	status = "okay";
+};
+

@@ -7,6 +7,10 @@
 	compatible = "toradex,apalis_imx6q";
 };
 
+&backlight {
+	status = "okay";
+};
+
 &ldb {
 	status = "okay";
 

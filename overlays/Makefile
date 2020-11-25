@@ -20,8 +20,11 @@ HOSTCC := gcc $(DTS_INCLUDES)
 PWD := $(shell pwd)
 
 dtb-y += apalis-imx6_atmel-mxt_overlay.dtbo
+dtb-y += apalis-imx6_hdmi_overlay.dtbo
 dtb-y += apalis-imx6_lcd_overlay.dtbo
 dtb-y += apalis-imx6_lvds_overlay.dtbo
+dtb-y += apalis-imx6_stmpe-ts_overlay.dtbo
+dtb-y += apalis-imx6_vga_overlay.dtbo
 dtb-y += apalis-imx8_atmel-mxt_overlay.dtbo
 dtb-y += apalis-imx8_lvds_overlay.dtbo
 dtb-y += apalis-imx8x_ad7879_overlay.dtbo

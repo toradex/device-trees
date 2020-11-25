@@ -27,11 +27,13 @@
 };
 
 &iomuxc {
-	pinctrl_atmel_mxt_ts: atmelmxttsgrp {
-		fsl,pins = <
-			MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x1b0b1	/* SODIMM_106 */
-			MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x1b0b1	/* SODIMM_107 */
-		>;
+	gpio {
+		pinctrl_atmel_mxt_ts: atmelmxttsgrp {
+			fsl,pins = <
+				MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x130b1	/* SODIMM_106 */
+				MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x130b1	/* SODIMM_107 */
+			>;
+		};
 	};
 };
 

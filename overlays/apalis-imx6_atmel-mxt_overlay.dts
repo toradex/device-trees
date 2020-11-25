@@ -10,21 +10,10 @@
 	compatible = "toradex,apalis_imx6q";
 };
 
-&i2c1 {
-	#address-cells = <1>;
-	#size-cells = <0>;
-
+&atmel_mxt_ts {
 	status = "okay";
-
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		reg = <0x4a>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_apalis_gpio5 &pinctrl_apalis_gpio6>;
-		interrupt-parent = <&gpio6>;
-		interrupts = <10 IRQ_TYPE_EDGE_FALLING>;
-		reset-gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
-		status = "okay";
-	};
 };
 
+&i2c1 {
+	status = "okay";
+};
