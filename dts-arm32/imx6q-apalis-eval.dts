@@ -131,16 +131,6 @@
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
 	};
-
-	vga {
-		compatible = "vga-connector";
-
-		port {
-			vga_con_in: endpoint {
-				remote-endpoint = <&vga_bridge_out>;
-			};
-		};
-	};
 };
 
 &can1 {
@@ -180,10 +170,6 @@
 			  <&clks IMX6QDL_CLK_IPU2_DI0_PRE_SEL>;
 	assigned-clock-parents = <&clks IMX6QDL_CLK_PLL2_PFD2_396M>,
 				 <&clks IMX6QDL_CLK_PLL2_PFD2_396M>;
-};
-
-&hdmi {
-	status = "okay";
 };
 
 /* I2C1_SDA/SCL on MXM3 209/211 (e.g. RTC on carrier board) */
@@ -318,22 +304,3 @@
 	cd-gpios = <&gpio6 14 GPIO_ACTIVE_LOW>;
 	status = "okay";
 };
-
-&vgabridge {
-	status = "okay";
-
-	ports {
-		port@1 {
-			reg = <1>;
-
-			vga_bridge_out: endpoint {
-				remote-endpoint = <&vga_con_in>;
-			};
-		};
-	};
-};
-
-&vgadisplay {
-	status = "okay";
-};
-

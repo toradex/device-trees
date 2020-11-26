@@ -191,10 +191,19 @@
 		status = "disabled";
 	};
 
+	vgaconnector: vga {
+		compatible = "vga-connector";
+		status = "disabled";
+
+		port {
+			vga_con_in: endpoint {
+				remote-endpoint = <&vga_bridge_out>;
+			};
+		};
+	};
+
 	vgabridge: bridge {
 		compatible = "dumb-vga-dac";
-		#address-cells = <1>;
-		#size-cells = <0>;
 		de-active = <0>;
 		status = "disabled";
 
@@ -207,6 +216,14 @@
 
 				vga_bridge_in: endpoint {
 					remote-endpoint = <&vga_display_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				vga_bridge_out: endpoint {
+					remote-endpoint = <&vga_con_in>;
 				};
 			};
 		};
@@ -645,7 +662,7 @@
 		/* ADC converstion time: 80 clocks */
 		st,sample-time = <4>;
 
-		stmpe_touchscreen {
+		stmpe_ts: stmpe_touchscreen {
 			compatible = "st,stmpe-ts";
 			/* 8 sample average control */
 			st,ave-ctrl = <3>;
@@ -660,6 +677,7 @@
 			st,settling = <3>;
 			/* 5 ms touch detect interrupt delay */
 			st,touch-det-delay = <5>;
+			status = "disabled";
 		};
 
 		stmpe_adc {
