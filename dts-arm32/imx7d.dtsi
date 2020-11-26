@@ -250,6 +250,14 @@
 		fsl,imx7d-pcie-phy = <&pcie_phy>;
 		status = "disabled";
 	};
+
+	weim: weim@30bc0000 {
+		compatible = "fsl,imx7d-weim", "fsl,imx6sx-weim", "fsl,imx6q-weim";
+		reg = <0x30bc0000 0x10000>;
+		interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&clks IMX7D_EIM_ROOT_CLK>;
+		status = "disabled";
+	};
 };
 
 &ca_funnel_in_ports {
