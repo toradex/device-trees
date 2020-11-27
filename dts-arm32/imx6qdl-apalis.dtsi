@@ -65,6 +65,12 @@
 		status = "disabled";
 	};
 
+	clk_ov5640_osc: clk_ov5640_osc_int {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <22000000>;
+	};
+
 	lcd_display: disp0 {
 		compatible = "fsl,imx-parallel-display";
 		#address-cells = <1>;
@@ -127,6 +133,26 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
+	};
+
+	reg_ov5640_1v8_d_o_vdd: regulator-ov5640-1v8-d-o-vdd {
+		compatible = "regulator-fixed";
+		regulator-name = "DOVDD/DVDD_1.8V";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		regulator-always-on;
+		/* Note: The CSI module uses on-board 3.3V_SW supply */
+		vin-supply = <&reg_module_3v3>;
+	};
+
+	reg_ov5640_2v8_a_vdd: regulator-ov5640-2v8-a-vdd {
+		compatible = "regulator-fixed";
+		regulator-name = "AVDD/AFVDD_2.8V";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		regulator-always-on;
+		/* Note: The CSI module uses on-board 3.3V_SW supply */
+		vin-supply = <&reg_module_3v3>;
 	};
 
 	reg_usb_otg_vbus: regulator-usb-otg-vbus {
@@ -484,6 +510,22 @@
 			  "MXM3_215";
 };
 
+&gpr {
+	ipu1_csi0_mux {
+		#address-cells = <1>;
+	        #size-cells = <0>;
+		status = "disabled";
+
+		port@1 {
+			reg = <1>;
+			ipu1_csi0_mux_from_parallel_sensor: endpoint {
+				remote-endpoint = <&adv7280_to_ipu1_csi0_mux>;
+				bus-width = <8>;
+			};
+		};
+	};
+};
+
 &fec {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_enet>;
@@ -529,6 +571,28 @@
 		status = "disabled";
 	};
 
+	ov5640_csi_cam: ov5640_mipi@3c {
+		compatible = "ovti,ov5640";
+		reg = <0x3c>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_apalis_gpio1 &pinctrl_apalis_gpio2 &pinctrl_cam_mclk>;
+		clocks = <&clks IMX6QDL_CLK_CKO2>;
+		clock-names = "xclk";
+		DOVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
+		AVDD-supply = <&reg_ov5640_2v8_a_vdd>;
+		DVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
+		powerdown-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio2 4 GPIO_ACTIVE_LOW>;
+		status = "disabled";
+
+		port {
+			ov5640_to_mipi_csi2: endpoint {
+				remote-endpoint = <&mipi_csi_from_ov5640>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
 };
 
 /*
@@ -700,6 +764,22 @@
 	scl-gpios = <&gpio3 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio3 18 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	status = "disabled";
+
+	adv_7280: adv7280@21 {
+                compatible = "adi,adv7280";
+                reg = <0x21>;
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_ipu1_csi0>;
+		status = "disabled";
+
+                port {
+                        adv7280_to_ipu1_csi0_mux: endpoint {
+                                remote-endpoint = <&ipu1_csi0_mux_from_parallel_sensor>;
+                                bus-width = <8>;
+                        };
+                };
+        };
+
 };
 
 &ipu1_di1_disp1 {
@@ -708,6 +788,22 @@
 
 &ipu2_di0_disp0 {
 	remote-endpoint = <&vga_display_in>;
+};
+
+&mipi_csi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "disabled";
+
+	port@0 {
+		reg = <0>;
+
+		mipi_csi_from_ov5640: endpoint {
+			remote-endpoint = <&ov5640_to_mipi_csi2>;
+			clock-lanes = <0>;
+			data-lanes = <1 2>;
+		};
+	};
 };
 
 &pwm1 {
@@ -823,8 +919,7 @@
 	 * Mux the Apalis GPIOs
 	 */
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_apalis_gpio1 &pinctrl_apalis_gpio2
-		     &pinctrl_apalis_gpio3 &pinctrl_apalis_gpio4
+	pinctrl-0 = <&pinctrl_apalis_gpio3 &pinctrl_apalis_gpio4
 		     &pinctrl_apalis_gpio7 &pinctrl_apalis_gpio8
 		    >;
 
