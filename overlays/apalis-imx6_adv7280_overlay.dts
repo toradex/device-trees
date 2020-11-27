@@ -8,37 +8,16 @@
 };
 
 &i2c3 {
-	#address-cells = <1>;
-	#size-cells = <0>;
 	status = "okay";
-
-	adv7280@21 {
-		compatible = "adi,adv7280";
-		reg = <0x21>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ipu1_csi0>;
-
-		port {
-			adv7280_to_ipu1_csi0_mux: endpoint {
-				remote-endpoint = <&ipu1_csi0_mux_from_parallel_sensor>;
-				bus-width = <8>;
-			};
-		};
-	};
 };
 
-&{/soc/aips-bus@2000000/iomuxc-gpr@20e0000/ipu1_csi0_mux} {
-	#address-cells = <1>;
-	#size-cells = <0>;
+&adv_72801 {
 	status = "okay";
+};
 
-	port@1 {
-		reg = <1>;
-
-		ipu1_csi0_mux_from_parallel_sensor: endpoint {
-			remote-endpoint = <&adv7280_to_ipu1_csi0_mux>;
-			bus-width = <8>;
-		};
+&gpr {
+	ipu1_csi0_mux {
+		status = "okay";
 	};
 };
 

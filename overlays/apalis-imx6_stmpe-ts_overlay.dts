@@ -1,0 +1,13 @@
+// Resitive STMPE touchscreen touchscreen for the 7inch display orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q";
+};
+
+&stmpe_ts {
+	status = "okay";
+};
+
