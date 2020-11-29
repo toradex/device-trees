@@ -48,6 +48,9 @@ dtb-y += display-lt170410_overlay.dtbo
 dtb-y += verdin-imx8mm_lt8912_overlay.dtbo
 dtb-y += verdin-imx8mm_ov5640_overlay.dtbo
 dtb-y += verdin-imx8mm_sn65dsi84_overlay.dtbo
+dtb-y += verdin-imx8mp_lt8912_overlay.dtbo
+dtb-y += verdin-imx8mp_sn65dsi84_overlay.dtbo
+dtb-y += verdin-imx8mp_sn65dsi84-lt170410_overlay.dtbo
 
 targets += $(dtb-y)
 always  := $(dtb-y)

@@ -1,0 +1,61 @@
+// Verdin DSI to LVDS Adapter orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+&backlight {
+	status = "okay";
+};
+
+&gpu_2d {
+	status = "okay";
+};
+
+&gpu_3d {
+};
+
+&bridge_2c {
+	status = "okay";
+
+	port {
+		dsi85_in: endpoint {
+			remote-endpoint = <&mipi_dsi_bridge1_out>;
+		};
+	};
+};
+
+&touch_4a {
+	status = "okay";
+};
+
+/* LCDIF to MIPI-DSI */
+&lcdif1 {
+	status = "okay";
+};
+
+&mipi_dsi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	port@1 {
+		reg = <1>;
+
+		mipi_dsi_bridge1_out: endpoint {
+			remote-endpoint = <&dsi85_in>;
+			attach-bridge;
+		};
+	};
+};
+
+&mix_gpu_ml {
+	status = "okay";
+};
+
+&ml_vipsi {
+	status = "okay";
+};

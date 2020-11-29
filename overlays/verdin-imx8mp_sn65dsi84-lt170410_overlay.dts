@@ -1,0 +1,38 @@
+// Verdin DSI to LVDS Adapter with connected LT170410 display (10inch) with a
+// resolution of 1280x800 pixel. Adapter and display can be ordered at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+&bridge_2c {
+	ti,dsi-lanes = <4>;
+	ti,height-mm = <136>;
+	ti,lvds-bpp = <24>;
+	ti,lvds-format = <2>;
+	ti,width-mm = <217>;
+
+	display-timings {
+		native-mode = <&lvds_timing0>;
+			lvds_timing0: lt170410_2whc {
+			/*
+			 * PLL1 is at 2079000000, take PLL1/30
+			 * otherwise we don't get a picture NXP i.MX8M Plus
+			 */
+			clock-frequency = <69300000>;
+			hactive = <1280 1280 1280>;
+			hfront-porch = <23 60 71>;
+			hback-porch = <23 60 71>;
+			hsync-len = <15 40 47>;
+			vactive = <800 800 800>;
+			vfront-porch = <5 7 10>;
+			vback-porch = <5 7 10>;
+			vsync-len = <6 9 12>;
+			de-active = <1>;
+			pixelclk-active = <0>;
+		};
+	};
+};

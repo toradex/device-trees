@@ -1,0 +1,59 @@
+// Verdin DSI to HDMI Adapter orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+&gpu_2d {
+	status = "okay";
+};
+
+&gpu_3d {
+	status = "okay";
+};
+
+&hdmi_48 {
+	status = "okay";
+
+	port {
+		lt8912_1_in: endpoint {
+			remote-endpoint = <&mipi_dsi_bridge1_out>;
+		};
+	};
+};
+
+&i2c2 {
+	status = "okay";
+};
+
+/* LCDIF to MIPI-DSI */
+&lcdif1 {
+	status = "okay";
+};
+
+&mipi_dsi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	port@1 {
+		reg = <1>;
+
+		mipi_dsi_bridge1_out: endpoint {
+			remote-endpoint = <&lt8912_1_in>;
+			attach-bridge;
+		};
+	};
+};
+
+&mix_gpu_ml {
+	status = "okay";
+};
+
+&ml_vipsi {
+	status = "okay";
+};
+
