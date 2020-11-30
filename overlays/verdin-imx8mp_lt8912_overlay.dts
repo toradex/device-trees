@@ -15,7 +15,7 @@
 	status = "okay";
 };
 
-&hdmi_48 {
+&hdmi_lontium_lt8912 {
 	status = "okay";
 
 	port {

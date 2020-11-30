@@ -8,7 +8,7 @@
 	compatible = "toradex,verdin-imx8mp";
 };
 
-&bridge_2c {
+&lvds_ti_sn65dsi83 {
 	ti,dsi-lanes = <4>;
 	ti,height-mm = <136>;
 	ti,lvds-bpp = <24>;

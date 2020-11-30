@@ -16,9 +16,10 @@
 };
 
 &gpu_3d {
+	status = "okay";
 };
 
-&bridge_2c {
+&lvds_ti_sn65dsi83 {
 	status = "okay";
 
 	port {
@@ -28,7 +29,7 @@
 	};
 };
 
-&touch_4a {
+&atmel_maxtouch {
 	status = "okay";
 };
 
