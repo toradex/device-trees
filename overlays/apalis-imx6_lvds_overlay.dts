@@ -7,7 +7,21 @@
 	compatible = "toradex,apalis_imx6q";
 };
 
-&ldb {
-    status = "okay";
+&backlight {
+	status = "okay";
 };
 
+&ldb {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	status = "okay";
+
+	lvds-channel@0 {
+		status = "okay";
+	};
+};
+
+&pwm4 {
+	status = "okay";
+};
