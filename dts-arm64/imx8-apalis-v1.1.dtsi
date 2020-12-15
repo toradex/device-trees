@@ -1299,6 +1299,7 @@
 &lpuart2 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lpuart2>;
+	dma-names = "","";
 };
 
 /* Apalis UART2 */
