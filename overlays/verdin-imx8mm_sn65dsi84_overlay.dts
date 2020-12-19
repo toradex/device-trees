@@ -30,14 +30,6 @@
 	status = "okay";
 };
 
-/* Verdin PWM_3_DSI */
-&pwm1 {
-	#pwm-cells = <3>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pwm_1>;
-	status = "okay";
-};
-
 /* Verdin I2C_2_DSI */
 &i2c2 {
 	clock-frequency = <10000>;
