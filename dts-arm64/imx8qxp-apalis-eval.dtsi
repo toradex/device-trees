@@ -71,10 +71,15 @@
 		gpio = <&lsio_gpio3 16 GPIO_ACTIVE_HIGH>;
 	};
 
+	/* The Cadence,usb3 driver doesn't support the vbus regulator for now.
+	 * Add regulator-always-on to keep the USBH_EN signal up.
+	 */
 	reg_usb_host_vbus: regulator-usb-host-vbus {
 		compatible = "regulator-fixed";
+		enable-active-high;
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_usbh_en>;
+		regulator-always-on;
 		regulator-name = "usb_host_vbus_hub";
 		regulator-min-microvolt = <5000000>;
 		regulator-max-microvolt = <5000000>;
@@ -275,10 +280,6 @@
 	status = "okay";
 };
 
-&usbh1 {
-	status = "okay";
-};
-
 /* Apalis USBO1 */
 &usbotg1 {
 	adp-disable;
@@ -288,10 +289,6 @@
 	srp-disable;
 	status = "okay";
 	vbus-supply = <&reg_usb_otg1_vbus>;
-};
-
-&usbotg3 {
-	vbus-regulator = <&reg_usb_host_vbus>;
 };
 
 &usbphy1 {

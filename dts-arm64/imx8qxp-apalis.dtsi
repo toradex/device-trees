@@ -466,7 +466,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_dap1_gpios>, <&pinctrl_gpio3>, <&pinctrl_gpio4>,
 		    <&pinctrl_mmc1_gpios>, <&pinctrl_qspi0a_gpios>, <&pinctrl_sata1_act>,
-		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_usbo1oc>, <&pinctrl_wifi_sclk>;
+		    <&pinctrl_usbh_oc_n>, <&pinctrl_usbo1oc>, <&pinctrl_wifi_sclk>;
 
 	apalis-imx8qxp {
 		/* Apalis AN1_ADC */
@@ -832,7 +832,7 @@
 		};
 
 		/* Apalis USBH_OC# */
-		pinctrl_gpio_usbh_oc_n: gpiousbhocn {
+		pinctrl_usbh_oc_n: gpiousbhocn {
 			fsl,pins = <
 				IMX8QXP_QSPI0A_DATA0_LSIO_GPIO3_IO09		0x04000020	/* MXM3 96 */
 			>;
@@ -850,7 +850,7 @@
 		pinctrl_usbo1oc: usbo1oc {
 			fsl,pins = <
 				/* Apalis USBO1_OC# */
-				IMX8QXP_USB_SS3_TC2_LSIO_GPIO4_IO05		0x04000020	/* MXM3 262 */
+				IMX8QXP_USB_SS3_TC2_CONN_USB_OTG1_OC		0x04000020	/* MXM3 262 */
 			>;
 		};
 
@@ -1320,12 +1320,11 @@
 /* Manage on-module USB WiFi */
 &usb3phynop1 {
 	status = "okay";
-	reset-on-resume;
 };
 
 /*
  * Apalis USB 3.0 Host. Serves USB 3.0 4-port hub on module and
- * USB 3.0 ports on-board
+ * Apalis USBH2-4 ports on-board.
  */
 &usbotg3 {
 	dr_mode = "host";
