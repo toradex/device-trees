@@ -474,9 +474,12 @@
 
 &iomuxc {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_dap1_gpios>, <&pinctrl_gpio3>, <&pinctrl_gpio4>,
-		    <&pinctrl_mmc1_gpios>, <&pinctrl_qspi0a_gpios>, <&pinctrl_sata1_act>,
-		    <&pinctrl_usbh_oc_n>, <&pinctrl_usbo1oc>, <&pinctrl_wifi_sclk>;
+	pinctrl-0 = <&pinctrl_dap1_gpios>, <&pinctrl_gpio1>, <&pinctrl_gpio2>,
+		    <&pinctrl_gpio3>, <&pinctrl_gpio4>, <&pinctrl_gpio5>,
+		    <&pinctrl_gpio6>, <&pinctrl_mmc1_gpios>,
+		    <&pinctrl_qspi0a_gpios>, <&pinctrl_sata1_act>,
+		    <&pinctrl_usbh_oc_n>, <&pinctrl_usbo1oc>,
+		    <&pinctrl_wifi_sclk>;
 
 	apalis-imx8qxp {
 		/* Apalis AN1_ADC */
@@ -1163,14 +1166,14 @@
 			  "MXM3_158",
 			  "MXM3_198",
 			  "MXM3_274",
-			  "MXM3_11",
-			  "MXM3_13",
-			  "MXM3_15",
-			  "MXM3_17",
-			  "MXM3_1",
-			  "MXM3_3",
-			  "MXM3_5",
-			  "MXM3_7";
+			  "MXM3_11/GPIO5",
+			  "MXM3_13/GPIO6",
+			  "MXM3_15/GPIO7",
+			  "MXM3_17/GPIO8",
+			  "MXM3_1/GPIO1",
+			  "MXM3_3/GPIO2",
+			  "MXM3_5/GPIO3",
+			  "MXM3_7/GPIO4";
 };
 
 &lsio_gpio4 {
