@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: GPL-2.0+ OR MIT
+/*
+ * Copyright 2020 Toradex
+ */
+
+#include "imx8mm-verdin-dev.dtsi"
+
+&gpio_expander_21 {
+	status = "disabled";
+};
+
+&sound_card {
+		simple-audio-card,routing =
+			"Headphone Jack", "HPOUTL",
+			"Headphone Jack", "HPOUTR",
+			"IN2L", "Line In Jack",
+			"IN2R", "Line In Jack",
+			"Headphone Jack", "MICBIAS",
+			"IN1L", "Headphone Jack";
+};

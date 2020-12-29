@@ -1,0 +1,91 @@
+// SPDX-License-Identifier: GPL-2.0+ OR MIT
+/*
+ * Copyright 2020 Toradex
+ */
+
+#include "imx8mp-verdin-dahlia.dtsi"
+
+/ {
+	sound-hdmi {
+		compatible = "fsl,imx-audio-cdnhdmi";
+		model = "audio-hdmi";
+		audio-cpu = <&aud2htx>;
+		hdmi-out;
+		constraint-rate = <44100>,
+				<88200>,
+				<176400>,
+				<32000>,
+				<48000>,
+				<96000>,
+				<192000>;
+		status = "okay";
+	};
+};
+
+&aud2htx {
+	status = "okay";
+};
+
+&fec {
+	status = "okay";
+};
+
+&gpio_expander_21 {
+	status = "okay";
+};
+
+&gpu_2d {
+	status = "okay";
+};
+
+&gpu_3d {
+	status = "okay";
+};
+
+&hdmi {
+	status = "okay";
+};
+
+&hdmimix_clk {
+	status = "okay";
+};
+
+&hdmimix_reset {
+	status = "okay";
+};
+
+&hdmiphy {
+	status = "okay";
+};
+
+&hdmi_pavi {
+	status = "okay";
+};
+
+&irqsteer_hdmi {
+	status = "okay";
+};
+
+/* LCDIF to on-SoC Samsung HDMI PHY */
+&lcdif3 {
+	status = "okay";
+};
+
+&mix_gpu_ml {
+	status = "okay";
+};
+
+&ml_vipsi {
+	status = "okay";
+};
+
+&sound_card {
+		simple-audio-card,routing =
+			"Headphone Jack", "HPOUTL",
+			"Headphone Jack", "HPOUTR",
+			"IN2L", "Line In Jack",
+			"IN2R", "Line In Jack",
+			"Microphone Jack", "MICBIAS",
+			"IN1L", "Microphone Jack",
+			"IN1R", "Microphone Jack";
+};
