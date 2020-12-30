@@ -1,0 +1,81 @@
+// CSI Camera Module 5MP OV5640 orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx8-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "toradex,apalis-imx8";
+};
+
+/* Apalis I2C1 (Apalis iMX8 TS Mezzanine JP3 and JP4 in position 2-3) */
+&i2c2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	ov5640_mipi@3c {
+		compatible = "ovti,ov5640";
+		clocks = <&xtal24m>;
+		clock-names = "xclk";
+		csi_id = <0>;
+		mclk = <24000000>;
+		mclk_source = <0>;
+		mipi_csi;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_keys>, <&pinctrl_lpspi0>;
+		powerdown-gpios = <&lsio_gpio2 20 GPIO_ACTIVE_HIGH>;	/* Apalis WAKE1_MICO (MXM3 pin 37) */
+		reg = <0x3c>;
+		reset-gpios = <&lsio_gpio3 5 GPIO_ACTIVE_LOW>;		/* Apalis SPI1_CS (MXM3 pin 227) */
+		status = "okay";
+
+		port {
+			ov5640_mipi_0_ep: endpoint {
+				clocks-lanes = <0>;
+				data-lanes = <1 2>;
+				remote-endpoint = <&mipi_csi0_ep>;
+			};
+		};
+	};
+};
+
+&isi_0 {
+	status = "okay";
+
+	cap_device {
+		status = "okay";
+	};
+
+	m2m_device {
+		status = "okay";
+	};
+};
+
+/* Disable Apalis SPI1 as Apalis SPI1_CS is used as reset GPIO */
+&lpspi0 {
+	status = "disabled";
+};
+
+&mipi_csi_0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	/delete-property/virtual-channel;
+	status = "okay";
+
+	/* Camera 0 MIPI CSI-2 (CSIS0) */
+	port@0 {
+		reg = <0>;
+		mipi_csi0_ep: endpoint {
+			bus-type = <4>;
+			data-lanes = <1 2>;
+			remote-endpoint = <&ov5640_mipi_0_ep>;
+		};
+	};
+};
+
+/* Disable wake-up key as Apalis WAKE1_MICO is used as power-down GPIO */
+&wakeup_key{
+	status = "disabled";
+};

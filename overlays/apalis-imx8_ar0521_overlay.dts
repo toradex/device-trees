@@ -1,0 +1,80 @@
+// CSI Camera Module 5MP AR0521 from e-con Systems.
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx8-clock.h>
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "toradex,apalis-imx8";
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_cam1_gpios>, <&pinctrl_dap1_gpios>,
+		    <&pinctrl_esai0_gpios>, <&pinctrl_fec2_gpios>,
+		    <&pinctrl_gpio4>,
+		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_lpuart1ctrl>,
+		    <&pinctrl_lvds0_i2c0_gpio>, <&pinctrl_lvds1_i2c0_gpios>,
+		    <&pinctrl_mipi_dsi_0_1_en>, <&pinctrl_mipi_dsi1_gpios>,
+		    <&pinctrl_mlb_gpios>, <&pinctrl_qspi1a_gpios>,
+		    <&pinctrl_sata1_act>, <&pinctrl_sim0_gpios>,
+		    <&pinctrl_usdhc1_gpios>;
+};
+
+/* Apalis I2C3 (CAM) */
+&i2c3 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	ar0521_mipi@42 {
+		compatible = "ar0521";
+		camera_mipi_lanes = <4>;
+		clocks = <&xtal24m>;
+		clock-names = "xclk";
+		csi_id = <0>;
+		mclk = <24000000>;
+		mclk_source = <0>;
+		mipi_csi;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio1>, <&pinctrl_gpio3>;
+		pwn-gpios = <&lsio_gpio0 12 GPIO_ACTIVE_HIGH>;	/* Apalis GPIO3 */
+		reg = <0x42>;
+		rst-gpios = <&lsio_gpio0 8 GPIO_ACTIVE_LOW>;	/* Apalis GPIO1 */
+		status = "okay";
+
+		port {
+			ar0521_ep: endpoint {
+				remote-endpoint = <&mipi_csi1_ep>;
+			};
+		};
+	};
+};
+
+&isi_4 {
+	status = "okay";
+
+	cap_device {
+		status = "okay";
+	};
+};
+
+&mipi_csi_1 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	/delete-property/virtual-channel;
+	status = "okay";
+
+	/* Camera 1 MIPI CSI-2 (CSIS0) */
+	port@1 {
+		reg = <1>;
+
+		mipi_csi1_ep: endpoint {
+			bus-type = <4>;
+			data-lanes = <1 2 3 4>;
+			remote-endpoint = <&ar0521_ep>;
+		};
+	};
+};
