@@ -1,0 +1,24 @@
+// Enable the parallel RGB interface on the Colibri iMX6DL. Make sure to also select a valid display configuration.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+        compatible = "toradex,colibri-imx6dl";
+};
+
+&backlight {
+	status = "okay";
+};
+
+&lcd_display {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&pwm3 {
+	status = "okay";
+};
