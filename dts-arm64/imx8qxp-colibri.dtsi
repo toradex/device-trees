@@ -452,7 +452,7 @@
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hog0>, <&pinctrl_hog1>, <&pinctrl_hog2>,
-		    <&pinctrl_ext_io0>;
+		    <&pinctrl_ext_io0>, <&pinctrl_lpspi2_cs2>;
 
 	colibri-imx8qxp {
 		/* Colibri Analogue Inputs */
@@ -570,7 +570,6 @@
 
 		pinctrl_hog1: hog1grp {
 			fsl,pins = <
-				IMX8QXP_ENET0_RGMII_TXD3_LSIO_GPIO5_IO02	0x06000020	/* SODIMM  65 */
 				IMX8QXP_CSI_D07_CI_PI_D09			0x61		/* SODIMM  65 */
 				IMX8QXP_QSPI0A_DATA2_LSIO_GPIO3_IO11		0x20		/* SODIMM  69 */
 				IMX8QXP_SAI0_TXC_LSIO_GPIO0_IO26		0x20		/* SODIMM  79 */
@@ -918,6 +917,12 @@
 			>;
 		};
 
+		pinctrl_lpspi2_cs2: lpspi2-cs2 {
+			fsl,pins = <
+				IMX8QXP_ENET0_RGMII_TXD3_LSIO_GPIO5_IO02	0x21		/* SODIMM  65 */
+			>;
+		};
+
 		pinctrl_wifi: wifigrp {
 			fsl,pins = <
 				IMX8QXP_SCU_BOOT_MODE3_SCU_DSC_RTC_CLOCK_OUTPUT_32K 0x20
@@ -943,12 +948,16 @@
 
 /* Colibri SPI */
 &lpspi2 {
-        #address-cells = <1>;
-        #size-cells = <0>;
-        fsl,spi-num-chipselects = <1>;
-        pinctrl-names = "default";
-        pinctrl-0 = <&pinctrl_lpspi2>;
-        cs-gpios = <&lsio_gpio1 0 GPIO_ACTIVE_LOW>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lpspi2>;
+	cs-gpios = <&lsio_gpio1 0 GPIO_ACTIVE_LOW>;
+	status = "okay";
+
+	spidev0: spidev@0 {
+		compatible = "toradex,evalspi";
+		reg = <0>;
+		spi-max-frequency = <10000000>;
+	};
 };
 
 /* Colibri UART_B */

@@ -75,24 +75,6 @@
 	status = "okay";
 };
 
-&ecspi1 {
-	status = "okay";
-
-	fsl,spi-num-chipselects = <2>;
-	/* Note, gpio4 11 is muxed by hoggrp-4 */
-	cs-gpios = <
-		&gpio3 26 GPIO_ACTIVE_HIGH
-		&gpio4 28 GPIO_ACTIVE_HIGH
-	>;
-
-	spidev0: spidev@0 {
-		compatible = "toradex,evalspi";
-		reg = <0>;
-		spi-max-frequency = <23000000>;
-		status = "okay";
-	};
-};
-
 &i2c1 {
 	pinctrl-names = "default", "gpio";
 	pinctrl-0 = <&pinctrl_i2c1>;

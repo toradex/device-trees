@@ -71,6 +71,13 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ecspi3 &pinctrl_ecspi3_cs>;
 	cs-gpios = <&gpio4 11 GPIO_ACTIVE_HIGH>;
+	status = "okay";
+
+	spidev0: spidev@0 {
+		compatible = "toradex,evalspi";
+		reg = <0>;
+		spi-max-frequency = <23000000>;
+	};
 };
 
 &fec1 {

@@ -134,15 +134,6 @@
 &i2c1 {
 	status = "okay";
 
-	pcap@10 {
-		/* TouchRevolution Fusion 7 and 10 multi-touch controller */
-		compatible = "touchrevolution,fusion-f0710a";
-		reg = <0x10>;
-		gpios = <&gpio6 10 GPIO_ACTIVE_HIGH /* MXM3 11, Pen down interrupt */
-			 &gpio6  9 GPIO_ACTIVE_HIGH /* MXM3 13, Reset */
-			>;
-	};
-
 	/* M41T0M6 real time clock on carrier board */
 	rtc_i2c: rtc@68 {
 		compatible = "st,m41t0";

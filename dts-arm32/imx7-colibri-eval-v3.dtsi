@@ -129,8 +129,6 @@
 };
 
 &ecspi3 {
-	status = "okay";
-
 	mcp2515: can@0 {
 		compatible = "microchip,mcp2515";
 		pinctrl-names = "default";
@@ -144,13 +142,14 @@
 		xceiver-supply = <&reg_5v0>;
 		status = "okay";
 	};
-
+	/* To keep the CAN controller enabled by default,
+	 * disable conflicting spidev. This spidev device
+	 * enables with the devicetree overlay.
+	 */
 	spidev0: spidev@0 {
-		compatible = "toradex,evalspi";
-		reg = <0>;
-		spi-max-frequency = <23000000>;
 		status = "disabled";
 	};
+
 };
 
 &fec1 {

@@ -79,17 +79,8 @@
 	};
 };
 
-&backlight {
-	brightness-levels = <0 45 63 88 119 158 203 255>;
-	default-brightness-level = <4>;
-	pwms = <&pwm3 0 6666667 PWM_POLARITY_INVERTED>;
-	status = "okay";
-};
-
 /* Colibri SSP */
 &ecspi4 {
-	status = "okay";
-
 	mcp251x0: mcp251x@0 {
 		compatible = "microchip,mcp2515";
 		reg = <0>;
@@ -99,10 +90,11 @@
 		spi-max-frequency = <10000000>;
 		status = "okay";
 	};
+	/* To keep the CAN controller enabled by default,
+	 * disable conflicting spidev. This spidev device
+	 * enables with the devicetree overlay.
+	 */
 	spidev0: spidev@0 {
-		compatible = "toradex,evalspi";
-		reg = <0>;
-		spi-max-frequency = <23000000>;
 		status = "disabled";
 	};
 };
@@ -156,10 +148,6 @@
 			>;
 		};
 	};
-};
-
-&lcd {
-	status = "okay";
 };
 
 &mxcfb1 {

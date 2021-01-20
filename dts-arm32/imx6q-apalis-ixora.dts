@@ -125,15 +125,6 @@
 &i2c1 {
 	status = "okay";
 
-	pcap@10 {
-		/* TouchRevolution Fusion 7 and 10 multi-touch controller */
-		compatible = "touchrevolution,fusion-f0710a";
-		reg = <0x10>;
-		gpios = <&gpio6 10 GPIO_ACTIVE_HIGH /* MXM3 11, Pen down interrupt */
-			 &gpio6  9 GPIO_ACTIVE_HIGH /* MXM3 13, Reset */
-			>;
-	};
-
 	eeprom@50 {
 		compatible = "atmel,24c02";
 		reg = <0x50>;

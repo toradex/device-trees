@@ -24,6 +24,18 @@
 	pinctrl-0 = <&pinctrl_hog0>, <&pinctrl_hog2>;
 };
 
+&lpspi2 {
+	fsl,spi-num-chipselects = <2>;
+	cs-gpios = <&lsio_gpio1 0 GPIO_ACTIVE_LOW
+		    &lsio_gpio5 2 GPIO_ACTIVE_LOW>;
+
+	spidev1: spidev@1 {
+		compatible = "toradex,evalspi";
+		reg = <1>;
+		spi-max-frequency = <10000000>;
+	};
+};
+
 /* Colibri UART_B */
 &lpuart0 {
 	status = "okay";

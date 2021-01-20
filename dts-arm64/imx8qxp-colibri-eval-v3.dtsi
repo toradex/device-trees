@@ -113,8 +113,6 @@
 
 /* Colibri SPI */
 &lpspi2 {
-        status = "okay";
-
         mcp2515: can@0 {
                 compatible = "microchip,mcp2515";
                 pinctrl-names = "default";
@@ -126,13 +124,13 @@
                 spi-max-frequency = <10000000>;
                 status = "okay";
         };
-
-        spidev0: spidev@0 {
-                compatible = "toradex,evalspi";
-                reg = <0>;
-                spi-max-frequency = <10000000>;
-                status = "disabled";
-        };
+	/* To keep the CAN controller enabled by default,
+	 * disable conflicting spidev. This spidev device
+	 * enables with the devicetree overlay.
+	 */
+	spidev0: spidev@0 {
+		status = "disabled";
+	};
 };
 
 /* Colibri UART_B */
