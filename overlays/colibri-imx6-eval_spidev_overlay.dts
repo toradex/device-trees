@@ -1,0 +1,22 @@
+// SPI generic spidev device for Colibri iMX6DL.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri_imx6dl-eval-v3",
+		     "toradex,colibri-imx6dl-eval-v3";
+};
+
+&ecspi4 {
+	status = "okay";
+};
+
+&mcp251x0 {
+	status = "disabled";
+};
+
+&spidev0 {
+	status = "okay";
+};
+

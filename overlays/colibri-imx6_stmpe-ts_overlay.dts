@@ -1,0 +1,14 @@
+// Resitive STMPE touchscreen for the 7inch resistive touch display orderable at Toradex.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri_imx6dl",
+		     "toradex,colibri-imx6dl";
+};
+
+&stmpe_ts {
+	status = "okay";
+};
+

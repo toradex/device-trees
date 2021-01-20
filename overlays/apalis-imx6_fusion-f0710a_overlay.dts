@@ -1,0 +1,20 @@
+// Overlay for Fusion 7" and 10" capacitive multi-touch displays
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q";
+};
+
+&atmel_mxt_ts {
+	status = "disabled";
+};
+
+&fusion_f0710a {
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+};
