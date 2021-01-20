@@ -51,9 +51,51 @@
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bl_on>;
-		pwms = <&pwm3 0 5000000>;
+		brightness-levels = <0 127 191 223 239 247 251 255>;
+		default-brightness-level = <1>;
 		enable-gpios = <&gpio3 26 GPIO_ACTIVE_HIGH>; /* Colibri BL_ON */
+		power-supply = <&reg_module_3v3>;
+		pwms = <&pwm3 0 5000000>;
 		status = "disabled";
+	};
+
+	lcd_display: disp0 {
+		compatible = "fsl,imx-parallel-display";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ipu1_lcdif>;
+		status = "disabled";
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@0 {
+			reg = <0>;
+
+			lcd_display_in: endpoint {
+				remote-endpoint = <&ipu1_di0_disp0>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+
+			lcd_display_out: endpoint {
+				remote-endpoint = <&lcd_panel_in>;
+			};
+		};
+	};
+
+	panel_dpi: panel-dpi {
+		compatible = "panel-dpi";
+		backlight = <&backlight>;
+		data-mapping = "bgr666";
+		status = "disabled";
+
+		port {
+			lcd_panel_in: endpoint {
+				remote-endpoint = <&lcd_display_out>;
+			};
+		};
 	};
 
 	reg_module_3v3: regulator-module-3v3 {
@@ -500,7 +542,7 @@
 		/* ADC converstion time: 80 clocks */
 		st,sample-time = <4>;
 
-		stmpe_touchscreen {
+		stmpe_ts: stmpe_touchscreen {
 			compatible = "st,stmpe-ts";
 			/* 8 sample average control */
 			st,ave-ctrl = <3>;
@@ -515,6 +557,7 @@
 			st,settling = <3>;
 			/* 5 ms touch detect interrupt delay */
 			st,touch-det-delay = <5>;
+			status = "disabled";
 		};
 
 		stmpe_adc {

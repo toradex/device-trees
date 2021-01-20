@@ -101,65 +101,6 @@
 			wakeup-source;
 		};
 	};
-
-	lcd_display: disp0 {
-		compatible = "fsl,imx-parallel-display";
-		#address-cells = <1>;
-		#size-cells = <0>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ipu1_lcdif>;
-		status = "okay";
-
-		port@0 {
-			reg = <0>;
-
-			lcd_display_in: endpoint {
-				remote-endpoint = <&ipu1_di0_disp0>;
-			};
-		};
-
-		port@1 {
-			reg = <1>;
-
-			lcd_display_out: endpoint {
-				remote-endpoint = <&lcd_panel_in>;
-			};
-		};
-	};
-
-	panel_dpi: panel-dpi {
-		compatible = "panel-dpi";
-		backlight = <&backlight>;
-		width-mm = <115>;
-		height-mm = <86>;
-
-		data-mapping = "bgr666";
-
-		/* VESA DMT v1.13 mode VGA 640x480 60Hz */
-		panel-timing {
-			clock-frequency = <25175000>;
-			hactive = <640>;
-			vactive = <480>;
-			hsync-len = <96>;
-			hfront-porch = <16>;
-			hback-porch = <48>;
-			vsync-len = <2>;
-			vfront-porch = <10>;
-			vback-porch = <33>;
-		};
-
-		port {
-			lcd_panel_in: endpoint {
-				remote-endpoint = <&lcd_display_out>;
-			};
-		};
-	};
-};
-
-&backlight {
-	brightness-levels = <0 127 191 223 239 247 251 255>;
-	default-brightness-level = <1>;
-	status = "okay";
 };
 
 /* Colibri SSP */
