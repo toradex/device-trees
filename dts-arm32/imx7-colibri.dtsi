@@ -40,13 +40,32 @@
  *     OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <dt-bindings/pwm/pwm.h>
+
 / {
-	bl: backlight {
+	backlight: backlight {
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bl_on>;
-		pwms = <&pwm1 0 5000000 0>;
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
 		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+		power-supply = <&reg_module_3v3>;
+		pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
+		status = "disabled";
+	};
+
+	panel_dpi: panel-dpi {
+		compatible = "panel-dpi";
+		backlight = <&backlight>;
+		data-mapping = "bgr666";
+		status = "disabled";
+
+		port {
+			lcd_panel_in: endpoint {
+				remote-endpoint = <&lcdif_out>;
+			};
+		};
 	};
 
 	reg_module_3v3: regulator-module-3v3 {
@@ -351,7 +370,7 @@
 		VDDD-supply = <&reg_DCDC3>;
 	};
 
-	ad7879@2c {
+	ad7879_ts: touchscreen@2c {
 		compatible = "adi,ad7879-1";
 		reg = <0x2c>;
 		interrupt-parent = <&gpio1>;
@@ -363,6 +382,7 @@
 		adi,median-filter-size = /bits/ 8 <2>;
 		adi,averaging = /bits/ 8 <1>;
 		adi,conversion-interval = /bits/ 8 <255>;
+		status = "disabled";
 	};
 
 	pmic@33 {
@@ -450,6 +470,11 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lcdif_dat
 		     &pinctrl_lcdif_ctrl>;
+	port {
+		lcdif_out: endpoint {
+			remote-endpoint = <&lcd_panel_in>;
+		};
+	};
 };
 
 &pwm1 {

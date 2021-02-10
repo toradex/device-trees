@@ -7,9 +7,6 @@
  * (at your option) any later version.
  */
 
-#include <dt-bindings/input/input.h>
-#include <dt-bindings/pwm/pwm.h>
-
 / {
 	chosen {
 		bootargs = "console=ttymxc0,115200";
@@ -26,36 +23,6 @@
 			linux,code = <KEY_WAKEUP>;
 			debounce-interval = <10>;
 			wakeup-source;
-		};
-	};
-
-	panel_dpi: panel-dpi {
-		compatible = "panel-dpi";
-		backlight = <&bl>;
-		power-supply = <&reg_3v3>;
-
-		width-mm = <115>;
-		height-mm = <86>;
-
-		data-mapping = "bgr666";
-
-		/* VESA DMT v1.13 mode VGA 640x480 60Hz */
-		panel-timing {
-			clock-frequency = <25175000>;
-			hactive = <640>;
-			vactive = <480>;
-			hsync-len = <96>;
-			hfront-porch = <16>;
-			hback-porch = <48>;
-			vsync-len = <2>;
-			vfront-porch = <10>;
-			vback-porch = <33>;
-		};
-
-		port {
-			lcd_panel_in: endpoint {
-				remote-endpoint = <&lcdif_out>;
-			};
 		};
 	};
 
@@ -84,13 +51,6 @@
 		gpio = <&gpio4 7 GPIO_ACTIVE_LOW>;
 		vin-supply = <&reg_5v0>;
 	};
-};
-
-&bl {
-	brightness-levels = <0 45 63 88 119 158 203 255>;
-	default-brightness-level = <4>;
-	pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
-	status = "okay";
 };
 
 &adc1 {
@@ -147,16 +107,6 @@
 	rtc: m41t0m6@68 {
 		compatible = "st,m41t0";
 		reg = <0x68>;
-	};
-};
-
-&lcdif {
-	status = "okay";
-
-	port {
-		lcdif_out: endpoint {
-			remote-endpoint = <&lcd_panel_in>;
-		};
 	};
 };
 
