@@ -1,0 +1,13 @@
+// Enable the resistive touch controller (AD7879) on the Colibri iMX7
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7s";
+};
+
+&ad7879_ts {
+	status = "okay";
+};

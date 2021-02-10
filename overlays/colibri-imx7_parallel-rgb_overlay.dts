@@ -1,0 +1,21 @@
+// Enable the parallel RGB interface on the Colibri iMX7
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7s";
+};
+
+&backlight {
+    status = "okay";
+};
+
+&lcdif {
+    status = "okay";
+};
+
+&pwm1 {
+    status = "okay";
+};
