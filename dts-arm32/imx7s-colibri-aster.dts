@@ -13,6 +13,7 @@
 
 / {
 	model = "Toradex Colibri iMX7S on Colibri Aster Board";
-	compatible = "toradex,colibri_imx7s-aster", "toradex,colibri_imx7s", \
+	compatible = "toradex,colibri-imx7s-aster",
+		     "toradex,colibri-imx7s",
 		     "fsl,imx7s", "fsl,imx7d";
 };

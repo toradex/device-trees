@@ -13,7 +13,9 @@
 
 / {
 	model = "Toradex Colibri iMX7D 1GB on Colibri Aster Board";
-	compatible = "toradex,colibri_imx7d_emmc-aster", "toradex,colibri_imx7d_emmc", \
+	compatible = "toradex,colibri-imx7d-emmc-aster",
+		     "toradex,colibri-imx7d-emmc",
+		     "toradex,colibri-imx7d",
 		     "fsl,imx7d";
 };
 
