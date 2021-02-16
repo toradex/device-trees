@@ -4,7 +4,7 @@
 /plugin/;
 
 / {
-        compatible = "toradex,colibri-imx6dl";
+        compatible = "toradex,colibri_imx6dl";
 };
 
 &backlight {

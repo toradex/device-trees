@@ -4,7 +4,9 @@
 /plugin/;
 
 / {
-	compatible = "toradex,apalis_imx6q";
+	compatible = "toradex,apalis_imx6q",
+		     "toradex,apalis-imx8",
+		     "toradex,apalis-imx8x";
 };
 
 &{/panel-lvds} {

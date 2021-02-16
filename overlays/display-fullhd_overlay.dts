@@ -1,0 +1,33 @@
+// FullHD VGA monitor in mode 1920x1080p60. Standard: SMPTE 274M
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q",
+		     "toradex,apalis-imx8x",
+		     "toradex,colibri_imx6dl",
+		     "toradex,colibri-imx6ull",
+		     "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7s",
+		     "toradex,colibri-imx8x";
+};
+
+&{/panel-dpi} {
+	status = "okay";
+	width-mm = <155>;
+	height-mm = <91>;
+	panel-timing {
+		clock-frequency = <148500000>;
+		hactive = <1920>;
+		hback-porch = <148>;
+		hfront-porch = <88>;
+		hsync-len = <44>;
+		vactive = <1080>;
+		vback-porch = <36>;
+		vfront-porch = <4>;
+		vsync-len = <5>;
+		pixelclk-active = <0>;
+	};
+};
+

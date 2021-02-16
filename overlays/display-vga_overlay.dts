@@ -1,4 +1,4 @@
-// EDT5.7 display with a resolution of 640x480 pixel
+// VGA display with a resolution of 640x480 pixel. VGA Signal 640x480@60Hz Industry standard timing
 
 /dts-v1/;
 /plugin/;
@@ -15,20 +15,19 @@
 
 &{/panel-dpi} {
 	status = "okay";
-
-	width-mm = <116>;
-	height-mm = <86>;
-
+	/* for 0.3mm pixels */
+	width-mm = <192>;
+	height-mm = <144>;
 	panel-timing {
 		clock-frequency = <25175000>;
 		hactive = <640>;
 		vactive = <480>;
-		hsync-len = <30>;
+		hsync-len = <96>;
 		hfront-porch = <16>;
-		hback-porch = <114>;
-		vsync-len = <3>;
+		hback-porch = <48>;
+		vsync-len = <2>;
 		vfront-porch = <10>;
-		vback-porch = <32>;
+		vback-porch = <33>;
 	 };
 };
 

@@ -4,7 +4,13 @@
 /plugin/;
 
 / {
-	compatible = "toradex,colibri-imx7d-emmc","toradex,apalis_imx6q", "toradex,colibri_imx6dl";
+	compatible = "toradex,apalis_imx6q",
+		     "toradex,apalis-imx8x",
+		     "toradex,colibri_imx6dl",
+		     "toradex,colibri-imx6ull",
+		     "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7s",
+		     "toradex,colibri-imx8x";
 };
 
 &{/panel-dpi} {
