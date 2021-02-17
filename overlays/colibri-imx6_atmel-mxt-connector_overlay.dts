@@ -1,0 +1,20 @@
+// Atmel MXT touchscreen for the 7inch and 10inch capacitive displays orderable at Toradex. Compatible with a Capacitive Touch Connector.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri_imx6dl";
+};
+
+&atmel_mxt_ts {
+	status = "okay";
+};
+
+&i2c3 {
+	status = "okay";
+};
+
+&weim {
+	status = "disabled";
+};
