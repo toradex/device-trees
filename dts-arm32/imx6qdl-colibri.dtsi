@@ -579,6 +579,17 @@
 	scl-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	status = "disabled";
+
+	atmel_mxt_ts: touchscreen@4a {
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_conn>;
+		compatible = "atmel,maxtouch";
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <24 IRQ_TYPE_EDGE_FALLING>;	/* SODIMM 107 */
+		reset-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;	/* SODIMM 106 */
+		status = "okay";
+	};
 };
 
 /* Colibri PWM<B> */
@@ -686,6 +697,28 @@
 };
 
 &iomuxc {
+	/* Atmel MXT touchsceen + boards with built-in Capacitive Touch Connector */
+	/* NOTE: This pin group conflicts with pin groups pinctrl_weim_cs1 and
+	 * pinctrl_weim_cs2. Don't use them simultaneously.
+	 */
+	pinctrl_atmel_conn: atmelconnectorgrp {
+		fsl,pins = <
+			MX6QDL_PAD_EIM_CS1__GPIO2_IO24  0xb0b1  /* SODIMM_107 */
+			MX6QDL_PAD_SD2_DAT1__GPIO1_IO14 0xb0b1  /* SODIMM_106 */
+		>;
+	};
+
+	/* Atmel MXT touchsceen + Capacitive Touch Adapter */
+	/* NOTE: This pin group conflicts with pin groups
+	 * pinctrl_pwm1/pinctrl_pwm4. Don't use them simultaneously.
+	 */
+	 pinctrl_atmel_adap: atmeladaptergrp {
+		fsl,pins = <
+			MX6QDL_PAD_GPIO_9__GPIO1_IO09   0xb0b1  /* SODIMM  28 */
+			MX6QDL_PAD_SD4_DAT2__GPIO2_IO10 0xb0b1  /* SODIMM  30 */
+		>;
+	};
+
 	pinctrl_audmux: audmuxgrp {
 		fsl,pins = <
 			MX6QDL_PAD_KEY_COL0__AUD5_TXC	0x130b0
