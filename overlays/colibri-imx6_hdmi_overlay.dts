@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // Enable the HDMI interface on the Colibri iMX6DL
 
 /dts-v1/;

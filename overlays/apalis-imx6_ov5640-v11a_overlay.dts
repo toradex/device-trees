@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // CSI Camera Module 5MP OV5640 v1.1A (with external mclk) orderable at Toradex.
 
 /dts-v1/;
@@ -22,4 +27,3 @@
 &mipi_csi {
 	status = "okay";
 };
-

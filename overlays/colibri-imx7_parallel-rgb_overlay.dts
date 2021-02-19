@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // Enable the parallel RGB interface on the Colibri iMX7
 
 /dts-v1/;

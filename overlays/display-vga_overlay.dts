@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // VGA display with a resolution of 640x480 pixel. VGA Signal 640x480@60Hz Industry standard timing
 
 /dts-v1/;
@@ -30,4 +35,3 @@
 		vback-porch = <33>;
 	 };
 };
-

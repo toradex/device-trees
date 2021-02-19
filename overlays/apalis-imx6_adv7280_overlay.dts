@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // Analogue Camera Adapter orderable at Toradex.
 
 /dts-v1/;
@@ -20,4 +25,3 @@
 		status = "okay";
 	};
 };
-

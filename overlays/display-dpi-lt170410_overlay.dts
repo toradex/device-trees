@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // LT170410 display (10inch) connected to DPI-LVDS converter with a resolution of 1280x800 pixel.
 // This display can be ordered at Toradex.
 
@@ -38,4 +43,3 @@
 		pixelclk-active = <1>;
 	};
 };
-
