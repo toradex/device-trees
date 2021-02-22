@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Atmel touchscreen for the 7inch capacitive display orderable at Toradex. Use this devicetree on the Aster board.
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7s",
+		     "toradex,colibri-imx7d-emmc";
+};
+
+&atmel_mxt_ts {
+	status = "okay";
+};
+
+&i2c4 {
+	status = "okay";
+};
