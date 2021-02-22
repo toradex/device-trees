@@ -462,6 +462,20 @@
 	pinctrl-1 = <&pinctrl_i2c4_recovery>;
 	scl-gpios = <&gpio7 8 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio7 9 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+
+	status = "disabled";
+
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: touchscreen@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_connector>;
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM 107, INT */
+		reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;     /* SODIMM 106, RST */
+		status = "disabled";
+	};
 };
 
 &lcdif {
@@ -565,6 +579,20 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_gpio1 &pinctrl_gpio2 &pinctrl_gpio3 &pinctrl_gpio4
 		     &pinctrl_gpio7>;
+
+	pinctrl_atmel_adapter: atmelconnectorgrp { /* ATMEL MXT TOUCH ADAPTER */
+		fsl,pins = <
+			MX7D_PAD_GPIO1_IO09__GPIO1_IO9		0x74 /* SODIMM 28, INT */
+			MX7D_PAD_GPIO1_IO10__GPIO1_IO10		0x14 /* SODIMM 30, RST */
+		>;
+	};
+
+	pinctrl_atmel_connector: atmeladaptergrp { /* ATMEL MXT TOUCH CONNECTOR */
+		fsl,pins = <
+			MX7D_PAD_EPDC_DATA15__GPIO2_IO15	0x74 /* SODIMM 107, INT */
+			MX7D_PAD_EPDC_BDR0__GPIO2_IO28		0x14 /* SODIMM 106, RST */
+		>;
+	};
 
 	pinctrl_gpio1: gpio1-grp {
 		fsl,pins = <
