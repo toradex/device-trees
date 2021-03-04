@@ -52,14 +52,32 @@
 		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
 		power-supply = <&reg_module_3v3>;
 		pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
-		status = "disabled";
+		status = "okay";
 	};
+
 
 	panel_dpi: panel-dpi {
 		compatible = "panel-dpi";
 		backlight = <&backlight>;
+		power-supply = <&reg_3v3>;
+
+		width-mm = <115>;
+		height-mm = <86>;
+
 		data-mapping = "bgr666";
-		status = "disabled";
+
+		/* VESA DMT v1.13 mode VGA 640x480 60Hz */
+		panel-timing {
+			clock-frequency = <25175000>;
+			hactive = <640>;
+			vactive = <480>;
+			hsync-len = <96>;
+			hfront-porch = <16>;
+			hback-porch = <48>;
+			vsync-len = <2>;
+			vfront-porch = <10>;
+			vback-porch = <33>;
+		};
 
 		port {
 			lcd_panel_in: endpoint {
@@ -382,7 +400,7 @@
 		adi,median-filter-size = /bits/ 8 <2>;
 		adi,averaging = /bits/ 8 <1>;
 		adi,conversion-interval = /bits/ 8 <255>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	pmic@33 {
@@ -474,7 +492,7 @@
 		interrupt-parent = <&gpio2>;
 		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM 107, INT */
 		reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;     /* SODIMM 106, RST */
-		status = "disabled";
+		status = "okay";
 	};
 };
 
@@ -484,6 +502,9 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lcdif_dat
 		     &pinctrl_lcdif_ctrl>;
+
+	status = "okay";
+
 	port {
 		lcdif_out: endpoint {
 			remote-endpoint = <&lcd_panel_in>;
@@ -494,6 +515,7 @@
 &pwm1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm1>;
+	status = "okay";
 };
 
 &pwm2 {
