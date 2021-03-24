@@ -44,18 +44,6 @@
 &i2c3 {
 	status = "okay";
 
-	/* Atmel maxtouch controller */
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_mxt_ts>;
-		reg = <0x4a>;
-		interrupt-parent = <&gpio2>;
-		interrupts = <24 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 107 */
-		reset-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>; /* SODIMM 106 */
-		status = "okay";
-	};
-
 	/* M41T0M6 real time clock on carrier board */
 	rtc_i2c: rtc@68 {
 		compatible = "st,m41t0";
@@ -147,13 +135,6 @@
 	pinctrl-0 = <&pinctrl_gpio_iris>;
 
 	gpio {
-		pinctrl_mxt_ts: mxt-ts {
-			fsl,pins = <
-				MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x130b0 /* SODIMM 107 */
-				MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x130b0 /* SODIMM 106 */
-			>;
-		};
-
 		pinctrl_gpio_iris: gpio-iris {
 			fsl,pins = <
 				MX6QDL_PAD_SD2_DAT0__GPIO1_IO15	0x1b0b0 /* SODIMM 98 */

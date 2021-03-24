@@ -119,12 +119,13 @@
 		i2c-gpio,delay-us = <2>;	/* ~100 kHz */
 		#address-cells = <1>;
 		#size-cells = <0>;
-		status = "okay";
+		status = "disabled";
 
 		/* Extension connector pin 15/16 */
 		hdmi_ddc: edid@50 {
 			compatible = "fsl,imx6-hdmi-i2c";
 			reg = <0x50>;
+			status = "disabled";
 		};
 	};
 
@@ -180,7 +181,7 @@
 			     "fsl,imx-audio-hdmi";
 		model = "imx-audio-hdmi";
 		hdmi-controller = <&hdmi_audio>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	/* Optional S/PDIF in on SODIMM 88 and out on SODIMM 90, 137 or 168 */
@@ -469,20 +470,16 @@
 			  "SODIMM_137";
 };
 
-&hdmi_audio {
-	status = "okay";
-};
-
 &hdmi_core {
 	ipu_id = <0>;
 	disp_id = <1>;
-	status = "okay";
+	status = "disabled";
 };
 
 &hdmi_video {
 	fsl,phy_reg_vlev = <0x0294>;
 	fsl,phy_reg_cksymtx = <0x800d>;
-	status = "okay";
+	status = "disabled";
 };
 
 /*
@@ -653,6 +650,30 @@
 	scl-gpios = <&gpio1 3 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio1 6 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	status = "disabled";
+
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: touchscreen@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_conn>;
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <24 IRQ_TYPE_EDGE_FALLING>;	/* SODIMM 107 */
+		reset-gpios = <&gpio1 14 GPIO_ACTIVE_HIGH>;	/* SODIMM 106 */
+		status = "disabled";
+	};
+
+	fusion_f0710a: touchscreen@10 {
+		/* TouchRevolution Fusion 7 and 10 multi-touch controller */
+		compatible = "touchrevolution,fusion-f0710a";
+		reg = <0x10>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_adap>;
+		gpios = <&gpio1  9 GPIO_ACTIVE_HIGH /* SODIMM 28, Pen intr */
+			 &gpio2 10 GPIO_ACTIVE_LOW  /* SODIMM 30, Reset */
+			>;
+		status = "disabled";
+	};
 };
 
 /* Colibri PWM<B> */
@@ -791,6 +812,26 @@
 	pinctrl-0 = <&pinctrl_csi_gpio_1 &pinctrl_csi_gpio_2>;
 
 	imx6qdl-colibri {
+
+	/* Atmel MXT touchsceen + boards with built-in Capacitive Touch Connector */
+	pinctrl_atmel_conn: atmelconnectorgrp {
+		fsl,pins = <
+			MX6QDL_PAD_EIM_CS1__GPIO2_IO24  0xb0b1	/* SODIMM_107 */
+			MX6QDL_PAD_SD2_DAT1__GPIO1_IO14 0xb0b1	/* SODIMM_106 */
+		>;
+	};
+
+	/* Atmel MXT touchsceen + Capacitive Touch Adapter */
+	/* NOTE: This pin group conflicts with pin groups
+	 * pinctrl_pwm1/pinctrl_pwm4. Don't enable them
+	 * simultaneously.
+	 */
+	pinctrl_atmel_adap: atmeladaptergrp {
+		fsl,pins = <
+			MX6QDL_PAD_GPIO_9__GPIO1_IO09	0xb0b1	/* SODIMM  28 */
+			MX6QDL_PAD_SD4_DAT2__GPIO2_IO10	0xb0b1	/* SODIMM  30 */
+		>;
+	};
 
 	/* CSI pins used as GPIO */
 	pinctrl_csi_gpio_1: csi_gpio-1 {
@@ -998,7 +1039,7 @@
 
 	pinctrl_pwm1: pwm1grp {
 		fsl,pins = <
-			MX6QDL_PAD_GPIO_9__PWM1_OUT	0x1b0b1
+			MX6QDL_PAD_GPIO_9__PWM1_OUT	0x1b0b1		/* SODIMM  28 */
 		>;
 	};
 
@@ -1018,7 +1059,7 @@
 
 	pinctrl_pwm4: pwm4grp {
 		fsl,pins = <
-			MX6QDL_PAD_SD4_DAT2__PWM4_OUT	0x1b0b1
+			MX6QDL_PAD_SD4_DAT2__PWM4_OUT	0x1b0b1		/* SODIMM  30 */
 		>;
 	};
 

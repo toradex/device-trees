@@ -24,41 +24,6 @@
 		pinctrl-0 = <&pinctrl_usbc_det>;
         };
 
-	panel_dpi: panel-dpi {
-		/*
-		 * edt,et057090dhu: EDT 5.7" LCD TFT
-		 * edt,et070080dh6: EDT 7.0" LCD TFT
-		 * logictechno,lt161010-2nhc: Cap. Touch Display 7" Parallel
-		 * logictechno,lt161010-2nhr: Res. Touch Display 7" Paralle
-		 * logictechno,lt170410-2whc: Cap. Touch Display 10.1" LVDS
-		 * tpk,f07a-0102: Capacitive Multi-Touch Display Fusion 7"
-		 * tpk,f10a-0102: Capacitive Multi-Touch Display Fusion 10"
-		 */
-		compatible = "panel-dpi";
-		backlight = <&backlight>;
-		power-supply = <&reg_3v3>;
-
-		width-mm = <217>;
-		height-mm = <136>;
-
-		data-mapping = "bgr666";
-		status = "disabled";
-
-		panel-timing {
-			/* Default VESA VGA display timings */
-			clock-frequency = <25175000>;
-			hactive = <640>;
-			hback-porch = <48>;
-			hfront-porch = <16>;
-			hsync-len = <96>;
-			vactive = <480>;
-			vback-porch = <31>;
-			vfront-porch = <11>;
-			vsync-len = <2>;
-			pixelclk-active = <0>;
-		};
-	};
-
 	reg_3v3: regulator-3v3 {
 		compatible = "regulator-fixed";
 		regulator-name = "3.3V";

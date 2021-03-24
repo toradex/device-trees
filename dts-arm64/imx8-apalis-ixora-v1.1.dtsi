@@ -213,60 +213,6 @@
 	status = "okay";
 };
 
-/* Apalis HDMI1 */
-&hdmi {
-	status = "okay";
-};
-
-&hdmi_lpcg_apb {
-	status = "okay";
-};
-
-&hdmi_lpcg_apb_mux_csr {
-	status = "okay";
-};
-
-&hdmi_lpcg_apb_mux_ctrl {
-	status = "okay";
-};
-
-&hdmi_lpcg_gpio_ipg {
-	status = "okay";
-};
-
-&hdmi_lpcg_i2c0 {
-	status = "okay";
-};
-
-&hdmi_lpcg_i2s {
-	status = "okay";
-};
-
-&hdmi_lpcg_lis_ipg {
-	status = "okay";
-};
-
-&hdmi_lpcg_msi_hclk {
-	status = "okay";
-};
-
-&hdmi_lpcg_phy {
-	status = "okay";
-};
-
-&hdmi_lpcg_pwm_ipg {
-	status = "okay";
-};
-
-&hdmi_lpcg_pxl {
-	status = "okay";
-};
-
-/* Apalis I2C2 (DDC) */
-&i2c0 {
-	status = "okay";
-};
-
 /* Apalis I2C1 */
 &i2c2 {
 	status = "okay";
@@ -330,10 +276,6 @@
 };
 
 &irqsteer_csi1 {
-	status = "okay";
-};
-
-&irqsteer_hdmi {
 	status = "okay";
 };
 

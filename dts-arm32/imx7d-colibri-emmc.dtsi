@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: (GPL-2.0 OR MIT)
+// SPDX-License-Identifier: GPL-2.0 OR MIT
 /*
- * Copyright 2017 Toradex AG
+ * Copyright 2017-2021 Toradex
  */
 
 #include "imx7d.dtsi"
@@ -8,6 +8,12 @@
 
 / {
 	aliases {
+		/* add ethernet aliases which is required to proprely pass mac
+		   address from bootloader. Also with the update to 5.4.70-2.3.0
+		   the kernel hangs without these aliases.
+		 */
+		ethernet0 = &fec1;
+		ethernet1 = &fec2;
 		/* the following, together with kernel patches, forces a fixed assignment
 		   between device id and usdhc controller */
 		/* i.e. the eMMC on usdhc3 will be /dev/mmcblk0 */
@@ -15,7 +21,7 @@
 		mmc1 = &usdhc1; /* MMC 4bit slot */
 	};
 
-	memory {
+	memory@80000000 {
 		device_type = "memory";
 		reg = <0x80000000 0x40000000>;
 	};
@@ -53,4 +59,24 @@
 
 &usdhc3 {
 	status = "okay";
+};
+
+&ad7879_ts {
+	status = "disabled";
+};
+
+&backlight {
+	status = "disabled";
+};
+
+&lcdif {
+	status = "disabled";
+};
+
+&pwm1 {
+	status = "disabled";
+};
+
+&atmel_mxt_ts {
+	status = "disabled";
 };

@@ -1,14 +1,25 @@
 // SPDX-License-Identifier: GPL-2.0+ OR MIT
 /*
- * Copyright 2016 Toradex AG
+ * Copyright 2016-2021 Toradex
  */
 
+#include <dt-bindings/pwm/pwm.h>
+
 / {
-	bl: backlight {
+	backlight: backlight {
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bl_on>;
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
 		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+		pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
+		status = "okay";
+	};
+
+	m4_tcm: tcml@007f8000 {
+		compatible = "fsl, m4_tcml";
+		reg = <0x007f8000 0x8000>;
 	};
 
 	pxp_v4l2_out {
@@ -31,6 +42,22 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
+	};
+
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		m4_reserved: m4@0x9ff00000 {
+			no-map;
+			reg = <0x9ff00000 0x100000>;
+		};
+
+		rpmsg_reserved: rpmsg@0x8ff00000 {
+			no-map;
+			reg = <0x8ff00000 0x100000>;
+		};
 	};
 
 	sound {
@@ -331,7 +358,7 @@
 		VDDD-supply = <&reg_DCDC3>;
 	};
 
-	ad7879@2c {
+	ad7879_ts: touchscreen@2c {
 		compatible = "adi,ad7879-1";
 		reg = <0x2c>;
 		interrupt-parent = <&gpio1>;
@@ -343,6 +370,7 @@
 		adi,median-filter-size = /bits/ 8 <2>;
 		adi,averaging = /bits/ 8 <1>;
 		adi,conversion-interval = /bits/ 8 <255>;
+		status = "okay";
 	};
 
 	pmic@33 {
@@ -422,12 +450,156 @@
 	pinctrl-1 = <&pinctrl_i2c4_recovery>;
 	scl-gpios = <&gpio7 8 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio7 9 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
+        status = "okay";
+
+        /* Atmel maxtouch controller */
+        atmel_mxt_ts: touchscreen@4a {
+                compatible = "atmel,maxtouch";
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_atmel_connector>;
+                reg = <0x4a>;
+                interrupt-parent = <&gpio2>;
+                interrupts = <15 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM_107, INT */
+                reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;     /* SODIMM_106, RST */
+                status = "okay";
+        };
+
+
+	/* the PCAPs use SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm2, pwm3.
+	   so if you enable one of the PCAP controllers disable the pwms */
+        fusion_f0710a: touchscreen@10 {
+                /* TouchRevolution Fusion 7 and 10 multi-touch controller */
+                compatible = "touchrevolution,fusion-f0710a";
+                reg = <0x10>;
+                pinctrl-names = "default";
+                pinctrl-0 = <&pinctrl_atmel_adapter>;
+                gpios = <&gpio1  9 GPIO_ACTIVE_HIGH 		/* SODIMM_28, INT */
+                         &gpio1 10 GPIO_ACTIVE_LOW 		/* SODIMM_30, RST */
+                        >;
+                status = "disabled";
+        };
 };
 
 &lcdif {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lcdif_dat
 		     &pinctrl_lcdif_ctrl>;
+	display = <&display0>;
+	status = "okay";
+
+	display0: lcd-display {
+		bits-per-pixel = <16>;
+		bus-width = <18>;
+
+		display-timings {
+			native-mode = <&timing_vga>;
+
+			/* Standard VGA timing */
+			timing_vga: 640x480 {
+				clock-frequency = <25175000>;
+				hactive = <640>;
+				vactive = <480>;
+				hback-porch = <40>;
+				hfront-porch = <24>;
+				vback-porch = <32>;
+				vfront-porch = <11>;
+				hsync-len = <96>;
+				vsync-len = <2>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+
+			/* WVGA Timing, e.g. EDT ET070080DH6 */
+			timing_wvga: 800x480 {
+				clock-frequency = <33260000>;
+				hactive = <800>;
+				vactive = <480>;
+				hback-porch = <216>;
+				hfront-porch = <40>;
+				vback-porch = <35>;
+				vfront-porch = <10>;
+				hsync-len = <128>;
+				vsync-len = <2>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+
+			/* WVGA Timing, TouchRevolution Fusion 7" */
+			timing_wvga2: 800x480pixclkact {
+				clock-frequency = <33260000>;
+				hactive = <800>;
+				vactive = <480>;
+				hback-porch = <216>;
+				hfront-porch = <40>;
+				vback-porch = <35>;
+				vfront-porch = <10>;
+				hsync-len = <128>;
+				vsync-len = <2>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <1>;
+			};
+
+			/* Standard SVGA timing */
+			timing_svga: 800x600 {
+				clock-frequency = <40000000>;
+				hactive = <800>;
+				vactive = <600>;
+				hback-porch = <88>;
+				hfront-porch = <40>;
+				vback-porch = <23>;
+				vfront-porch = <1>;
+				hsync-len = <128>;
+				vsync-len = <4>;
+
+				de-active = <1>;
+				hsync-active = <1>;
+				vsync-active = <1>;
+				pixelclk-active = <0>;
+			};
+
+			/* Standard XGA timing */
+			timing_xga: 1024x768 {
+				clock-frequency = <65000000>;
+				hactive = <1024>;
+				vactive = <768>;
+				hback-porch = <160>;
+				hfront-porch = <24>;
+				vback-porch = <29>;
+				vfront-porch = <3>;
+				hsync-len = <136>;
+				vsync-len = <6>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+
+                        timing_wxga: 1280x800 {
+                                clock-frequency = <68930000>;
+                                hactive = <1280>;
+                                vactive = <800>;
+                                hback-porch = <64>;
+                                hfront-porch = <64>;
+                                vback-porch = <5>;
+                                vfront-porch = <5>;
+                                hsync-len = <40>;
+                                vsync-len = <6>;
+                                hsync-active = <0>;
+                                vsync-active = <0>;
+                                pixelclk-active = <0>;
+                        };
+		};
+	};
 };
 
 &ocram {
@@ -521,7 +693,21 @@
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_gpio1 &pinctrl_gpio2 &pinctrl_gpio3 &pinctrl_gpio4
-		     &pinctrl_gpio5 &pinctrl_gpio6 &pinctrl_gpio7>;
+		     &pinctrl_gpio5 &pinctrl_gpio7>;
+
+	pinctrl_atmel_adapter: atmeladaptergrp { /* ATMEL MXT TOUCH ADAPTER */
+		fsl,pins = <
+			MX7D_PAD_GPIO1_IO09__GPIO1_IO9          0x74 /* SODIMM_28, INT */
+			MX7D_PAD_GPIO1_IO10__GPIO1_IO10         0x14 /* SODIMM_30, RST */
+		>;
+	};
+
+	pinctrl_atmel_connector: atmelconnectorgrp { /* ATMEL MXT TOUCH CONNECTOR */
+		fsl,pins = <
+			MX7D_PAD_EPDC_DATA15__GPIO2_IO15        0x74 /* SODIMM_107, INT */
+			MX7D_PAD_EPDC_BDR0__GPIO2_IO28          0x14 /* SODIMM_106, RST */
+		>;
+	};
 
 	pinctrl_gpio1: gpio1-grp {
 		fsl,pins = <
@@ -607,13 +793,6 @@
 			/* CS1 */
 			MX7D_PAD_ECSPI2_SS0__GPIO4_IO23		0x74 /* SODIMM 65 */
 		 >;
-	};
-
-	pinctrl_gpio6: gpio6-grp { /* ATMEL MXT TOUCH */
-		fsl,pins = <
-			MX7D_PAD_EPDC_DATA15__GPIO2_IO15	0x74 /* SODIMM 107 */
-			MX7D_PAD_EPDC_BDR0__GPIO2_IO28		0x74 /* SODIMM 106 */
-		>;
 	};
 
 	pinctrl_gpio7: gpio7-grp { /* Alternatively CAN1 */
@@ -833,7 +1012,8 @@
 			MX7D_PAD_UART3_RX_DATA__UART3_DTE_TX 0x79
 		>;
 	};
-	pinctrl_usbc_det: gpio_usbc_det {
+
+	pinctrl_usbc_det: gpio-usbc-det {
 		fsl,pins = <
 			MX7D_PAD_ENET1_CRS__GPIO7_IO14	0x14
 		>;

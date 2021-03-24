@@ -245,20 +245,13 @@
 		};
 	};
 
-	sound-hdmi {
+	sound_hdmi: sound-hdmi {
 		compatible = "fsl,imx-audio-cdnhdmi";
 		model = "imx-audio-hdmi-tx";
 		audio-cpu = <&sai5>;
 		protocol = <1>;
 		hdmi-out;
-	};
-
-	sound-hdmi-arc {
-		compatible = "fsl,imx-audio-spdif";
-		model = "imx-hdmi-arc";
-		spdif-controller = <&spdif1>;
-		spdif-in;
-		spdif-out;
+		status = "disabled";
 	};
 
 	sound-spdif {
@@ -312,10 +305,9 @@
 	pinctrl-0 = <&pinctrl_fec1>;
 	pinctrl-1 = <&pinctrl_fec1_sleep>;
 	fsl,magic-packet;
-	fsl,rgmii_txc_dly;
 	fsl,mii-exclusive;
 	phy-handle = <&ethphy0>;
-	phy-mode = "rgmii-rxid";
+	phy-mode = "rgmii-id";
 	phy-reset-duration = <10>;
 	phy-reset-gpios = <&lsio_gpio1 11 GPIO_ACTIVE_LOW>;
 
@@ -1192,15 +1184,16 @@
 		/* On-module USB HSIC HUB (idle) */
 		pinctrl_usb_hsic_idle: usbh1_1 {
 			fsl,pins = <
-				IMX8QM_USB_HSIC0_DATA_CONN_USB_HSIC0_DATA	0xc60000c5
-				IMX8QM_USB_HSIC0_STROBE_CONN_USB_HSIC0_STROBE	0xc60000c5
+				IMX8QM_USB_HSIC0_DATA_CONN_USB_HSIC0_DATA	0x000000cf
+				IMX8QM_USB_HSIC0_STROBE_CONN_USB_HSIC0_STROBE	0x000000cf
 			>;
 		};
 
 		/* On-module USB HSIC HUB (active) */
 		pinctrl_usb_hsic_active: usbh1_2 {
 			fsl,pins = <
-				IMX8QM_USB_HSIC0_STROBE_CONN_USB_HSIC0_STROBE	0xc60000d5
+				IMX8QM_USB_HSIC0_DATA_CONN_USB_HSIC0_DATA	0x000000cf
+				IMX8QM_USB_HSIC0_STROBE_CONN_USB_HSIC0_STROBE	0x000000ff
 			>;
 		};
 
@@ -1758,7 +1751,6 @@
 /* On-module eMMC */
 &usdhc1 {
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
-	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usdhc1>;
 	pinctrl-1 = <&pinctrl_usdhc1_100mhz>;
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz>;

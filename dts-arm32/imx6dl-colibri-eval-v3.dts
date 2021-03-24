@@ -105,22 +105,6 @@
 &i2c3 {
 	status = "okay";
 
-	/*
-	 * the PCAPs use SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm1,
-	 * pwm4. So if you enable one of the PCAP controllers disable the pwms.
-	 */
-	pcap: pcap@10 {
-		/* TouchRevolution Fusion 7 and 10 multi-touch controller */
-		compatible = "touchrevolution,fusion-f0710a";
-		reg = <0x10>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_pcap_1>;
-		gpios = <&gpio1  9 0 /* SODIMM 28, Pen down interrupt */
-			 &gpio2 10 0 /* SODIMM 30, Reset */
-			>;
-		status = "disabled";
-	};
-
 	/* M41T0M6 real time clock on carrier board */
 	rtc_i2c: rtc@68 {
 		compatible = "st,m41t0";
@@ -139,15 +123,6 @@
 		&pinctrl_gpio_2
 		&pinctrl_usbh_oc_1 &pinctrl_usbc_id_1
 	>;
-
-	gpio {
-		pinctrl_pcap_1: pcap-1 {
-			fsl,pins = <
-				MX6QDL_PAD_GPIO_9__GPIO1_IO09	0x1b0b0 /* SODIMM 28 */
-				MX6QDL_PAD_SD4_DAT2__GPIO2_IO10	0x1b0b0 /* SODIMM 30 */
-			>;
-		};
-	};
 };
 
 &mxcfb1 {

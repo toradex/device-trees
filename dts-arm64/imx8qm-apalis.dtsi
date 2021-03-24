@@ -18,6 +18,16 @@
 	interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
 };
 
+/*
+ * Apalis iMX8QM V1.0 has PHY KSZ9031. the Micrel PHY driver
+ * doesn't support setting internal PHY delay for TXC line for
+ * this PHY model. Use delay on MAC side instead.
+ */
+&fec1 {
+	fsl,rgmii_txc_dly;
+	phy-mode = "rgmii-rxid";
+};
+
 &lsio_gpio0 {
 	gpio-line-names = "MXM3_279",
 			  "MXM3_277",

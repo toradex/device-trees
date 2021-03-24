@@ -1,10 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0+ OR MIT
 /*
- * Copyright 2017 Toradex AG
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * Copyright 2017-2020 Toradex
  */
 
 /dts-v1/;
@@ -17,6 +13,22 @@
 		     "toradex,colibri-imx7d",
 		     "toradex,colibri-imx7d",
 		     "fsl,imx7d";
+};
+
+&atmel_mxt_ts {
+        pinctrl-0 = <&pinctrl_atmel_adapter>;
+        interrupt-parent = <&gpio1>;
+        interrupts = <9 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM_28, INT */
+        reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;    /* SODIMM_30, RST */
+        status = "okay";
+};
+
+&pwm2 {
+        status = "disabled";
+};
+
+&pwm3 {
+        status = "disabled";
 };
 
 &usbotg2 {

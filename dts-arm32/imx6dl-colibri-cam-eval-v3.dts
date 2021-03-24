@@ -124,32 +124,6 @@
 &i2c3 {
 	status = "okay";
 
-/* the PCAPs use SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm1, pwm4.
-   so if you enable one of the PCAP controllers disable the pwms */
-	/* Atmel maxtouch controller */
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_pcap_1>;
-		reg = <0x4a>;
-		interrupt-parent = <&gpio1>;
-		interrupts = <9 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 28 */
-		reset-gpios = <&gpio2 10 GPIO_ACTIVE_HIGH>; /* SODIMM 30 */
-		status = "disabled";
-	};
-
-	pcap: pcap@10 {
-		/* TouchRevolution Fusion 7 and 10 multi-touch controller */
-		compatible = "touchrevolution,fusion-f0710a";
-		reg = <0x10>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_pcap_1>;
-		gpios = <&gpio1  9 0 /* SODIMM 28, Pen down interrupt */
-			 &gpio2 10 0 /* SODIMM 30, Reset */
-			>;
-		status = "disabled";
-	};
-
 	/* M41T0M6 real time clock on carrier board */
 	rtc_i2c: rtc@68 {
 		compatible = "st,m41t0";
@@ -224,22 +198,6 @@
 		&pinctrl_gpio_bl_on
 		&pinctrl_usbh_oc_1 &pinctrl_usbc_id_1
 	>;
-
-	gpio {
-		pinctrl_pcap_1: pcap-1 {
-			fsl,pins = <
-				MX6QDL_PAD_GPIO_9__GPIO1_IO09	0x1b0b0 /* SODIMM 28 */
-				MX6QDL_PAD_SD4_DAT2__GPIO2_IO10	0x1b0b0 /* SODIMM 30 */
-			>;
-		};
-
-		pinctrl_mxt_ts: mxt-ts {
-			fsl,pins = <
-				MX6QDL_PAD_EIM_CS1__GPIO2_IO24	0x130b0 /* SODIMM 107 */
-				MX6QDL_PAD_SD2_DAT1__GPIO1_IO14	0x130b0 /* SODIMM 106 */
-			>;
-		};
-	};
 };
 
 &mxcfb1 {

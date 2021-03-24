@@ -16,7 +16,11 @@
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bkl_on>;
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
 		enable-gpios = <&lsio_gpio3 13 GPIO_ACTIVE_HIGH>;
+		power-supply = <&reg_module_3v3>;
+		pwms = <&pwm_mipi_lvds1 0 6666667 PWM_POLARITY_INVERTED>;
 		status = "disabled";
         };
 
@@ -45,6 +49,14 @@
 
 			lcd_display_in: endpoint {
 				remote-endpoint = <&dpu_disp1_lcdif>;
+			};
+		};
+
+		port@1 {
+			reg = <1>;
+
+			lcd_display_out: endpoint {
+				remote-endpoint = <&lcd_panel_in>;
 			};
 		};
 	};
@@ -90,6 +102,20 @@
 		power-domains = <&pd IMX_SC_R_M4_0_PID0>,
 				<&pd IMX_SC_R_M4_0_MU_1A>;
         };
+
+	panel_dpi: panel-dpi {
+		compatible = "panel-dpi";
+		backlight = <&backlight>;
+		data-mapping = "bgr666";
+		power-supply = <&reg_module_3v3>;
+		status = "disabled";
+
+		port {
+			lcd_panel_in: endpoint {
+				remote-endpoint = <&lcd_display_out>;
+			};
+		};
+	};
 
 	panel_lvds: panel-lvds {
 		compatible = "panel-lvds";
@@ -325,10 +351,8 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_fec1>;
 	fsl,magic-packet;
-	fsl,rgmii_rxc_dly;
-	fsl,rgmii_txc_dly;
 	phy-handle = <&ethphy0>;
-	phy-mode = "rgmii";
+	phy-mode = "rgmii-id";
 	phy-reset-duration = <10>;
 	phy-reset-gpios = <&lsio_gpio3 4 GPIO_ACTIVE_LOW>;
 
@@ -383,12 +407,40 @@
         clock-frequency = <100000>;
         status = "okay";
 
+	/* Touch controller */
+	ad7879_ts: touchscreen@2c {
+		compatible = "adi,ad7879-1";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ad7879_int>;
+		reg = <0x2c>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+		touchscreen-max-pressure = <4096>;
+		adi,resistance-plate-x = <120>;
+		adi,first-conversion-delay = /bits/ 8 <3>;
+		adi,acquisition-time = /bits/ 8 <1>;
+		adi,median-filter-size = /bits/ 8 <2>;
+		adi,averaging = /bits/ 8 <1>;
+		adi,conversion-interval = /bits/ 8 <255>;
+		status = "disabled";
+	};
+
 	/* On-Module EEPROM */
         eeprom: eeprom@50 {
 		compatible = "atmel,24c02";
 		reg = <0x50>;
 		pagesize = <16>;
         };
+
+	lt8912_hdmi: dsi-hdmi@48 {
+		compatible = "lontium,lt8912";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_hdmi_int>;
+		ddc-i2c-bus = <&i2c0_mipi_lvds1>;
+		hpd-gpios = <&pcal6416_1 15 GPIO_ACTIVE_HIGH>;
+		reg = <0x48>;
+		status = "disabled";
+	};
 
 	/* PCAL6416A GPIO Expander */
 	pcal6416_1: gpio@20 {
@@ -398,6 +450,8 @@
 		reg = <0x20>;
 		gpio-controller;
 		#gpio-cells = <2>;
+		interrupt-controller;
+		#interrupt-cells = <2>;
 		interrupt-parent = <&lsio_gpio4>;
 		interrupts = <2 IRQ_TYPE_LEVEL_LOW>;
 		vcc-supply = <&reg_module_3v3>;
@@ -448,6 +502,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c0_mipi_lvds1>;
 	clock-frequency = <100000>;
+	status = "disabled";
 };
 
 /* Apalis I2C1 */
@@ -457,6 +512,18 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lpi2c1>;
 	clock-frequency = <100000>;
+
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: touchscreen@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
+		reg = <0x4a>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;                /* Apalis GPIO5 */
+		reset-gpios = <&lsio_gpio3 18 GPIO_ACTIVE_HIGH>;        /* Apalis GPIO6 */
+		status = "disabled";
+	};
 };
 
 /* Apalis I2C3 (CAM) */
@@ -482,6 +549,13 @@
 		    <&pinctrl_wifi_sclk>;
 
 	apalis-imx8qxp {
+		/* On-module touch pen-down interrupt */
+		pinctrl_ad7879_int: ad7879-int {
+			fsl,pins = <
+				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05              0x21	/* TOUCH_PEN_IRQ */
+			>;
+		};
+
 		/* Apalis AN1_ADC */
 		pinctrl_adc0: adc0grp {
 			fsl,pins = <
@@ -595,6 +669,13 @@
 		pinctrl_gpio8: gpio8grp {
 			fsl,pins = <
 				IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20		0x21		/* MXM3 17 */
+			>;
+		};
+
+		/* HDMI Bridge Interrupt */
+		pinctrl_hdmi_int: hdmibridgeintgrp {
+			fsl,pins = <
+				IMX8QXP_MIPI_CSI0_I2C0_SDA_LSIO_GPIO3_IO06	0x21		/* HDMI_BRIDGE_INT# */
 			>;
 		};
 

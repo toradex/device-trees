@@ -15,7 +15,11 @@
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bl_on>;
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
 		enable-gpios = <&lsio_gpio3 12 GPIO_ACTIVE_HIGH>; /* Colibri BL_ON */
+		power-supply = <&reg_module_3v3>;
+		pwms = <&adma_pwm 0 6666667 PWM_POLARITY_INVERTED>;
 		status = "disabled";
 	};
 
@@ -27,8 +31,6 @@
 	/* Colibri Parallel RGB */
 	display_lcdif: display@disp1 {
                 compatible = "fsl,imx-lcdif-mux-display";
-                #address-cells = <1>;
-                #size-cells = <0>;
                 pinctrl-names = "default";
                 pinctrl-0 = <&pinctrl_lcdif>;
                 clocks = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_BYPASS>,
@@ -41,6 +43,9 @@
                 power-domains = <&pd IMX_SC_R_LCD_0>;
 		status = "disabled";
 
+                #address-cells = <1>;
+                #size-cells = <0>;
+
                 port@0 {
                         reg = <0>;
 
@@ -48,7 +53,29 @@
                                 remote-endpoint = <&dpu_disp1_lcdif>;
                         };
                 };
-        };
+
+		port@1 {
+			reg = <1>;
+
+			lcd_display_out: endpoint {
+				remote-endpoint = <&lcd_panel_in>;
+			};
+		};
+	};
+
+	panel_dpi: panel-dpi {
+		compatible = "panel-dpi";
+		backlight = <&backlight>;
+		data-mapping = "bgr666";
+		power-supply = <&reg_module_3v3>;
+		status = "disabled";
+
+		port {
+			lcd_panel_in: endpoint {
+				remote-endpoint = <&lcd_display_out>;
+			};
+		};
+	};
 
 	pcie_refclk: pcie-clock-generator {
 		compatible = "fixed-clock";
@@ -366,6 +393,24 @@
 	pinctrl-0 = <&pinctrl_i2c0>, <&pinctrl_sgtl5000_usb_clk>;
 	status = "okay";
 
+	/* on-module Resistive Touch controller */
+	ad7879_ts: touchscreen@2c {
+		compatible = "adi,ad7879-1";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ad7879_int>;
+		reg = <0x2c>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+		touchscreen-max-pressure = <4096>;
+		adi,resistance-plate-x = <120>;
+		adi,first-conversion-delay = /bits/ 8 <3>;
+		adi,acquisition-time = /bits/ 8 <1>;
+		adi,median-filter-size = /bits/ 8 <2>;
+		adi,averaging = /bits/ 8 <1>;
+		adi,conversion-interval = /bits/ 8 <255>;
+		status = "disabled";
+	};
+
 	/* GPIO expander */
 	gpio_expander_43: gpio-expander@43 {
 		compatible = "fcs,fxl6408";
@@ -420,11 +465,52 @@
 
 /* MIPI DSI accessible on FFC (X2) */
 &i2c0_mipi_lvds0 {
-	#address-cells = <1>;
-	#size-cells = <0>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c0_mipi_lvds0>;
 	clock-frequency = <100000>;
+	status = "disabled";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* DSI to HDMI Adapter V1.1A */
+	pca9540_switch: i2c-switch@70 {
+		compatible = "nxp,pca9540";
+		reg = <0x70>;
+		i2c-mux-idle-disconnect;
+		status = "disabled";
+
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		/* DDC/EDID */
+		i2c_sw0: i2c-sw@0 {
+			reg = <0>;
+		};
+
+		/* DSI-HDMI converter */
+		i2c-sw@1 {
+			reg = <1>;
+
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			lt8912_hdmi: dsihdmi@48 {
+				compatible = "lontium,lt8912";
+				ddc-i2c-bus = <&i2c_sw0>;
+				hpd-gpios = <&lsio_gpio1 31 GPIO_ACTIVE_HIGH>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_gpio_hpd>;
+				reg = <0x48>;
+
+				port {
+					lt8912_in: endpoint {
+						remote-endpoint = <&mipi0_dsi_host_out>;
+					};
+				};
+			};
+		};
+	};
 };
 
 /* On-module MIPI CSI I2C accessible on FFC (X3) */
@@ -443,6 +529,18 @@
 	clock-frequency = <100000>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_i2c1>;
+
+	/* Atmel maxtouch controller */
+        atmel_mxt_ts: touchscreen@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_conn>;
+		reg = <0x4a>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <20 IRQ_TYPE_EDGE_FALLING>;                /* SODIMM 107 */
+		reset-gpios = <&lsio_gpio3 24 GPIO_ACTIVE_HIGH>;        /* SODIMM 106 */
+                status = "disabled";
+        };
 };
 
 &imx8_gpu_ss {
@@ -455,6 +553,13 @@
 		    <&pinctrl_ext_io0>, <&pinctrl_lpspi2_cs2>;
 
 	colibri-imx8qxp {
+		/* On-module touch pen-down interrupt */
+		pinctrl_ad7879_int: ad7879-int {
+			fsl,pins = <
+				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05      0x21
+			>;
+		};
+
 		/* Colibri Analogue Inputs */
 		pinctrl_adc0: adc0grp {
 			fsl,pins = <
@@ -462,6 +567,26 @@
 				IMX8QXP_ADC_IN1_ADMA_ADC_IN1			0x60		/* SODIMM   6 */
 				IMX8QXP_ADC_IN4_ADMA_ADC_IN4			0x60		/* SODIMM   4 */
 				IMX8QXP_ADC_IN5_ADMA_ADC_IN5			0x60		/* SODIMM   2 */
+			>;
+		};
+
+		/* Atmel MXT touchsceen + boards with built-in Capacitive Touch Connector */
+		pinctrl_atmel_conn: mxt-ts-connector {
+			fsl,pins = <
+				IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20            0x4000021	/* SODIMM 107 */
+				IMX8QXP_QSPI0B_SS1_B_LSIO_GPIO3_IO24            0x21		/* SODIMM 106 */
+			>;
+		};
+
+		/* Atmel MXT touchsceen + Capacitive Touch Adapter */
+		/* NOTE: This pingroup conflicts with pingroups
+		 * pinctrl_pwm_b/pinctrl_pwm_c. Don't enable them
+		 * simultaneously.
+		 */
+		pinctrl_atmel_adap: mxt-ts-adapter {
+			fsl,pins = <
+				IMX8QXP_UART1_TX_LSIO_GPIO0_IO21		0x4000021	/* SODIMM  28 */
+				IMX8QXP_UART1_RX_LSIO_GPIO0_IO22		0x21		/* SODIMM  30 */
 			>;
 		};
 
@@ -559,6 +684,13 @@
 		pinctrl_gpio_bl_on: gpio-bl-on {
 			fsl,pins = <
 				IMX8QXP_QSPI0A_DATA3_LSIO_GPIO3_IO12		0x60		/* SODIMM  71 */
+			>;
+		};
+
+		/* HDMI Hot Plug Detect on FFC (X2) */
+		pinctrl_gpio_hpd: gpio-hpd {
+			fsl,pins = <
+				IMX8QXP_MIPI_DSI1_GPIO0_00_LSIO_GPIO1_IO31      0x20		/* SODIMM 138 */
 			>;
 		};
 
@@ -1145,6 +1277,17 @@
 
 &mipi0_dsi_host {
         pwr-delay = <10>;
+
+	ports {
+		port@1 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+			mipi0_dsi_host_out: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&lt8912_in>;
+		        };
+		};
+	};
 };
 
 &mipi1_dsi_host {
