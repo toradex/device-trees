@@ -10,7 +10,7 @@
 /plugin/;
 
 / {
-	compatible = "toradex,verdin-imx8mp";
+	compatible = "toradex,verdin-imx8mm";
 };
 
 &lvds_ti_sn65dsi83 {
@@ -25,10 +25,10 @@
 
 		lvds_timing0: lt170410_2whc {
 			/*
-			 * PLL1 is at 2079000000, take PLL1/30
-			 * otherwise we don't get a picture on NXP i.MX 8M Plus
+			 * Take the minimum pixelclock as 71.1 MHz is
+			 * not working on NXP i.MX 8M Mini
 			 */
-			clock-frequency = <69300000>;
+			clock-frequency = <68900000>;
 			hactive = <1280 1280 1280>;
 			hfront-porch = <23 60 71>;
 			hback-porch = <23 60 71>;

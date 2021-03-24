@@ -1,30 +1,21 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // Atmel MXT touchscreen for the 7inch and 10inch display orderable at Toradex.
 
 /dts-v1/;
 /plugin/;
 
-#include "dt-bindings/interrupt-controller/irq.h"
-#include "dt-bindings/gpio/gpio.h"
-#include "dt-bindings/pinctrl/pads-imx8qxp.h"
-
 / {
 	compatible = "toradex,apalis-imx8x";
 };
 
-&i2c1 {
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	/* Atmel maxtouch controller */
-	atmel_mxt_ts: atmel_mxt_ts@4a {
-		compatible = "atmel,maxtouch";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
-		reg = <0x4a>;
-		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;		/* Apalis GPIO5 */
-		reset-gpios = <&lsio_gpio3 18 GPIO_ACTIVE_HIGH>;	/* Apalis GPIO6 */
-		status = "okay";
-	};
+&atmel_mxt_ts {
+	status = "okay";
 };
 
+&i2c1 {
+	status = "okay";
+};

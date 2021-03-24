@@ -8,22 +8,15 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/clock/imx8mm-clock.h>
+#include <dt-bindings/clock/imx8mp-clock.h>
 #include <dt-bindings/gpio/gpio.h>
 
 / {
-	compatible = "toradex,verdin-imx8mm";
+	compatible = "toradex,verdin-imx8mp";
 };
 
-&csi1_bridge {
-	fsl,mipi-mode;
+&cameradev {
 	status = "okay";
-
-	port {
-		csi1_ep: endpoint {
-			remote-endpoint = <&csi1_mipi_ep>;
-		};
-	};
 };
 
 /* Verdin I2C_4_CSI */
@@ -33,54 +26,63 @@
 	status = "okay";
 
 	ov5640_mipi@3c {
-		assigned-clocks = <&clk IMX8MM_CLK_CLKO1>;
-		assigned-clock-parents = <&clk IMX8MM_CLK_24M>;
+		assigned-clocks = <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
+		assigned-clock-parents = <&clk IMX8MP_CLK_24M>;
 		assigned-clock-rates = <24000000>;
 		AVDD-supply = <&reg_3p3v>;
-		compatible = "ovti,ov5640_mipi";
-		clock-names = "csi_mclk";
-		clocks = <&clk IMX8MM_CLK_CLKO1>;
+		compatible = "ovti,ov5640";
+		clock-names = "xclk";
+		clocks = <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
 		csi_id = <0>;
 		DOVDD-supply = <&reg_3p3v>;
 		DVDD-supply = <&reg_3p3v>;
 		mclk = <24000000>;
 		mclk_source = <0>;
+		mipi_csi;
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
+		powerdown-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
 		PVDD-supply = <&reg_3p3v>;
-		pwn-gpios = <&gpio1 11 GPIO_ACTIVE_HIGH>;
 		reg = <0x3c>;
-		rst-gpios = <&gpio1 0 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
 		status = "okay";
 
 		port {
-			ov5640_mipi1_ep: endpoint {
-				remote-endpoint = <&mipi1_sensor_ep>;
+			ov5640_mipi_0_ep: endpoint {
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+				remote-endpoint = <&mipi_csi0_ep>;
 			};
 		};
 	};
 };
 
-&mipi_csi_1 {
-	mipi-phy-supply = <&reg_mipi_phy>;
+&isi_0 {
 	status = "okay";
 
-	port {
-		#address-cells = <1>;
-		#size-cells = <0>;
+	cap_device {
+		status = "okay";
+	};
 
-		mipi1_sensor_ep: endpoint@1 {
+	m2m_device {
+		status = "okay";
+	};
+};
+
+&mipi_csi_0 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	port@0 {
+		reg = <0>;
+
+		mipi_csi0_ep: endpoint {
 			csis-hs-settle = <13>;
 			csis-clk-settle = <2>;
 			csis-wclk;
 			data-lanes = <2>;
-			reg = <1>;
-			remote-endpoint = <&ov5640_mipi1_ep>;
-		};
-
-		csi1_mipi_ep: endpoint@2 {
-			reg = <2>;
-			remote-endpoint = <&csi1_ep>;
+			remote-endpoint = <&ov5640_mipi_0_ep>;
 		};
 	};
 };

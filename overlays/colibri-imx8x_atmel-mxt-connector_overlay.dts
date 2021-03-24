@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the resistive touch controller (AD7879) on the module
+// Atmel MXT touchscreen for boards with TS connector. Supports the 7inch and 10inch display orderable at Toradex.
 
 /dts-v1/;
 /plugin/;
@@ -12,6 +12,10 @@
 	compatible = "toradex,colibri-imx8x";
 };
 
-&ad7879_ts {
+&i2c1 {
+	status = "okay";
+};
+
+&atmel_mxt_ts {
 	status = "okay";
 };

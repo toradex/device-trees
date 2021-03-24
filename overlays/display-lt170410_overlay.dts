@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // LT170410 display (10inch) with a resolution of 1280x800 pixel. This display can be ordered at Toradex.
 
 /dts-v1/;
@@ -32,4 +37,3 @@
 		pixelclk-active = <0>;
 	};
 };
-

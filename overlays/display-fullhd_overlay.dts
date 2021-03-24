@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // FullHD VGA monitor in mode 1920x1080p60. Standard: SMPTE 274M
 
 /dts-v1/;
@@ -30,4 +35,3 @@
 		pixelclk-active = <0>;
 	};
 };
-

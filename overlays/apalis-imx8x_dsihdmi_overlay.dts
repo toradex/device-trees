@@ -1,0 +1,68 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Turn on a an HDMI interface on Apalis-iMX8X
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "toradex,apalis-imx8x";
+};
+
+&lt8912_hdmi {
+	status = "okay";
+
+	port {
+		lt8912_in: endpoint {
+			remote-endpoint = <&mipi1_dsi_host_out>;
+		};
+	};
+};
+
+&mipi1_dphy {
+	status = "okay";
+};
+
+&mipi1_dsi_host {
+	status = "okay";
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@1 {
+			reg = <1>;
+
+			mipi1_dsi_host_out: endpoint {
+				remote-endpoint = <&lt8912_in>;
+			};
+		};
+	};
+};
+
+&i2c0_mipi_lvds1 {
+	status = "okay";
+};
+
+/* On-module GPIO Expander */
+&pcal6416_1 {
+	/*
+	 * This gpio-hog drives a muxing device. With that we can choose
+	 * if LVDS1_B pins are active or if DVI signals are active. Those
+	 * signals are then muxed to MIPI_DSI1 PADs.
+	 *
+	 * output-high; muxes to DVI signals
+	 * output-low; muxes to LVDS1_B signals
+	 */
+	 LVDS1B_HDMI_MUX {
+		gpio-hog;
+		gpios = <14 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "LVDS1_HDMI_MUX";
+	};
+};

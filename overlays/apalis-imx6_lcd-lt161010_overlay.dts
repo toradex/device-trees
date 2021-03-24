@@ -3,28 +3,24 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the parallel RGB interface on Apalis iMX8X
+// Enable the parallel RGB interface with setting for 7" Displays on the Apalis iMX6Q
 
 /dts-v1/;
 /plugin/;
 
 / {
-	compatible = "toradex,apalis-imx8x";
+	compatible = "toradex,apalis_imx6q";
 };
 
 &backlight {
 	status = "okay";
 };
 
-&display_lcdif {
+&lcd {
 	status = "okay";
 };
 
-&panel_dpi {
-	status = "okay";
-};
-
-/* Apalis BKL1_PWM */
-&pwm_mipi_lvds1 {
+&mxcfb3 {
+	mode_str ="800x480M@60";
 	status = "okay";
 };

@@ -1,32 +1,22 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // Verdin DSI to LVDS Adapter orderable at Toradex.
 
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/gpio/gpio.h>
-#include <dt-bindings/interrupt-controller/arm-gic.h>
-#include "dt-bindings/pwm/pwm.h"
-
 / {
 	compatible = "toradex,verdin-imx8mm";
 };
 
-&{/} {
-	backlight {
-		compatible = "pwm-backlight";
-		brightness-levels = <0 45 63 88 119 158 203 255>;
-		default-brightness-level = <4>;
-		/* Verdin MEZ_DSI_1_BKL_EN (SODIMM 21) */
-		enable-gpios = <&gpio3 3 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_mez_dsi_1_bkl_en>;
-		power-supply = <&reg_3p3v>;
-		/* Verdin MEZ_PWM_3_DSI (SODIMM 19) */
-		pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
-	};
+&backlight {
+	status = "okay";
 };
 
-&{/soc@0/bus@32c00000/display-subsystem} {
+&gpu {
 	status = "okay";
 };
 
@@ -38,69 +28,18 @@
 	status = "okay";
 };
 
-/* Verdin I2C_1 */
-&i2c4 {
-	#address-cells = <1>;
-	#size-cells = <0>;
-	status = "okay";
-
-	bridge@2c {
-		compatible = "ti,sn65dsi83";
-		/* Verdin MEZ_GPIO_1 (SODIMM 206) */
-		enable-gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_mez_gpio1>;
-		reg = <0x2c>;
-		ti,dsi-lanes = <4>;
-		ti,height-mm = <136>;
-		ti,lvds-bpp = <24>;
-		ti,lvds-format = <2>;
-		ti,width-mm = <217>;
-
-		display-timings {
-			native-mode = <&lvds_timing0>;
-
-			lvds_timing0: lt170410_2whc {
-				/*
-				 * Take the minimum pixelclock as 71.1 MHz is
-				 * not working on NXP i.MX8M Mini
-				 */
-				clock-frequency = <68900000>;
-				hactive = <1280 1280 1280>;
-				hfront-porch = <23 60 71>;
-				hback-porch = <23 60 71>;
-				hsync-len = <15 40 47>;
-				vactive = <800 800 800>;
-				vfront-porch = <5 7 10>;
-				vback-porch = <5 7 10>;
-				vsync-len = <6 9 12>;
-				de-active = <1>;
-				pixelclk-active = <0>;
-			};
-		};
-
-		port {
-			dsi85_in: endpoint {
-				remote-endpoint = <&mipi_dsi_bridge1_out>;
-			};
-		};
-	};
-
-	touch@4a {
-		compatible = "atmel,maxtouch";
-		/* Verdin MEZ_DSI_1_INT# (SODIMM 17) */
-		interrupt-parent = <&gpio3>;
-		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_mez_dsi_1_int_n>, <&pinctrl_mez_gpio2>;
-		reg = <0x4a>;
-		/* Verdin MEZ_GPIO_2 (SODIMM 208) */
-		reset-gpios = <&gpio5 5 GPIO_ACTIVE_HIGH>;
-	};
-};
-
 &lcdif {
 	status = "okay";
+};
+
+&lvds_ti_sn65dsi83 {
+	status = "okay";
+
+	port {
+		dsi85_in: endpoint {
+			remote-endpoint = <&mipi_dsi_bridge1_out>;
+		};
+	};
 };
 
 &mipi_dsi {
@@ -116,8 +55,4 @@
 			attach-bridge;
 		};
 	};
-};
-
-&gpu {
-	status = "okay";
 };

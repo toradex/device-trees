@@ -9,7 +9,8 @@
 /plugin/;
 
 / {
-	compatible = "toradex,apalis-imx8";
+	compatible = "toradex,verdin-imx8mm",
+		     "toradex,verdin-imx8mp";
 };
 
 &atmel_mxt_ts {

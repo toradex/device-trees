@@ -3,13 +3,13 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Overlay for Fusion 7" and 10" capacitive multi-touch displays
+// Fusion F0710A touchscreen. Compatible with a Capacitive Touch Adapter.
 
 /dts-v1/;
 /plugin/;
 
 / {
-	compatible = "toradex,apalis_imx6q";
+	compatible = "toradex,colibri_imx6dl";
 };
 
 &atmel_mxt_ts {
@@ -20,6 +20,14 @@
 	status = "okay";
 };
 
-&i2c1 {
+&i2c3 {
 	status = "okay";
+};
+
+&pwm1 {
+	status = "disabled";
+};
+
+&pwm4{
+	status = "disabled";
 };

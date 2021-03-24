@@ -3,20 +3,16 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the HDMI interface on the Apalis iMX6Q
+// Enable the HDMI interface on the Colibri iMX6DL
 
 /dts-v1/;
 /plugin/;
 
 / {
-	compatible = "toradex,apalis_imx6q";
+	compatible = "toradex,colibri_imx6dl";
 };
 
 &hdmi_audio {
-	status = "okay";
-};
-
-&hdmi_cec {
 	status = "okay";
 };
 
@@ -37,6 +33,7 @@
 };
 
 &mxcfb2 {
+	mode_str ="1920x1080M@60";
 	status = "okay";
 };
 

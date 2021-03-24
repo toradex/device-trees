@@ -3,28 +3,28 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the parallel RGB interface on Apalis iMX8X
+// Enable the LCD interface and turn on the VGA DAC on the Colibri iMX6DL
 
 /dts-v1/;
 /plugin/;
 
 / {
-	compatible = "toradex,apalis-imx8x";
+	compatible = "toradex,colibri_imx6dl";
 };
 
 &backlight {
 	status = "okay";
 };
 
-&display_lcdif {
+&lcd {
 	status = "okay";
 };
 
-&panel_dpi {
+&mxcfb1 {
+	mode_str ="640x480M@60";
 	status = "okay";
 };
 
-/* Apalis BKL1_PWM */
-&pwm_mipi_lvds1 {
+&pwm3 {
 	status = "okay";
 };

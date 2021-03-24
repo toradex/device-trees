@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // SPI generic spidev device for Colibri iMX6DL.
 
 /dts-v1/;
@@ -19,4 +24,3 @@
 &spidev0 {
 	status = "okay";
 };
-

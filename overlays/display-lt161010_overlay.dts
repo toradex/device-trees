@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // LT161010 display (7inch) with a resolution of 800x480 pixel. This display can be ordered at Toradex.
 
 /dts-v1/;
@@ -10,6 +15,7 @@
 		     "toradex,colibri-imx6ull",
 		     "toradex,colibri-imx7d",
 		     "toradex,colibri-imx7s",
+		     "toradex,colibri-imx7d-emmc",
 		     "toradex,colibri-imx8x";
 };
 
@@ -30,4 +36,3 @@
 		pixelclk-active = <1>;
 	};
 };
-

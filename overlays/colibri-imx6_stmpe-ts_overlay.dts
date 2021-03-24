@@ -1,3 +1,8 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
 // Resitive STMPE touchscreen for the 7inch resistive touch display orderable at Toradex.
 
 /dts-v1/;
@@ -11,4 +16,3 @@
 &stmpe_ts {
 	status = "okay";
 };
-
