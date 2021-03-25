@@ -92,7 +92,7 @@
 		interrupt-parent = <&gpio5>;
 		interrupts = <4 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 107 */
 		reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>; /* SODIMM 106 */
-		status = "disabled";
+		status = "okay";
 	};
 
 	/* M41T0M6 real time clock on carrier board */

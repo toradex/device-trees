@@ -85,6 +85,11 @@
 	};
 };
 
+/* Apalis I2C3 (CAM) */
+&i2c3 {
+	status = "okay";
+};
+
 &isi_0 {
 	interface = <2 0 2>;
 	/**

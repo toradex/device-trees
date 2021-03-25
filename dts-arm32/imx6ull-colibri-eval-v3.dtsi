@@ -132,7 +132,7 @@
 		interrupt-parent = <&gpio4>;
 		interrupts = <16 IRQ_TYPE_EDGE_FALLING>; /* SODIMM 28 */
 		reset-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>; /* SODIMM 30 */
-		status = "disabled";
+		status = "okay";
 	};
 
 	touch: touchrevf0710a@10 {
