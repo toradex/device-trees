@@ -11,9 +11,9 @@
 #include <dt-bindings/gpio/gpio.h>
 
 / {
-        compatible = "toradex,colibri-imx7d",
-		     "toradex,colibri-imx7s",
-		     "toradex,colibri-imx7d-emmc";
+	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7d-emmc",
+		     "toradex,colibri-imx7s";
 };
 
 &atmel_mxt_ts {
@@ -22,8 +22,8 @@
 
 &fusion_f0710a {
 	pinctrl-0 = <&pinctrl_atmel_connector>;
-	gpios = <&gpio2 15 GPIO_ACTIVE_HIGH /* SODIMM 107, INT */
-		 &gpio2 28 GPIO_ACTIVE_LOW  /* SODIMM 106, RST */
+	gpios = <&gpio2 15 GPIO_ACTIVE_HIGH	/* SODIMM 107, INT */
+		 &gpio2 28 GPIO_ACTIVE_LOW	/* SODIMM 106, RST */
 		>;
 	status = "okay";
 };

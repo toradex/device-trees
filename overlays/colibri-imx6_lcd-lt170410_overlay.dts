@@ -4,7 +4,7 @@
  */
 
 // Enable the LCDIF interface, tuning settings for
-// Toradex Cap LVDS 10" Display on the Colibri iMX6DL
+// Toradex Cap LVDS 10 inch Display on the Colibri iMX6DL
 
 /dts-v1/;
 /plugin/;

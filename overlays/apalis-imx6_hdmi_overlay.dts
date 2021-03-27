@@ -20,11 +20,11 @@
 	status = "okay";
 };
 
-&hdmi_ddc {
+&hdmi_core {
 	status = "okay";
 };
 
-&hdmi_core {
+&hdmi_ddc {
 	status = "okay";
 };
 

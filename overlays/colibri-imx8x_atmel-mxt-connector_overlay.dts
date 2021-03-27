@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Atmel MXT touchscreen for boards with TS connector. Supports the 7inch and 10inch display orderable at Toradex.
+// Atmel MXT touchscreen for boards with TS connector. Supports the 7 inch and 10 inch display orderable at Toradex.
 
 /dts-v1/;
 /plugin/;
@@ -12,10 +12,10 @@
 	compatible = "toradex,colibri-imx8x";
 };
 
-&i2c1 {
+&atmel_mxt_ts {
 	status = "okay";
 };
 
-&atmel_mxt_ts {
+&i2c1 {
 	status = "okay";
 };

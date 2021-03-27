@@ -19,11 +19,11 @@
 	status = "okay";
 };
 
-&mipi0_dsi_host {
+&mipi0_dphy {
 	status = "okay";
 };
 
-&mipi0_dphy {
+&mipi0_dsi_host {
 	status = "okay";
 };
 

@@ -10,6 +10,7 @@
 
 / {
 	compatible = "toradex,colibri-imx7d-eval-v3",
+		     "toradex,colibri-imx7d-emmc-eval-v3",
 		     "toradex,colibri-imx7s-eval-v3";
 };
 

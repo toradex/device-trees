@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Turn on the parallel RGB interface with setting for 7" Displays on the Colibri iMX6DL
+// Turn on the parallel RGB interface with setting for 7 inch Displays on the Colibri iMX6DL
 
 /dts-v1/;
 /plugin/;

@@ -14,6 +14,7 @@
 		     "toradex,colibri_imx6dl",
 		     "toradex,colibri-imx6ull",
 		     "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7d-emmc",
 		     "toradex,colibri-imx7s",
 		     "toradex,colibri-imx8x";
 };
@@ -22,6 +23,7 @@
 	status = "okay";
 	width-mm = <116>;
 	height-mm = <86>;
+
 	panel-timing {
 		clock-frequency = <25175000>;
 		hactive = <640>;

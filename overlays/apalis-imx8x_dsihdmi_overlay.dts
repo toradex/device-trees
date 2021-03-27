@@ -14,6 +14,10 @@
 	compatible = "toradex,apalis-imx8x";
 };
 
+&i2c0_mipi_lvds1 {
+	status = "okay";
+};
+
 &lt8912_hdmi {
 	status = "okay";
 
@@ -45,10 +49,6 @@
 	};
 };
 
-&i2c0_mipi_lvds1 {
-	status = "okay";
-};
-
 /* On-module GPIO Expander */
 &pcal6416_1 {
 	/*
@@ -62,7 +62,7 @@
 	 LVDS1B_HDMI_MUX {
 		gpio-hog;
 		gpios = <14 GPIO_ACTIVE_HIGH>;
-		output-high;
 		line-name = "LVDS1_HDMI_MUX";
+		output-high;
 	};
 };

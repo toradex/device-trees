@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the parallel RGB interface with setting for 7" Displays on the Apalis iMX6Q
+// Enable the parallel RGB interface with setting for 7 inch Displays on the Apalis iMX6Q
 
 /dts-v1/;
 /plugin/;

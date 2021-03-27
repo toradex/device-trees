@@ -4,7 +4,7 @@
  */
 
 // Atmel MXT touchscreen for Capacitive Touch Adapter.
-// Supports the 7inch and 10inch capacitive touch displays orderable at Toradex.
+// Supports the 7 inch and 10 inch capacitive touch displays orderable at Toradex.
 
 /dts-v1/;
 /plugin/;

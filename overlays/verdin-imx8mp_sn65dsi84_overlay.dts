@@ -24,6 +24,11 @@
 	status = "okay";
 };
 
+/* LCDIF to MIPI-DSI */
+&lcdif1 {
+	status = "okay";
+};
+
 &lvds_ti_sn65dsi83 {
 	status = "okay";
 
@@ -32,11 +37,6 @@
 			remote-endpoint = <&mipi_dsi_bridge1_out>;
 		};
 	};
-};
-
-/* LCDIF to MIPI-DSI */
-&lcdif1 {
-	status = "okay";
 };
 
 &mipi_dsi {

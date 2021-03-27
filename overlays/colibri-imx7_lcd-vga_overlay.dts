@@ -10,19 +10,18 @@
 
 / {
 	compatible = "toradex,colibri-imx7d",
-		     "toradex,colibri-imx7s",
-		     "toradex,colibri-imx7d-emmc";
+		     "toradex,colibri-imx7d-emmc",
+		     "toradex,colibri-imx7s";
 };
-
-&display0 {
-        display-timings {
-                native-mode = <&timing_vga>;
-        };
-};
-
 
 &backlight {
 	status = "okay";
+};
+
+&display0 {
+	display-timings {
+		native-mode = <&timing_vga>;
+	};
 };
 
 &lcdif {

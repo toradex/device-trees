@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Atmel MXT touchscreen for the 7inch and 10inch display orderable at Toradex. Compatible with a Capacitive Touch Adapter.
+// Atmel MXT touchscreen for the 7 inch and 10 inch display orderable at Toradex. Compatible with a Capacitive Touch Adapter.
 
 /dts-v1/;
 /plugin/;

@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Overlay for Fusion 7" and 10" capacitive multi-touch displays
+// Overlay for legacy Fusion 7 inch and 10 inch capacitive multi-touch displays
 
 /dts-v1/;
 /plugin/;

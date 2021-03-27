@@ -12,7 +12,7 @@
 };
 
 &adma_pwm {
-        status = "okay";
+	status = "okay";
 };
 
 &adma_pwm_lpcg {
@@ -20,7 +20,7 @@
 };
 
 &backlight {
-        status = "okay";
+	status = "okay";
 };
 
 &display_lcdif {

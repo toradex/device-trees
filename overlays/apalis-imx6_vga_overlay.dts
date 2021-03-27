@@ -17,6 +17,6 @@
 };
 
 &mxcfb4 {
-    mode_str ="640x480M@60"
+    mode_str ="640x480M@60";
     status = "okay";
 };

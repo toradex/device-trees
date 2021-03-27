@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// LT161010 display (7inch) with a resolution of 800x480 pixel. This display can be ordered at Toradex.
+// LT161010 display (7 inch) with a resolution of 800x480 pixel. This display can be ordered at Toradex.
 
 /dts-v1/;
 /plugin/;
@@ -14,8 +14,8 @@
 		     "toradex,colibri_imx6dl",
 		     "toradex,colibri-imx6ull",
 		     "toradex,colibri-imx7d",
-		     "toradex,colibri-imx7s",
 		     "toradex,colibri-imx7d-emmc",
+		     "toradex,colibri-imx7s",
 		     "toradex,colibri-imx8x";
 };
 
@@ -23,6 +23,7 @@
 	status = "okay";
 	width-mm = <154>;
 	height-mm = <86>;
+
 	panel-timing {
 		clock-frequency = <33230769>;
 		hactive = <800>;

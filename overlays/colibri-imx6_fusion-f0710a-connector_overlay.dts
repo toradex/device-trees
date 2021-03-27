@@ -20,8 +20,8 @@
 
 &fusion_f0710a {
 	pinctrl-0 = <&pinctrl_atmel_conn>;
-	gpios = <&gpio2 24 GPIO_ACTIVE_HIGH /* SODIMM 107, Pen intr */
-		 &gpio1 14 GPIO_ACTIVE_LOW  /* SODIMM 106, Reset */
+	gpios = <&gpio2 24 GPIO_ACTIVE_HIGH	/* SODIMM 107, Pen intr */
+		 &gpio1 14 GPIO_ACTIVE_LOW	/* SODIMM 106, Reset */
 		>;
 	status = "okay";
 };

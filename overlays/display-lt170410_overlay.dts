@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// LT170410 display (10inch) with a resolution of 1280x800 pixel. This display can be ordered at Toradex.
+// LT170410 LVDS display (10 inch) with a resolution of 1280x800 pixel. This display can be ordered at Toradex.
 
 /dts-v1/;
 /plugin/;
@@ -12,7 +12,9 @@
 	compatible = "toradex,apalis_imx6q",
 		     "toradex,apalis-imx8",
 		     "toradex,apalis-imx8x",
-		     "toradex,verdin-imx8mm";
+		     "toradex,colibri-imx8x",
+		     "toradex,verdin-imx8mm",
+		     "toradex,verdin-imx8mp";
 };
 
 &{/panel-lvds} {

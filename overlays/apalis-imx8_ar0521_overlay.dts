@@ -8,24 +8,10 @@
 /dts-v1/;
 /plugin/;
 
-#include <dt-bindings/clock/imx8-clock.h>
 #include <dt-bindings/gpio/gpio.h>
 
 / {
 	compatible = "toradex,apalis-imx8";
-};
-
-&iomuxc {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_cam1_gpios>, <&pinctrl_dap1_gpios>,
-		    <&pinctrl_esai0_gpios>, <&pinctrl_fec2_gpios>,
-		    <&pinctrl_gpio3>, <&pinctrl_gpio4>,
-		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_lpuart1ctrl>,
-		    <&pinctrl_lvds0_i2c0_gpio>, <&pinctrl_lvds1_i2c0_gpios>,
-		    <&pinctrl_mipi_dsi_0_1_en>, <&pinctrl_mipi_dsi1_gpios>,
-		    <&pinctrl_mlb_gpios>, <&pinctrl_qspi1a_gpios>,
-		    <&pinctrl_sata1_act>, <&pinctrl_sim0_gpios>,
-		    <&pinctrl_usdhc1_gpios>;
 };
 
 /* Apalis I2C3 (CAM) */
@@ -56,6 +42,19 @@
 			};
 		};
 	};
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_cam1_gpios>, <&pinctrl_dap1_gpios>,
+		    <&pinctrl_esai0_gpios>, <&pinctrl_fec2_gpios>,
+		    <&pinctrl_gpio3>, <&pinctrl_gpio4>,
+		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_lpuart1ctrl>,
+		    <&pinctrl_lvds0_i2c0_gpio>, <&pinctrl_lvds1_i2c0_gpios>,
+		    <&pinctrl_mipi_dsi_0_1_en>, <&pinctrl_mipi_dsi1_gpios>,
+		    <&pinctrl_mlb_gpios>, <&pinctrl_qspi1a_gpios>,
+		    <&pinctrl_sata1_act>, <&pinctrl_sim0_gpios>,
+		    <&pinctrl_usdhc1_gpios>;
 };
 
 &isi_4 {

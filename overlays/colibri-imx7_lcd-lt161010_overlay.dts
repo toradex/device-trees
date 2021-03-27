@@ -3,13 +3,14 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the parallel RGB interface with settings for 7" Displays on the Colibri iMX7
+// Enable the parallel RGB interface with settings for 7 inch Displays on the Colibri iMX7
 
 /dts-v1/;
 /plugin/;
 
 / {
 	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7d-emmc",
 		     "toradex,colibri-imx7s";
 };
 

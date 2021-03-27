@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// LT170410 display (10inch) connected to DPI-LVDS converter with a resolution of 1280x800 pixel.
+// LT170410 display (10 inch) connected to DPI-LVDS converter with a resolution of 1280x800 pixel.
 // This display can be ordered at Toradex.
 
 /dts-v1/;
