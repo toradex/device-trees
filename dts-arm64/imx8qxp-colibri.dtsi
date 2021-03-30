@@ -1285,14 +1285,14 @@
 };
 
 &mipi0_dsi_host {
-        pwr-delay = <10>;
+	pwr-delay = <10>;
 
 	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
 		port@1 {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			mipi0_dsi_host_out: endpoint@0 {
-				reg = <0>;
+			reg = <1>;
+			mipi0_dsi_host_out: endpoint {
 				remote-endpoint = <&lt8912_in>;
 		        };
 		};
