@@ -62,6 +62,7 @@ dtb-y += colibri-imx8x_atmel-mxt-connector_overlay.dtbo
 dtb-y += colibri-imx8x_dsihdmi_overlay.dtbo
 dtb-y += colibri-imx8x-eval_spidev_overlay.dtbo
 dtb-y += colibri-imx8x_parallel-rgb_overlay.dtbo
+dtb-y += colibri-imx8x_parallel-rgb-lvds_overlay.dtbo
 dtb-y += display-dpi-lt170410_overlay.dtbo
 dtb-y += display-edt5.7_overlay.dtbo
 dtb-y += display-edt7_overlay.dtbo

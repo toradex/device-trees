@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Enable the parallel RGB interface Colibri iMX8X and LVDS tranceiver on Iris v2.0
+
+#include <dt-bindings/gpio/gpio.h>
+
+/dts-v1/;
+/plugin/;
+/ {
+	compatible = "toradex,colibri-imx8x";
+};
+
+&adma_pwm {
+        status = "okay";
+};
+
+&adma_pwm_lpcg {
+	status = "okay";
+};
+
+&backlight {
+        status = "okay";
+};
+
+&display_lcdif {
+	status = "okay";
+};
+
+/* Need to be disabled due to overlapped pins SODIMM_55, SODIMM_63 */
+&flexcan2 {
+	status = "disabled";
+};
+
+&lsio_gpio1 {
+	/*
+	 * This switches the LVDS transceiver to the single-channel
+	 * output mode.
+	 */
+	 LVDS_MODE {
+		gpio-hog;
+		gpios = <18 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "LVDS_MODE";
+	};
+};
+
+&lsio_gpio3 {
+	/* This turns the LVDS transceiver on */
+	 LVDS_PWRDWN {
+		gpio-hog;
+		gpios = <18 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "LVDS_PWRDWN";
+	};
+};
+
+&panel_dpi {
+	 pinctrl-names = "default";
+	 pinctrl-0 = <&pinctrl_lvds_converter>;
+	 status = "okay";
+};
+
