@@ -156,19 +156,6 @@
 	status = "okay";
 };
 
-&gpio1 {
-	/*
-	 * This turns the LVDS transceiver on. If one wants to turn the
-	 * transceiver off, that property has to be deleted and the gpio handled
-	 * in userspace.
-	 */
-	lvds_tx_on {
-		gpio-hog;
-		gpios = <12 0>;
-		output-high;
-	};
-};
-
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lvds_transceiver &pinctrl_gpio_iris>;
@@ -176,10 +163,10 @@
 	gpio {
 		pinctrl_lvds_transceiver: lvds-tx {
 			fsl,pins = <
-				MX6QDL_PAD_GPIO_7__GPIO1_IO07	0x1b0b0 /* SODIMM 55 */
-				MX6QDL_PAD_GPIO_8__GPIO1_IO08	0x130b0 /* SODIMM 63 */
-				MX6QDL_PAD_EIM_WAIT__GPIO5_IO00	0x130b0 /* SODIMM 95 */
-				MX6QDL_PAD_SD2_DAT3__GPIO1_IO12	0x1b0b0 /* SODIMM_99 */
+				MX6QDL_PAD_GPIO_7__GPIO1_IO07	0x0b030 /* SODIMM 55 */
+				MX6QDL_PAD_GPIO_8__GPIO1_IO08	0x03030 /* SODIMM 63 */
+				MX6QDL_PAD_EIM_WAIT__GPIO5_IO00	0x03030 /* SODIMM 95 */
+				MX6QDL_PAD_SD2_DAT3__GPIO1_IO12	0x03030 /* SODIMM_99 */
 			>;
 		};
 

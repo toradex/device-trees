@@ -7,6 +7,14 @@
 #include "imx7-colibri.dtsi"
 
 / {
+        aliases {
+                /* add ethernet aliases which is required to proprely pass mac
+                   address from bootloader. Also with the update to 5.4.70-2.3.0
+                   the kernel hangs without these aliases.
+                 */
+                ethernet0 = &fec1;
+        };
+
 	memory@80000000 {
 		device_type = "memory";
 		reg = <0x80000000 0x10000000>;
