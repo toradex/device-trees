@@ -32,6 +32,7 @@ dtb-y += colibri-imx6_atmel-mxt-adapter_overlay.dtbo
 dtb-y += colibri-imx6_atmel-mxt-connector_overlay.dtbo
 dtb-y += colibri-imx6_hdmi_overlay.dtbo
 dtb-y += colibri-imx6_parallel-rgb_overlay.dtbo
+dtb-y += colibri-imx6_parallel-rgb-lvds_overlay.dtbo
 dtb-y += colibri-imx6_stmpe-ts_overlay.dtbo
 dtb-y += colibri-imx7_ad7879_overlay.dtbo
 dtb-y += colibri-imx7_parallel-rgb_overlay.dtbo

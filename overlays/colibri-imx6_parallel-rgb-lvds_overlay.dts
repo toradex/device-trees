@@ -1,0 +1,65 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Enable the parallel RGB interface on the Colibri iMX6DL and the
+// LVDS trasceiver on the Iris v2.0A.
+// Make sure to also select a valid display configuration.
+
+#include <dt-bindings/gpio/gpio.h>
+
+/dts-v1/;
+/plugin/;
+
+/ {
+        compatible = "toradex,colibri_imx6dl";
+};
+
+&backlight {
+	status = "okay";
+};
+
+/* Need to be disabled due to overlapped pins SODIMM_55, SODIMM_63 */
+&can1 {
+	status = "disabled";
+};
+
+&gpio1 {
+	/* This switches the LVDS transceiver to the single-channel
+	 * output mode.
+	 */
+	LVDS_MODE {
+		gpio-hog;
+		gpios = <7 GPIO_ACTIVE_HIGH>;
+		line-name = "LVDS_MODE";
+		output-high;
+	};
+
+	/* This turns the LVDS transceiver on */
+	LVDS_PWRDWN {
+		gpio-hog;
+		gpios = <12 GPIO_ACTIVE_HIGH>;
+		line-name = "LVDS_PWRDWN";
+		output-high;
+	};
+};
+
+&lcd_display {
+	status = "okay";
+};
+
+&panel_dpi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lvds_transceiver>;
+	status = "okay";
+};
+
+&pwm3 {
+	status = "okay";
+};
+
+/* Need to be disabled due to the overlapped pin SODIMM_99 */
+&weim {
+	status = "disabled";
+};
