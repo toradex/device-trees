@@ -3,8 +3,10 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the LCDIF interface, tuning settings for
-// Toradex Cap LVDS 10 inch Display on the Colibri iMX6DL
+// Enable the LCDIF interface and LVDS trasceiver, tuning settings
+// for Toradex Cap LVDS 10" Display on the Colibri iMX6DL.
+
+#include <dt-bindings/gpio/gpio.h>
 
 /dts-v1/;
 /plugin/;
@@ -15,6 +17,31 @@
 
 &backlight {
 	status = "okay";
+};
+
+/* Need to be disabled due to overlapped pins SODIMM_55, SODIMM_63 */
+&can1 {
+	status = "disabled";
+};
+
+&gpio1 {
+	/* This switches the LVDS transceiver to the single-channel
+	 * output mode.
+	 */
+	 LVDS_MODE {
+		gpio-hog;
+		gpios = <7 GPIO_ACTIVE_HIGH>;
+		line-name = "LVDS_MODE";
+		output-high;
+	};
+
+	/* This turns the LVDS transceiver on */
+	LVDS_PWRDWN {
+		gpio-hog;
+		gpios = <12 GPIO_ACTIVE_HIGH>;
+		line-name = "LVDS_PWRDWN";
+		output-high;
+	};
 };
 
 &lcd {
