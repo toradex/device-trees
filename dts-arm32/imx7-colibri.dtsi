@@ -599,8 +599,7 @@
 
 &iomuxc {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_gpio1 &pinctrl_gpio2 &pinctrl_gpio3 &pinctrl_gpio4
-		     &pinctrl_gpio7>;
+	pinctrl-0 = <&pinctrl_gpio1 &pinctrl_gpio2 &pinctrl_gpio3 &pinctrl_gpio4>;
 
 	pinctrl_atmel_adapter: atmelconnectorgrp { /* ATMEL MXT TOUCH ADAPTER */
 		fsl,pins = <
@@ -622,8 +621,6 @@
 			MX7D_PAD_EPDC_DATA09__GPIO2_IO9		0x14 /* SODIMM 89 */
 			MX7D_PAD_EPDC_DATA08__GPIO2_IO8		0x74 /* SODIMM 91 */
 			MX7D_PAD_LCD_RESET__GPIO3_IO4		0x14 /* SODIMM 93 */
-			MX7D_PAD_EPDC_DATA13__GPIO2_IO13	0x14 /* SODIMM 95 */
-			MX7D_PAD_ENET1_RGMII_TXC__GPIO7_IO11	0x14 /* SODIMM 99 */
 			MX7D_PAD_EPDC_DATA10__GPIO2_IO10	0x74 /* SODIMM 105 */
 			MX7D_PAD_EPDC_DATA00__GPIO2_IO0		0x14 /* SODIMM 111 */
 			MX7D_PAD_EPDC_DATA01__GPIO2_IO1		0x14 /* SODIMM 113 */
@@ -854,6 +851,15 @@
 			MX7D_PAD_LCD_ENABLE__LCD_ENABLE		0x79
 			MX7D_PAD_LCD_VSYNC__LCD_VSYNC		0x79
 			MX7D_PAD_LCD_HSYNC__LCD_HSYNC		0x79
+		>;
+	};
+
+	pinctrl_lvds_transceiver: lvds-tx {
+		fsl,pins = <
+			MX7D_PAD_ENET1_RGMII_RD3__GPIO7_IO3     0x74 /* SODIMM 55 */
+			MX7D_PAD_ENET1_RGMII_RD2__GPIO7_IO2     0x14 /* SODIMM 63 */
+			MX7D_PAD_EPDC_DATA13__GPIO2_IO13        0x14 /* SODIMM 95 */
+			MX7D_PAD_ENET1_RGMII_TXC__GPIO7_IO11    0x14 /* SODIMM 99 */
 		>;
 	};
 
