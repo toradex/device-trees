@@ -16,7 +16,7 @@
 	status = "okay";
 };
 
-&adv_72801 {
+&adv_7280 {
 	status = "okay";
 };
 
