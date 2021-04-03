@@ -236,10 +236,6 @@
 	#pwm-cells = <3>;
 };
 
-&cameradev {
-	status = "disabled";
-};
-
 /* Display Prefetch Resolve, (Tiling) */
 &dc0_dpr1_channel1 {
 	status = "okay";
@@ -598,8 +594,14 @@
 
 		pinctrl_csi_ctl: csictlgrp {
 			fsl,pins = <
-				IMX8QXP_QSPI0A_SS0_B_LSIO_GPIO3_IO14		0x20		/* SODIMM  77 */
-				IMX8QXP_QSPI0A_SS1_B_LSIO_GPIO3_IO15		0x20		/* SODIMM  89 */
+				IMX8QXP_QSPI0A_SS0_B_LSIO_GPIO3_IO14		0x20		/* SODIMM  77 / X3-22 */
+				IMX8QXP_QSPI0A_SS1_B_LSIO_GPIO3_IO15		0x20		/* SODIMM  89 / X3-23 */
+			>;
+		};
+
+		pinctrl_csi_mclk: csimclkgrp {
+			fsl,pins = <
+				IMX8QXP_CSI_MCLK_CI_PI_MCLK			0xC0000041	/* SODIMM  75 / X3-12 */
 			>;
 		};
 
@@ -728,8 +730,13 @@
 
 		pinctrl_hog2: hog2grp {
 			fsl,pins = <
-				IMX8QXP_CSI_MCLK_LSIO_GPIO3_IO01		0x20		/* SODIMM  75 */
 				IMX8QXP_QSPI0A_SCLK_LSIO_GPIO3_IO16		0x20		/* SODIMM  93 */
+			>;
+		};
+
+		pinctrl_hog3: hog3grp {
+			fsl,pins = <
+				IMX8QXP_CSI_MCLK_LSIO_GPIO3_IO01		0x20		/* SODIMM  75 */
 			>;
 		};
 
@@ -1072,14 +1079,26 @@
 	};
 };
 
+&irqsteer_csi0 {
+	status = "okay";
+};
+
 &isi_0 {
-        interface = <2 0 2>;
-        /**
-         * interface = <Input MIPI_VCx Output>
-         * Input:       0-DC0, 1-DC1, 2-MIPI CSI0, 3-MIPI CSI1, 4-HDMI, 5-MEM, INPUT: 6-PARALLEL CSI
-         * MIPI_VCx:    0-VC0, 1-VC1, 2-VC2, 3-VC3, MIPI CSI only
-         * Output:      0-DC0, 1-DC1, 2-MEM
-         */
+	/**
+	 * interface = <Input MIPI_VCx Output>
+	 * Input:	0-DC0, 1-DC1, 2-MIPI CSI0, 3-MIPI CSI1, 4-HDMI, 5-MEM, INPUT: 6-PARALLEL CSI
+	 * MIPI_VCx:	0-VC0, 1-VC1, 2-VC2, 3-VC3, MIPI CSI only
+	 * Output:	0-DC0, 1-DC1, 2-MEM
+	 */
+	interface = <2 0 2>;
+
+	cap_device {
+		status = "okay";
+	};
+
+	m2m_device {
+		status = "okay";
+	};
 };
 
 &isi_1 {
