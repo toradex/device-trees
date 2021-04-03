@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 /*
- * Copyright 2020-2021 Toradex
+ * Copyright 2021 Toradex
  */
 
 // CSI Camera Module 5MP OV5640 previously orderable at Toradex.
@@ -11,32 +11,35 @@
 #include <dt-bindings/gpio/gpio.h>
 
 / {
-	compatible = "toradex,apalis-imx8";
+	compatible = "toradex,colibri-imx8x";
 };
 
-/* Apalis I2C1 (Apalis iMX8 TS Mezzanine JP3 and JP4 in position 2-3) */
-&i2c2 {
+/* On-module MIPI CSI I2C accessible on FFC (X3) */
+&i2c0_mipi_lvds1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
 
 	ov5640_mipi@3c {
+		AVDD-supply = <&reg_module_3v3>;
 		compatible = "ovti,ov5640";
 		clocks = <&xtal24m>;
 		clock-names = "xclk";
 		csi_id = <0>;
+		DOVDD-supply = <&reg_module_3v3>;
+		DVDD-supply = <&reg_module_3v3>;
 		mclk = <24000000>;
 		mclk_source = <0>;
 		mipi_csi;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio_keys>, <&pinctrl_lpspi0>;
-		powerdown-gpios = <&lsio_gpio2 20 GPIO_ACTIVE_HIGH>;	/* Apalis WAKE1_MICO (MXM3 pin 37) */
+		pinctrl-0 = <&pinctrl_csi_ctl>, <&pinctrl_csi_mclk>;
+		powerdown-gpios = <&lsio_gpio3 14 GPIO_ACTIVE_HIGH>;	/* X3-22 */
 		reg = <0x3c>;
-		reset-gpios = <&lsio_gpio3 5 GPIO_ACTIVE_LOW>;		/* Apalis SPI1_CS (MXM3 pin 227) */
+		reset-gpios = <&lsio_gpio3 15 GPIO_ACTIVE_LOW>;		/* X3-23 */
 		status = "okay";
 
 		port {
-			ov5640_mipi_0_ep: endpoint {
+			ov5640_mipi_ep: endpoint {
 				clock-lanes = <0>;
 				data-lanes = <1 2>;
 				remote-endpoint = <&mipi_csi0_ep>;
@@ -46,22 +49,17 @@
 };
 
 &isi_0 {
+	interface = <2 0 2>;
+	/**
+	 * interface = <Input MIPI_VCx Output>
+	 * Input:	0-DC0, 1-DC1, 2-MIPI CSI0, 3-MIPI CSI1, 4-HDMI, 5-MEM, INPUT: 6-PARALLEL CSI
+	 * MIPI_VCx:	0-VC0, 1-VC1, 2-VC2, 3-VC3, MIPI CSI only
+	 * Output:	0-DC0, 1-DC1, 2-MEM
+	 */
 	status = "okay";
-
-	cap_device {
-		status = "okay";
-	};
-
-	m2m_device {
-		status = "okay";
-	};
 };
 
-/* Disable Apalis SPI1 as Apalis SPI1_CS is used as reset GPIO */
-&lpspi0 {
-	status = "disabled";
-};
-
+/* MIPI CSI accessible via FFC (X3) */
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -75,12 +73,7 @@
 		mipi_csi0_ep: endpoint {
 			bus-type = <4>;
 			data-lanes = <1 2>;
-			remote-endpoint = <&ov5640_mipi_0_ep>;
+			remote-endpoint = <&ov5640_mipi_ep>;
 		};
 	};
-};
-
-/* Disable wake-up key as Apalis WAKE1_MICO is used as power-down GPIO */
-&wakeup_key{
-	status = "disabled";
 };

@@ -3,7 +3,7 @@
  * Copyright 2021 Toradex
  */
 
-// Enable the parallel RGB interface Colibri iMX8X and LVDS tranceiver on Iris v2.0
+// Enable the parallel RGB interface on Colibri iMX8X and the LVDS tranceiver on Iris v2.0
 
 #include <dt-bindings/gpio/gpio.h>
 
@@ -14,7 +14,7 @@
 };
 
 &adma_pwm {
-        status = "okay";
+	status = "okay";
 };
 
 &adma_pwm_lpcg {
@@ -22,7 +22,7 @@
 };
 
 &backlight {
-        status = "okay";
+	status = "okay";
 };
 
 &display_lcdif {
@@ -58,8 +58,7 @@
 };
 
 &panel_dpi {
-	 pinctrl-names = "default";
-	 pinctrl-0 = <&pinctrl_lvds_converter>;
-	 status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lvds_converter>;
+	status = "okay";
 };
-

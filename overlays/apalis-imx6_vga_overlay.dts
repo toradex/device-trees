@@ -13,10 +13,10 @@
 };
 
 &vdac {
-    status = "okay";
+	status = "okay";
 };
 
 &mxcfb4 {
-    mode_str ="640x480M@60";
-    status = "okay";
+	mode_str ="640x480M@60";
+	status = "okay";
 };
