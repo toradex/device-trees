@@ -681,7 +681,6 @@
 	#pwm-cells = <3>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm1>;
-	status = "disabled";
 };
 
 /* Colibri PWM<D> */
@@ -689,7 +688,6 @@
 	#pwm-cells = <3>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm2>;
-	status = "disabled";
 };
 
 /* Colibri PWM<A> */
@@ -697,7 +695,6 @@
 	#pwm-cells = <3>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm3>;
-	status = "disabled";
 };
 
 /* Colibri PWM<C> */
@@ -705,7 +702,6 @@
 	#pwm-cells = <3>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm4>;
-	status = "disabled";
 };
 
 /* Optional S/PDIF out on SODIMM 137 */

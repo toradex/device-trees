@@ -22,7 +22,23 @@
 	};
 };
 
+&ad7879_ts {
+	status = "okay";
+};
+
+&atmel_mxt_ts {
+	status = "okay";
+};
+
+&backlight {
+	status = "okay";
+};
+
 &gpmi {
+	status = "okay";
+};
+
+&lcdif {
 	status = "okay";
 };
 

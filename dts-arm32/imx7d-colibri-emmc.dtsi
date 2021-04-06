@@ -60,23 +60,3 @@
 &usdhc3 {
 	status = "okay";
 };
-
-&ad7879_ts {
-	status = "disabled";
-};
-
-&backlight {
-	status = "disabled";
-};
-
-&lcdif {
-	status = "disabled";
-};
-
-&pwm1 {
-	status = "disabled";
-};
-
-&atmel_mxt_ts {
-	status = "disabled";
-};

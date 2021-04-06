@@ -14,7 +14,6 @@
 		     "fsl,imx7d";
 };
 
-
 /*
  * The PCAP uses SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm2, pwm3.
  * So if you enable following PCAP controller, disable pwm2/pwm3 first.
@@ -25,14 +24,6 @@
 	interrupts = <9 IRQ_TYPE_EDGE_FALLING>;		/* SODIMM_28, INT */
 	reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;	/* SODIMM_30, RST */
 	status = "disabled";
-};
-
-&pwm2 {
-	status = "okay";
-};
-
-&pwm3 {
-	status = "okay";
 };
 
 &usbotg2 {

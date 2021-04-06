@@ -92,13 +92,11 @@
 };
 
 &pwm2 {
-	/* The pwm2 pins are used by atmel_mxt_ts touchscreen. */
-	status = "disabled";
+	status = "okay";
 };
 
 &pwm3 {
-	/* The pwm3 pins are used by atmel_mxt_ts touchscreen. */
-	status = "disabled";
+	status = "okay";
 };
 
 &pwm4 {
@@ -142,14 +140,6 @@
 	uart1_tx_on {
 		gpio-hog;
 		gpios = <17 0>; /* SODIMM 102 */
-		output-high;
-	};
-};
-
-&gpio7 {
-	lvds_tx_on {
-		gpio-hog;
-		gpios = <11 0>; /* SODIMM 99 */
 		output-high;
 	};
 };

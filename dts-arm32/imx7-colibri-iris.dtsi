@@ -89,10 +89,12 @@
 };
 
 &pwm2 {
+	/* The pwm2 should be disabled to enable atmel_mxt_ts touchscreen for adapter. */
 	status = "okay";
 };
 
 &pwm3 {
+	/* The pwm2 should be disabled to enable atmel_mxt_ts touchscreen for adapter . */
 	status = "okay";
 };
 
