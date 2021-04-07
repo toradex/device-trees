@@ -25,7 +25,7 @@
 
 	pxp_v4l2_out {
 		compatible = "fsl,imx7d-pxp-v4l2", "fsl,imx6sx-pxp-v4l2", \
-		             "fsl,imx6sl-pxp-v4l2";
+			     "fsl,imx6sl-pxp-v4l2";
 		status = "okay";
 	};
 
@@ -379,7 +379,7 @@
 		reg = <0x33>;
 
 		regulators {
-			reg_DCDC1: DCDC1 {  /* V1.0_SOC */
+			reg_DCDC1: DCDC1 { /* V1.0_SOC */
 				regulator-min-microvolt = <1000000>;
 				regulator-max-microvolt = <1100000>;
 				regulator-boot-on;
@@ -451,34 +451,36 @@
 	pinctrl-1 = <&pinctrl_i2c4_recovery>;
 	scl-gpios = <&gpio7 8 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio7 9 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-        status = "okay";
+	status = "okay";
 
-        /* Atmel maxtouch controller */
-        atmel_mxt_ts: touchscreen@4a {
-                compatible = "atmel,maxtouch";
-                pinctrl-names = "default";
-                pinctrl-0 = <&pinctrl_atmel_connector>;
-                reg = <0x4a>;
-                interrupt-parent = <&gpio2>;
-                interrupts = <15 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM_107, INT */
-                reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;     /* SODIMM_106, RST */
-                status = "disabled";
-        };
+	/* Atmel maxtouch controller */
+	atmel_mxt_ts: touchscreen@4a {
+		compatible = "atmel,maxtouch";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_connector>;
+		reg = <0x4a>;
+		interrupt-parent = <&gpio2>;
+		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;	/* SODIMM_107, INT */
+		reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;	/* SODIMM_106, RST */
+		status = "disabled";
+	};
 
 
-	/* the PCAPs use SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm2, pwm3.
-	   so if you enable one of the PCAP controllers disable the pwms */
-        fusion_f0710a: touchscreen@10 {
-                /* TouchRevolution Fusion 7 and 10 multi-touch controller */
-                compatible = "touchrevolution,fusion-f0710a";
-                reg = <0x10>;
-                pinctrl-names = "default";
-                pinctrl-0 = <&pinctrl_atmel_adapter>;
-                gpios = <&gpio1  9 GPIO_ACTIVE_HIGH 		/* SODIMM_28, INT */
-                         &gpio1 10 GPIO_ACTIVE_LOW 		/* SODIMM_30, RST */
-                        >;
-                status = "disabled";
-        };
+	/*
+	 * the PCAPs use SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm2, pwm3.
+	 * so if you enable one of the PCAP controllers disable the pwms
+	 */
+	fusion_f0710a: touchscreen@10 {
+		/* TouchRevolution Fusion 7 and 10 multi-touch controller */
+		compatible = "touchrevolution,fusion-f0710a";
+		reg = <0x10>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_atmel_adapter>;
+		gpios = <&gpio1  9 GPIO_ACTIVE_HIGH 		/* SODIMM_28, INT */
+			 &gpio1 10 GPIO_ACTIVE_LOW 		/* SODIMM_30, RST */
+			>;
+		status = "disabled";
+	};
 };
 
 &lcdif {
@@ -585,20 +587,22 @@
 				pixelclk-active = <0>;
 			};
 
-                        timing_wxga: 1280x800 {
-                                clock-frequency = <68930000>;
-                                hactive = <1280>;
-                                vactive = <800>;
-                                hback-porch = <64>;
-                                hfront-porch = <64>;
-                                vback-porch = <5>;
-                                vfront-porch = <5>;
-                                hsync-len = <40>;
-                                vsync-len = <6>;
-                                hsync-active = <0>;
-                                vsync-active = <0>;
-                                pixelclk-active = <0>;
-                        };
+			timing_wxga: 1280x800 {
+				clock-frequency = <68930000>;
+				hactive = <1280>;
+				vactive = <800>;
+				hback-porch = <64>;
+				hfront-porch = <64>;
+				vback-porch = <5>;
+				vfront-porch = <5>;
+				hsync-len = <40>;
+				vsync-len = <6>;
+
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
 		};
 	};
 };
@@ -698,15 +702,15 @@
 
 	pinctrl_atmel_adapter: atmeladaptergrp { /* ATMEL MXT TOUCH ADAPTER */
 		fsl,pins = <
-			MX7D_PAD_GPIO1_IO09__GPIO1_IO9          0x74 /* SODIMM_28, INT */
-			MX7D_PAD_GPIO1_IO10__GPIO1_IO10         0x14 /* SODIMM_30, RST */
+			MX7D_PAD_GPIO1_IO09__GPIO1_IO9		0x74 /* SODIMM_28, INT */
+			MX7D_PAD_GPIO1_IO10__GPIO1_IO10		0x14 /* SODIMM_30, RST */
 		>;
 	};
 
 	pinctrl_atmel_connector: atmelconnectorgrp { /* ATMEL MXT TOUCH CONNECTOR */
 		fsl,pins = <
-			MX7D_PAD_EPDC_DATA15__GPIO2_IO15        0x74 /* SODIMM_107, INT */
-			MX7D_PAD_EPDC_BDR0__GPIO2_IO28          0x14 /* SODIMM_106, RST */
+			MX7D_PAD_EPDC_DATA15__GPIO2_IO15	0x74 /* SODIMM_107, INT */
+			MX7D_PAD_EPDC_BDR0__GPIO2_IO28		0x14 /* SODIMM_106, RST */
 		>;
 	};
 
@@ -1077,7 +1081,7 @@
 			MX7D_PAD_SD3_DATA5__SD3_DATA5		0x59
 			MX7D_PAD_SD3_DATA6__SD3_DATA6		0x59
 			MX7D_PAD_SD3_DATA7__SD3_DATA7		0x59
-			MX7D_PAD_SD3_STROBE__SD3_STROBE         0x19
+			MX7D_PAD_SD3_STROBE__SD3_STROBE		0x19
 		>;
 	};
 
@@ -1093,7 +1097,7 @@
 			MX7D_PAD_SD3_DATA5__SD3_DATA5		0x5a
 			MX7D_PAD_SD3_DATA6__SD3_DATA6		0x5a
 			MX7D_PAD_SD3_DATA7__SD3_DATA7		0x5a
-			MX7D_PAD_SD3_STROBE__SD3_STROBE         0x1a
+			MX7D_PAD_SD3_STROBE__SD3_STROBE		0x1a
 		>;
 	};
 
@@ -1109,13 +1113,13 @@
 			MX7D_PAD_SD3_DATA5__SD3_DATA5		0x5b
 			MX7D_PAD_SD3_DATA6__SD3_DATA6		0x5b
 			MX7D_PAD_SD3_DATA7__SD3_DATA7		0x5b
-			MX7D_PAD_SD3_STROBE__SD3_STROBE         0x1b
+			MX7D_PAD_SD3_STROBE__SD3_STROBE		0x1b
 		>;
 	};
 
 	pinctrl_sai1: sai1-grp {
 		fsl,pins = <
-			MX7D_PAD_ENET1_RX_CLK__SAI1_TX_BCLK     0x1f
+			MX7D_PAD_ENET1_RX_CLK__SAI1_TX_BCLK	0x1f
 			MX7D_PAD_SAI1_TX_SYNC__SAI1_TX_SYNC	0x1f
 			MX7D_PAD_ENET1_COL__SAI1_TX_DATA0	0x30
 			MX7D_PAD_ENET1_TX_CLK__SAI1_RX_DATA0	0x1f
@@ -1124,7 +1128,7 @@
 
 	pinctrl_sai1_mclk: sai1grp_mclk {
 		fsl,pins = <
-			MX7D_PAD_SAI1_MCLK__SAI1_MCLK           0x1f
+			MX7D_PAD_SAI1_MCLK__SAI1_MCLK		0x1f
 		>;
 	};
 };
