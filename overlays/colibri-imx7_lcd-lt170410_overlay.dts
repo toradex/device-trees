@@ -3,9 +3,10 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the LCDIF interface and LVDS trasceiver, tuning settings
-// for Toradex Cap LVDS 10" Display on the Colibri iMX7.
+// Enable the LCDIF aka parallel RGB interface and the LVDS tranceiver on Iris v2.0,
+// tuning settings for the capacitive touch display 10 inch LVDS on the Colibri iMX7.
 
+#include <dt-bindings/clock/imx7d-clock.h>
 #include <dt-bindings/gpio/gpio.h>
 
 /dts-v1/;
@@ -77,6 +78,11 @@
 };
 
 &lcdif {
+	assigned-clocks = <&clks IMX7D_PLL_VIDEO_MAIN>,
+			  <&clks IMX7D_LCDIF_PIXEL_ROOT_SRC>;
+	assigned-clock-parents = <&clks IMX7D_PLL_VIDEO_MAIN_SRC>,
+				 <&clks IMX7D_PLL_VIDEO_POST_DIV>;
+	assigned-clock-rates = <853176000>, <213294000>;
 	status = "okay";
 };
 

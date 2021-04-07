@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Disable UART2, aka UART_B on the Colibri iMX7
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri-imx7d",
+		     "toradex,colibri-imx7d-emmc",
+		     "toradex,colibri-imx7s";
+};
+
+&uart2 {
+	status = "disabled";
+};
