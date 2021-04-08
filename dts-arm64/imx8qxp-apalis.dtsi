@@ -541,7 +541,7 @@
 
 &iomuxc {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_dap1_gpios>, <&pinctrl_gpio1>, <&pinctrl_gpio2>,
+	pinctrl-0 = <&pinctrl_dap1_gpios>,
 		    <&pinctrl_gpio3>, <&pinctrl_gpio4>, <&pinctrl_gpio5>,
 		    <&pinctrl_gpio6>, <&pinctrl_mmc1_gpios>,
 		    <&pinctrl_qspi0a_gpios>, <&pinctrl_sata1_act>,

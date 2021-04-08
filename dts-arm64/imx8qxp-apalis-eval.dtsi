@@ -90,55 +90,6 @@
 	status = "okay";
 };
 
-&isi_0 {
-	interface = <2 0 2>;
-	/**
-	 * interface = <Input MIPI_VCx Output>
-	 * Input:       0-DC0, 1-DC1, 2-MIPI CSI0, 3-MIPI CSI1, 4-HDMI, 5-MEM, INPUT: 6-PARALLEL CSI
-	 * MIPI_VCx:    0-VC0, 1-VC1, 2-VC2, 3-VC3, MIPI CSI only
-	 * Output:      0-DC0, 1-DC1, 2-MEM
-	 */
-	status = "okay";
-
-        cap_device {
-                status = "okay";
-        };
-
-        m2m_device {
-                status = "okay";
-        };
-};
-
-&isi_1 {
-	interface = <6 0 2>;
-	parallel_csi;
-	status = "disabled";
-};
-
-&isi_2 {
-	status = "disabled";
-};
-
-&isi_3 {
-	status = "disabled";
-};
-
-&isi_4 {
-	status = "disabled";
-};
-
-&isi_5 {
-	status = "disabled";
-};
-
-&isi_6 {
-	status = "disabled";
-};
-
-&isi_7 {
-	status = "disabled";
-};
-
 &jpegdec {
         status = "okay";
 };
