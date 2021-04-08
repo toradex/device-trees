@@ -11,11 +11,11 @@
 #include <dt-bindings/gpio/gpio.h>
 
 / {
-	compatible = "toradex,colibri-imx8x";
+	compatible = "toradex,apalis-imx8x";
 };
 
-/* On-module MIPI CSI I2C accessible on FFC (X3) */
-&i2c0_mipi_lvds1 {
+/* Apalis I2C3 (CAM) */
+&i2c3 {
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
@@ -32,10 +32,10 @@
 		mclk_source = <0>;
 		mipi_csi;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_csi_ctl>, <&pinctrl_csi_mclk>;
-		powerdown-gpios = <&lsio_gpio3 14 GPIO_ACTIVE_HIGH>;	/* X3-22 */
+		pinctrl-0 = <&pinctrl_gpio1>, <&pinctrl_gpio2>;
+		powerdown-gpios = <&lsio_gpio3 22 GPIO_ACTIVE_HIGH>;	/* Apalis GPIO2 */
 		reg = <0x3c>;
-		reset-gpios = <&lsio_gpio3 15 GPIO_ACTIVE_LOW>;		/* X3-11 */
+		reset-gpios = <&lsio_gpio3 21 GPIO_ACTIVE_LOW>;		/* Apalis GPIO1 */
 		status = "okay";
 
 		port {
@@ -48,18 +48,29 @@
 	};
 };
 
+&irqsteer_csi0 {
+	status = "okay";
+};
+
 &isi_0 {
-	interface = <2 0 2>;
 	/**
 	 * interface = <Input MIPI_VCx Output>
 	 * Input:	0-DC0, 1-DC1, 2-MIPI CSI0, 3-MIPI CSI1, 4-HDMI, 5-MEM, INPUT: 6-PARALLEL CSI
 	 * MIPI_VCx:	0-VC0, 1-VC1, 2-VC2, 3-VC3, MIPI CSI only
 	 * Output:	0-DC0, 1-DC1, 2-MEM
 	 */
+	interface = <2 0 2>;
 	status = "okay";
+
+	cap_device {
+		status = "okay";
+	};
+
+	m2m_device {
+		status = "okay";
+	};
 };
 
-/* MIPI CSI accessible via FFC (X3) */
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
