@@ -19,14 +19,30 @@
 	status = "okay";
 };
 
-&backlight {
+&adma_lcdif {
 	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	port@0 {
+		reg = <0>;
+
+		adma_lcdif_out: endpoint {
+			remote-endpoint = <&lcd_panel_in>;
+		};
+	};
 };
 
-&display_lcdif {
+&backlight {
 	status = "okay";
 };
 
 &panel_dpi {
 	status = "okay";
+
+	port {
+		lcd_panel_in: endpoint {
+			remote-endpoint = <&adma_lcdif_out>;
+		};
+	};
 };

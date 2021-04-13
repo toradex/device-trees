@@ -27,6 +27,17 @@
 
 &display_lcdif {
 	status = "okay";
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	port@1 {
+		reg = <1>;
+
+		display_lcdfif_out: endpoint {
+			remote-endpoint = <&lcd_panel_in>;
+		};
+	};
 };
 
 /* Need to be disabled due to overlapped pins SODIMM_55, SODIMM_63 */
@@ -61,4 +72,10 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_lvds_converter>;
 	status = "okay";
+
+	port {
+		lcd_panel_in: endpoint {
+			remote-endpoint = <&display_lcdfif_out>;
+		};
+	};
 };
