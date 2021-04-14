@@ -28,6 +28,24 @@
 	status = "okay";
 };
 
+/* On-module GPIO Expander */
+&pcal6416_1 {
+	/*
+	 * This gpio-hog drives a muxing device. With that we can choose
+	 * if LVDS1_B pins are active or if DSI signals routed to the
+	 * on-module Lontium LT8912 DSI-to-HDMI bridge chip are active.
+	 *
+	 * output-high; muxes to DSI signals, getting Apalis HDMI1 pins active
+	 * output-low; muxes to LVDS1_B signals, getting Apalis LVDS1 pins active
+	 */
+	 LVDS1B_HDMI_MUX {
+		gpio-hog;
+		gpios = <14 GPIO_ACTIVE_HIGH>;
+		output-low;
+		line-name = "LVDS1_HDMI_MUX";
+	};
+};
+
 /* Apalis BKL1_PWM */
 &pwm_mipi_lvds1 {
 	status = "okay";

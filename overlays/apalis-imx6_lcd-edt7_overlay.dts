@@ -1,0 +1,26 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Enable the parallel RGB interface with setting for 7 inch EDT panel on the Apalis iMX6Q
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis_imx6q";
+};
+
+&backlight {
+	status = "okay";
+};
+
+&lcd {
+	status = "okay";
+};
+
+&mxcfb3 {
+	mode_str ="EDT-WVGA";
+	status = "okay";
+};

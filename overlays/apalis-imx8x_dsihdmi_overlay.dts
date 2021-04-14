@@ -53,11 +53,11 @@
 &pcal6416_1 {
 	/*
 	 * This gpio-hog drives a muxing device. With that we can choose
-	 * if LVDS1_B pins are active or if DVI signals are active. Those
-	 * signals are then muxed to MIPI_DSI1 PADs.
+	 * if LVDS1_B pins are active or if DSI signals routed to the
+	 * on-module Lontium LT8912 DSI-to-HDMI bridge chip are active.
 	 *
-	 * output-high; muxes to DVI signals
-	 * output-low; muxes to LVDS1_B signals
+	 * output-high; muxes to DSI signals, getting Apalis HDMI1 pins active
+	 * output-low; muxes to LVDS1_B signals, getting Apalis LVDS1 pins active
 	 */
 	 LVDS1B_HDMI_MUX {
 		gpio-hog;

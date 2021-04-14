@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Turn on the parallel RGB interface with setting for 7 inch EDT panel on the Colibri iMX6DL
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri_imx6dl";
+};
+
+&backlight {
+	status = "okay";
+};
+
+&lcd {
+	status = "okay";
+};
+
+&mxcfb1 {
+	mode_str ="EDT-WVGA";
+	status = "okay";
+};
+
+&pwm3 {
+	status = "okay";
+};
