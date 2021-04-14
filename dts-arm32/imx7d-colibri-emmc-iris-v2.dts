@@ -15,16 +15,6 @@
 		     "fsl,imx7d";
 };
 
-&pwm2 {
-	/* The pwm2 should be disabled to enable atmel_mxt_ts touchscreen. */
-	status = "okay";
-};
-
-&pwm3 {
-	/* The pwm3 should be disabled to enable atmel_mxt_ts touchscreen. */
-	status = "okay";
-};
-
 &usbotg2 {
 	vbus-supply = <&reg_usbh_vbus>;
 	status = "okay";

@@ -299,19 +299,21 @@
 			buck4_reg: regulator@3 {
 				reg = <3>;
 				regulator-compatible = "buck4";
-				regulator-min-microvolt = <600000>;
-				regulator-max-microvolt = <3400000>;
+				regulator-min-microvolt = <3300000>;
+				regulator-max-microvolt = <3300000>;
 				regulator-boot-on;
 				regulator-always-on;
+				regulator-name = "On-module +V3.3 (buck4)";
 			};
 
 			buck5_reg: regulator@4 {
 				reg = <4>;
 				regulator-compatible = "buck5";
-				regulator-min-microvolt = <600000>;
-				regulator-max-microvolt = <3400000>;
+				regulator-min-microvolt = <1800000>;
+				regulator-max-microvolt = <1800000>;
 				regulator-boot-on;
 				regulator-always-on;
+				regulator-name = "On-module +V1.8 (buck5)";
 			};
 
 			buck6_reg: regulator@5 {
@@ -710,6 +712,7 @@
 &usdhc3 {
 	bus-width = <8>;
 	keep-power-in-suspend;
+	mmc-hs400-1_8v;
 	non-removable;
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
 	pinctrl-0 = <&pinctrl_usdhc3>;
@@ -717,7 +720,8 @@
 	pinctrl-2 = <&pinctrl_usdhc3_200mhz>;
 	pm-ignore-notify;
 	status = "okay";
-	/* TODO Strobe */
+	vqmmc-supply = <&buck5_reg>;
+	vmmc-supply = <&buck4_reg>;
 };
 
 &vpu_g1 {
@@ -1234,6 +1238,7 @@
 			MX8MP_IOMUXC_NAND_CE3_B__USDHC3_DATA6	0x1d0
 			MX8MP_IOMUXC_NAND_CLE__USDHC3_DATA7	0x1d0
 			MX8MP_IOMUXC_NAND_CE1_B__USDHC3_STROBE	0x190
+			MX8MP_IOMUXC_GPIO1_IO09__USDHC3_RESET_B 0x1d1
 		>;
 	};
 
@@ -1250,6 +1255,7 @@
 			MX8MP_IOMUXC_NAND_CE3_B__USDHC3_DATA6	0x1d4
 			MX8MP_IOMUXC_NAND_CLE__USDHC3_DATA7	0x1d4
 			MX8MP_IOMUXC_NAND_CE1_B__USDHC3_STROBE	0x194
+			MX8MP_IOMUXC_GPIO1_IO09__USDHC3_RESET_B 0x1d1
 		>;
 	};
 
