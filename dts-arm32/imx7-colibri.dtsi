@@ -52,7 +52,7 @@
 		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
 		power-supply = <&reg_module_3v3>;
 		pwms = <&pwm1 0 6666667 PWM_POLARITY_INVERTED>;
-		status = "okay";
+		status = "disabled";
 	};
 
 
@@ -60,6 +60,7 @@
 		compatible = "panel-dpi";
 		backlight = <&backlight>;
 		power-supply = <&reg_3v3>;
+		status = "disabled";
 
 		width-mm = <115>;
 		height-mm = <86>;
@@ -400,7 +401,7 @@
 		adi,median-filter-size = /bits/ 8 <2>;
 		adi,averaging = /bits/ 8 <1>;
 		adi,conversion-interval = /bits/ 8 <255>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	pmic@33 {
@@ -492,7 +493,7 @@
 		interrupt-parent = <&gpio2>;
 		interrupts = <15 IRQ_TYPE_EDGE_FALLING>;        /* SODIMM 107, INT */
 		reset-gpios = <&gpio2 28 GPIO_ACTIVE_HIGH>;     /* SODIMM 106, RST */
-		status = "okay";
+		status = "disabled";
 	};
 };
 
@@ -503,7 +504,7 @@
 	pinctrl-0 = <&pinctrl_lcdif_dat
 		     &pinctrl_lcdif_ctrl>;
 
-	status = "okay";
+	status = "disabled";
 
 	port {
 		lcdif_out: endpoint {
@@ -515,7 +516,6 @@
 &pwm1 {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm1>;
-	status = "okay";
 };
 
 &pwm2 {

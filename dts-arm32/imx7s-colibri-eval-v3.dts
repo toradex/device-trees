@@ -49,3 +49,31 @@
 	compatible = "toradex,colibri-imx7s-eval-v3", "toradex,colibri-imx7s",
 		     "fsl,imx7s";
 };
+
+&ad7879_ts {
+	status = "okay";
+};
+
+/*
+ * The PCAP uses SODIMM 28/30, also used for PWM<B>, PWM<C>, aka pwm2, pwm3.
+ * So if you enable following PCAP controller, disable pwm2/pwm3 first.
+ */
+&atmel_mxt_ts {
+	pinctrl-0 = <&pinctrl_atmel_adapter>;
+	interrupt-parent = <&gpio1>;
+	interrupts = <9 IRQ_TYPE_EDGE_FALLING>;		/* SODIMM_28, INT */
+	reset-gpios = <&gpio1 10 GPIO_ACTIVE_HIGH>;	/* SODIMM_30, RST */
+	status = "disabled";
+};
+
+&backlight {
+	status = "okay";
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};

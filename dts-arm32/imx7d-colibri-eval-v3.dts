@@ -50,8 +50,7 @@
 		     "fsl,imx7d";
 };
 
-&usbotg2 {
-	vbus-supply = <&reg_usbh_vbus>;
+&ad7879_ts {
 	status = "okay";
 };
 
@@ -67,10 +66,19 @@
 	status = "disabled";
 };
 
-&pwm2 {
+&backlight {
 	status = "okay";
 };
 
-&pwm3 {
+&lcdif {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&usbotg2 {
+	vbus-supply = <&reg_usbh_vbus>;
 	status = "okay";
 };
