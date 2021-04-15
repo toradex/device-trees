@@ -6,6 +6,18 @@
 #include "imx8mp-verdin-dahlia.dtsi"
 
 / {
+	reg_eth2phy: regulator-eth2phy {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		gpio = <&gpio_expander_21 4 GPIO_ACTIVE_HIGH>; /* ETH_PWR_EN */
+		off-on-delay = <500000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <3300000>;
+		regulator-name = "+V3.3_ETH";
+		startup-delay-us = <200000>;
+		vin-supply = <&reg_3p3v>;
+	};
+
 	sound_card: sound-card {
 		compatible = "simple-audio-card";
 		simple-audio-card,bitclock-master = <&dailink_master>;
@@ -42,11 +54,13 @@
 };
 
 &fec {
+	phy-supply = <&reg_eth2phy>;
 	status = "okay";
 };
 
 &gpio_expander_21 {
 	status = "okay";
+	vcc-supply = <&reg_1p8v>;
 };
 
 /* Verdin I2C_1 */

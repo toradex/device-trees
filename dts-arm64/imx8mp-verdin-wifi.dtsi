@@ -10,7 +10,7 @@
 		gpio = <&gpio2 11 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_wifi_pwr_en>;
-		regulator-name = "V3.3_WI-FI";
+		regulator-name = "On-module +V3.3_Wi-Fi";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		startup-delay-us = <2000>;

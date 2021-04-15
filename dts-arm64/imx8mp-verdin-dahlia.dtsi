@@ -4,6 +4,22 @@
  */
 
 / {
+	/* Carrier Board Supply +V1.8 */
+	reg_1p8v: regulator-1p8v {
+		compatible = "regulator-fixed";
+		regulator-max-microvolt = <1800000>;
+		regulator-min-microvolt = <1800000>;
+		regulator-name = "+V1.8_SW";
+	};
+
+	/* Carrier Board Supply +V3.3 */
+	reg_3p3v: regulator-3p3v {
+		compatible = "regulator-fixed";
+		regulator-max-microvolt = <3300000>;
+		regulator-min-microvolt = <3300000>;
+		regulator-name = "+V3.3_SW";
+	};
+
 	sound_card: sound-card {
 		compatible = "simple-audio-card";
 		simple-audio-card,bitclock-master = <&dailink_master>;
@@ -46,6 +62,10 @@
 				<192000>;
 		status = "disabled";
 	};
+};
+
+&backlight {
+	power-supply = <&reg_3p3v>;
 };
 
 /* Verdin SPI_1 */
@@ -115,16 +135,17 @@
 		clocks = <&audiomix_clk IMX8MP_CLK_AUDIOMIX_SAI1_MCLK1>;
 		clock-names = "mclk";
 		reg = <0x1a>;
-		DCVDD-supply = <&reg_3p3v>;
-		DBVDD-supply = <&reg_3p3v>;
-		AVDD-supply = <&reg_3p3v>;
-		CPVDD-supply = <&reg_3p3v>;
-		MICVDD-supply = <&reg_3p3v>;
+		DCVDD-supply = <&reg_1p8v>;
+		DBVDD-supply = <&reg_1p8v>;
+		AVDD-supply = <&reg_1p8v>;
+		CPVDD-supply = <&reg_1p8v>;
+		MICVDD-supply = <&reg_1p8v>;
 	};
 };
 
 /* Verdin PCIE_1 */
 &pcie {
+	epdev_on-supply = <&reg_3p3v>;
 	status = "okay";
 };
 
@@ -145,6 +166,10 @@
 /* Verdin PWM_3_DSI */
 &pwm3 {
 	status = "okay";
+};
+
+&reg_usdhc2_vmmc {
+	vin-supply = <&reg_3p3v>;
 };
 
 /* VERDIN I2S_1 */
