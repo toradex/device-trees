@@ -64,6 +64,7 @@ dtb-y += colibri-imx7_lcd-vga_overlay.dtbo
 dtb-y += colibri-imx8x_ad7879_overlay.dtbo
 dtb-y += colibri-imx8x_atmel-mxt-adapter_overlay.dtbo
 dtb-y += colibri-imx8x_atmel-mxt-connector_overlay.dtbo
+dtb-y += colibri-imx8x_display-lcdif_overlay.dtbo
 dtb-y += colibri-imx8x_dsihdmi_overlay.dtbo
 dtb-y += colibri-imx8x-eval_spidev_overlay.dtbo
 dtb-y += colibri-imx8x_ov5640_overlay.dtbo
