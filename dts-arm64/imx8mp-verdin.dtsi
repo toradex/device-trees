@@ -159,6 +159,8 @@
 
 		ethphy0: ethernet-phy@7 {
 			compatible = "ethernet-phy-ieee802.3-c22";
+			eee-broken-100tx;
+			eee-broken-1000t;
 			interrupt-parent = <&gpio1>;
 			interrupts = <10 IRQ_TYPE_LEVEL_LOW>;
 			micrel,led-mode = <0>;
