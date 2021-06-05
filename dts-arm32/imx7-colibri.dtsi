@@ -50,9 +50,9 @@
 		#size-cells = <1>;
 		ranges;
 
-		m4_reserved: m4@0x9ff00000 {
+		m4_reserved: m4@0x9fe00000 {
 			no-map;
-			reg = <0x9ff00000 0x100000>;
+			reg = <0x9fe00000 0x1fffff>;
 		};
 
 		rpmsg_reserved: rpmsg@0x8ff00000 {
