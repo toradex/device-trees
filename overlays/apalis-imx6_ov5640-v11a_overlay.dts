@@ -14,7 +14,7 @@
 	compatible = "toradex,apalis_imx6q";
 };
 
-&i2c1 {
+&i2c3 {
 	status = "okay";
 };
 
