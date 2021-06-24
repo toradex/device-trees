@@ -35,5 +35,5 @@
 		vsync-len = <2>;
 		vfront-porch = <10>;
 		vback-porch = <33>;
-	 };
+	};
 };

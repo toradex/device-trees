@@ -35,6 +35,7 @@ dtb-y += apalis-imx8_ov5640-2_overlay.dtbo
 dtb-y += apalis-imx8_ov5640_overlay.dtbo
 dtb-y += apalis-imx8x_ad7879_overlay.dtbo
 dtb-y += apalis-imx8x_atmel-mxt_overlay.dtbo
+dtb-y += apalis-imx8x_display-lcdif_overlay.dtbo
 dtb-y += apalis-imx8x_dsihdmi_overlay.dtbo
 dtb-y += apalis-imx8x_lvds_overlay.dtbo
 dtb-y += apalis-imx8x_ov5640_overlay.dtbo

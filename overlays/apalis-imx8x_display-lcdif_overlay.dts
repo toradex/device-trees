@@ -3,21 +3,13 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Enable the parallel RGB interface on Colibri iMX8X using DPU-enabled driver
+// Enable the parallel RGB interface on Apalis iMX8X using DPU-enabled driver
 
 /dts-v1/;
 /plugin/;
 
 / {
-	compatible = "toradex,colibri-imx8x";
-};
-
-&adma_pwm {
-	status = "okay";
-};
-
-&adma_pwm_lpcg {
-	status = "okay";
+	compatible = "toradex,apalis-imx8x";
 };
 
 &backlight {
@@ -46,4 +38,9 @@
 			remote-endpoint = <&display_lcdif_out>;
 		};
 	};
+};
+
+/* Apalis BKL1_PWM */
+&pwm_mipi_lvds1 {
+	status = "okay";
 };
