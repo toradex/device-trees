@@ -8,8 +8,7 @@
 
 / {
 	model = "Toradex Colibri iMX8QXP/DX Module";
-	compatible = "toradex,colibri-imx8x",
-		     "fsl,imx8qxp";
+	compatible = "toradex,colibri-imx8x", "fsl,imx8qxp";
 
 	backlight: backlight {
 		compatible = "pwm-backlight";
@@ -30,29 +29,29 @@
 
 	/* Colibri Parallel RGB */
 	display_lcdif: display@disp1 {
-                compatible = "fsl,imx-lcdif-mux-display";
-                pinctrl-names = "default";
-                pinctrl-0 = <&pinctrl_lcdif>;
-                clocks = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_BYPASS>,
-                         <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_MISC0>;
-                clock-names = "bypass_div", "pixel";
-                assigned-clocks = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_MISC0>;
-                assigned-clock-parents = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_BYPASS>;
-                fsl,lcdif-mux-regs = <&lcdif_mux_regs>;
-                fsl,interface-pix-fmt = "rgb666";
-                power-domains = <&pd IMX_SC_R_LCD_0>;
+		compatible = "fsl,imx-lcdif-mux-display";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_lcdif>;
+		clocks = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_BYPASS>,
+			 <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_MISC0>;
+		clock-names = "bypass_div", "pixel";
+		assigned-clocks = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_MISC0>;
+		assigned-clock-parents = <&clk IMX_SC_R_LCD_0 IMX_SC_PM_CLK_BYPASS>;
+		fsl,lcdif-mux-regs = <&lcdif_mux_regs>;
+		fsl,interface-pix-fmt = "rgb666";
+		power-domains = <&pd IMX_SC_R_LCD_0>;
 		status = "disabled";
 
-                #address-cells = <1>;
-                #size-cells = <0>;
+		#address-cells = <1>;
+		#size-cells = <0>;
 
-                port@0 {
-                        reg = <0>;
+		port@0 {
+			reg = <0>;
 
-                        lcd_display_in: endpoint {
-                                remote-endpoint = <&dpu_disp1_lcdif>;
-                        };
-                };
+			lcd_display_in: endpoint {
+				remote-endpoint = <&dpu_disp1_lcdif>;
+			};
+		};
 	};
 
 	panel_dpi: panel-dpi {
@@ -181,7 +180,7 @@
 		};
 	};
 
-        sound_card: sound-card {
+	sound_card: sound-card {
 		compatible = "simple-audio-card";
 		simple-audio-card,bitclock-master = <&dailink_master>;
 		simple-audio-card,format = "i2s";
@@ -196,7 +195,7 @@
 		simple-audio-card,cpu {
 			sound-dai = <&sai0>;
 		};
-        };
+	};
 
 	vdd_3v3_vga: regulator-vga-avcc {
 		compatible = "regulator-fixed";
@@ -204,7 +203,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
-        };
+	};
 };
 
 /* Colibri Analogue Inputs */
@@ -316,7 +315,7 @@
 			     "enet0_lpcg_ipg_s_clk";
 };
 
-/* Colibri Ethernet */
+/* Colibri FastEthernet */
 &fec1 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&pinctrl_fec1>;
@@ -340,23 +339,23 @@
 
 /* Colibri optional CAN on UART_B RTS/CTS */
 &flexcan1 {
-        pinctrl-names = "default";
-        pinctrl-0 = <&pinctrl_flexcan1>;
-        xceiver-supply = <&reg_module_3v3>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan1>;
+	xceiver-supply = <&reg_module_3v3>;
 };
 
 /* Colibri optional CAN on PS2 */
 &flexcan2 {
-        pinctrl-names = "default";
-        pinctrl-0 = <&pinctrl_flexcan2>;
-        xceiver-supply = <&reg_module_3v3>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan2>;
+	xceiver-supply = <&reg_module_3v3>;
 };
 
 /* Colibri optional CAN on UART_A TXD/RXD */
 &flexcan3 {
-        pinctrl-names = "default";
-        pinctrl-0 = <&pinctrl_flexcan3>;
-        xceiver-supply = <&reg_module_3v3>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan3>;
+	xceiver-supply = <&reg_module_3v3>;
 };
 
 &gpu_3d0 {
@@ -413,7 +412,7 @@
 			"Wi-Fi_WKUP_BT";
 	};
 
-	sgtl5000_a: sgtl5000@a {
+	sgtl5000_a: codec@a {
 		compatible = "fsl,sgtl5000";
 		#sound-dai-cells = <0>;
 		assigned-clocks = <&clk IMX_SC_R_AUDIO_PLL_0 IMX_SC_PM_CLK_PLL>,
@@ -425,8 +424,8 @@
 		clock-names = "mclk";
 		reg = <0xa>;
 		VDDA-supply = <&reg_module_3v3_avdd>;
-		VDDIO-supply = <&reg_module_3v3>;
 		VDDD-supply = <&reg_module_vref_1v8>;
+		VDDIO-supply = <&reg_module_3v3>;
 	};
 
 	/* USB3503A */
@@ -519,20 +518,20 @@
 	pinctrl-0 = <&pinctrl_i2c1>;
 
 	/* Atmel maxtouch controller */
-        atmel_mxt_ts: touchscreen@4a {
+	atmel_mxt_ts: touchscreen@4a {
 		compatible = "atmel,maxtouch";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_atmel_conn>;
 		reg = <0x4a>;
 		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <20 IRQ_TYPE_EDGE_FALLING>;                /* SODIMM 107 */
-		reset-gpios = <&lsio_gpio3 24 GPIO_ACTIVE_HIGH>;        /* SODIMM 106 */
-                status = "disabled";
-        };
+		interrupts = <20 IRQ_TYPE_EDGE_FALLING>;		/* SODIMM 107 */
+		reset-gpios = <&lsio_gpio3 24 GPIO_ACTIVE_HIGH>;	/* SODIMM 106 */
+		status = "disabled";
+	};
 };
 
 &imx8_gpu_ss {
-        status = "okay";
+	status = "okay";
 };
 
 &iomuxc {
@@ -544,7 +543,7 @@
 		/* On-module touch pen-down interrupt */
 		pinctrl_ad7879_int: ad7879-int {
 			fsl,pins = <
-				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05      0x21
+				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05	0x21
 			>;
 		};
 
@@ -561,8 +560,8 @@
 		/* Atmel MXT touchsceen + boards with built-in Capacitive Touch Connector */
 		pinctrl_atmel_conn: mxt-ts-connector {
 			fsl,pins = <
-				IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20            0x4000021	/* SODIMM 107 */
-				IMX8QXP_QSPI0B_SS1_B_LSIO_GPIO3_IO24            0x21		/* SODIMM 106 */
+				IMX8QXP_QSPI0B_DATA2_LSIO_GPIO3_IO20		0x4000021	/* SODIMM 107 */
+				IMX8QXP_QSPI0B_SS1_B_LSIO_GPIO3_IO24		0x21		/* SODIMM 106 */
 			>;
 		};
 
@@ -684,7 +683,7 @@
 		/* HDMI Hot Plug Detect on FFC (X2) */
 		pinctrl_gpio_hpd: gpio-hpd {
 			fsl,pins = <
-				IMX8QXP_MIPI_DSI1_GPIO0_00_LSIO_GPIO1_IO31      0x20		/* SODIMM 138 */
+				IMX8QXP_MIPI_DSI1_GPIO0_00_LSIO_GPIO1_IO31	0x20		/* SODIMM 138 */
 			>;
 		};
 
@@ -1094,8 +1093,8 @@
 };
 
 &isi_1 {
-        interface = <6 0 2>;
-        parallel_csi;
+	interface = <6 0 2>;
+	parallel_csi;
 };
 
 /* Colibri SPI */
@@ -1290,9 +1289,9 @@
 
 /* MIPI CSI accessible via FFC (X3) */
 &mipi_csi_0 {
-        #address-cells = <1>;
-        #size-cells = <0>;
-        /delete-property/virtual-channel;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	/delete-property/virtual-channel;
 };
 
 &mipi0_dsi_host {
@@ -1305,16 +1304,16 @@
 			reg = <1>;
 			mipi0_dsi_host_out: endpoint {
 				remote-endpoint = <&lt8912_in>;
-		        };
+			};
 		};
 	};
 };
 
 &mipi1_dsi_host {
-        pwr-delay = <10>;
+	pwr-delay = <10>;
 };
 
-/* On-module PCIe for wifi */
+/* On-module PCIe for Wi-Fi */
 &pcieb{
 	compatible = "fsl,imx8qxp-pcie","snps,dw-pcie";
 	pinctrl-names = "default";
@@ -1441,34 +1440,33 @@
 };
 
 &vpu_decoder {
-        boot-region = <&decoder_boot>;
-        rpc-region = <&decoder_rpc>;
-        reg-csr = <0x2d040000>;
-        core_type = <1>;
-        status = "okay";
+	boot-region = <&decoder_boot>;
+	rpc-region = <&decoder_rpc>;
+	reg-csr = <0x2d040000>;
+	core_type = <1>;
+	status = "okay";
 };
 
 &vpu_encoder {
-        boot-region = <&encoder_boot>;
-        rpc-region = <&encoder_rpc>;
-        reserved-region = <&encoder_reserved>;
-        reg-rpc-system = <0x40000000>;
-        resolution-max = <1920 1920>;
-        mbox-names = "enc1_tx0", "enc1_tx1", "enc1_rx";
-        mboxes = <&mu1_m0 0 0
-                  &mu1_m0 0 1
-                  &mu1_m0 1 0>;
-        status = "okay";
+	boot-region = <&encoder_boot>;
+	rpc-region = <&encoder_rpc>;
+	reserved-region = <&encoder_reserved>;
+	reg-rpc-system = <0x40000000>;
+	resolution-max = <1920 1920>;
+	mbox-names = "enc1_tx0", "enc1_tx1", "enc1_rx";
+	mboxes = <&mu1_m0 0 0
+		  &mu1_m0 0 1
+		  &mu1_m0 1 0>;
+	status = "okay";
 
-        core0@1020000 {
-                compatible = "fsl,imx8-mu1-vpu-m0";
-                reg = <0x1020000 0x20000>;
-                reg-csr = <0x1050000 0x10000>;
-                interrupts = <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>;
-                fsl,vpu_ap_mu_id = <17>;
-                fw-buf-size = <0x200000>;
-                rpc-buf-size = <0x80000>;
-                print-buf-size = <0x80000>;
-        };
+	core0@1020000 {
+		compatible = "fsl,imx8-mu1-vpu-m0";
+		reg = <0x1020000 0x20000>;
+		reg-csr = <0x1050000 0x10000>;
+		interrupts = <GIC_SPI 470 IRQ_TYPE_LEVEL_HIGH>;
+		fsl,vpu_ap_mu_id = <17>;
+		fw-buf-size = <0x200000>;
+		rpc-buf-size = <0x80000>;
+		print-buf-size = <0x80000>;
+	};
 };
-

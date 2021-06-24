@@ -45,6 +45,17 @@
 		regulator-always-on;
 	};
 
+	reg_module_3v3_eth: regulator-module-3v3-eth {
+		compatible = "regulator-fixed";
+		off-on-delay-us = <200000>;
+		regulator-name = "+V3.3_ETH";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		startup-delay-us = <200000>;
+		vin-supply = <&reg_LDO1>;
+	};
+
 	reserved-memory {
 		#address-cells = <1>;
 		#size-cells = <1>;
@@ -122,7 +133,7 @@
 	assigned-clock-parents = <&clks IMX7D_PLL_ENET_MAIN_100M_CLK>;
 	assigned-clock-rates = <0>, <100000000>;
 	phy-mode = "rmii";
-	phy-supply = <&reg_LDO1>;
+	phy-supply = <&reg_module_3v3_eth>;
 	fsl,magic-packet;
 	phy-handle = <&ethphy0>;
 
@@ -408,7 +419,7 @@
 			};
 
 			reg_LDO1: LDO1 { /* PWR_EN_+V3.3_ETH */
-				regulator-min-microvolt = <1800000>;
+				regulator-min-microvolt = <3300000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-boot-on;
 			};

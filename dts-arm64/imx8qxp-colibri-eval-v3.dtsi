@@ -7,7 +7,7 @@
 	aliases {
 		rtc0 = &rtc_i2c;
 		rtc1 = &rtc;
-        };
+	};
 
 	/* fixed crystal dedicated to mcp25xx */
 	clk16m: clock-16mhz-fixed {
@@ -22,7 +22,7 @@
 		id-gpio = <&lsio_gpio5 9 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_usbc_det>;
-        };
+	};
 
 	reg_3v3: regulator-3v3 {
 		compatible = "regulator-fixed";
@@ -40,7 +40,7 @@
 		regulator-max-microvolt = <5000000>;
 		gpio = <&lsio_gpio4 3 GPIO_ACTIVE_LOW>;
 		regulator-always-on;
-        };
+	};
 };
 
 /* Colibri Analogue Inputs */
@@ -53,11 +53,12 @@
 	status = "okay";
 };
 
-/* Colibri Ethernet */
+/* Colibri FastEthernet */
 &fec1 {
 	status = "okay";
 };
 
+/* Colibri I2C */
 &i2c1 {
 	status = "okay";
 
@@ -78,17 +79,17 @@
 
 /* Colibri SPI */
 &lpspi2 {
-        mcp2515: can@0 {
-                compatible = "microchip,mcp2515";
-                pinctrl-names = "default";
-                pinctrl-0 = <&pinctrl_can_int>;
-                reg = <0>;
-                clocks = <&clk16m>;
-                interrupt-parent = <&lsio_gpio3>;
-                interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
-                spi-max-frequency = <10000000>;
-                status = "okay";
-        };
+	mcp2515: can@0 {
+		compatible = "microchip,mcp2515";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_can_int>;
+		reg = <0>;
+		clocks = <&clk16m>;
+		interrupt-parent = <&lsio_gpio3>;
+		interrupts = <13 IRQ_TYPE_EDGE_FALLING>;
+		spi-max-frequency = <10000000>;
+		status = "okay";
+	};
 	/* To keep the CAN controller enabled by default,
 	 * disable conflicting spidev. This spidev device
 	 * enables with the devicetree overlay.
@@ -145,40 +146,39 @@
 };
 
 &usbotg1 {
-        extcon = <&extcon_usbc_det &extcon_usbc_det>;
-        vbus-supply = <&reg_usbh_vbus>;
-        srp-disable;
-        hnp-disable;
-        adp-disable;
+	extcon = <&extcon_usbc_det &extcon_usbc_det>;
+	vbus-supply = <&reg_usbh_vbus>;
+	srp-disable;
+	hnp-disable;
+	adp-disable;
 	power-active-high;
-        disable-over-current;
-        status = "okay";
+	disable-over-current;
+	status = "okay";
 };
 
 &usbotg3 {
-        dr_mode = "host";
-        status = "okay";
+	dr_mode = "host";
+	status = "okay";
 };
 
 /* USB PHY for &usbotg1 */
 &usbphy1 {
-        status = "okay";
+	status = "okay";
 };
 
-/* Colibri SDCard */
+/* Colibri SD/MMC Card */
 &usdhc2 {
 	status = "okay";
 };
 
-&vpu_encoder {
-        status = "okay";
+&vpu_decoder {
+	status = "okay";
 };
 
-&vpu_decoder {
-        status = "okay";
+&vpu_encoder {
+	status = "okay";
 };
 
 &vpu_lpcg {
-        status = "okay";
+	status = "okay";
 };
-

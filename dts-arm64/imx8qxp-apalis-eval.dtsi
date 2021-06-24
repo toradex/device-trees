@@ -52,10 +52,12 @@
 	};
 };
 
+/* Apalis Analogue Inputs */
 &adc0 {
 	status = "okay";
 };
 
+/* Apalis Gigabit Ethernet */
 &fec1 {
 	status = "okay";
 };
@@ -91,11 +93,11 @@
 };
 
 &jpegdec {
-        status = "okay";
+	status = "okay";
 };
 
 &jpegenc {
-        status = "okay";
+	status = "okay";
 };
 
 &ldb1 {
@@ -169,7 +171,7 @@
 
 /* Apalis PCIE1 */
 &pcieb {
-        status = "okay";
+	status = "okay";
 };
 
 /* Apalis PWM2 */
@@ -208,13 +210,13 @@
 };
 
 &vpu_decoder {
-        status = "okay";
+	status = "okay";
 };
 
 &vpu_encoder {
-        status = "okay";
+	status = "okay";
 };
 
 &vpu_lpcg {
-        status = "okay";
+	status = "okay";
 };

@@ -12,22 +12,23 @@
 	compatible = "toradex,apalis-imx8x",
 		     "fsl,imx8qxp";
 
-        backlight: backlight {
+	backlight: backlight {
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_bkl_on>;
 		brightness-levels = <0 45 63 88 119 158 203 255>;
 		default-brightness-level = <4>;
-		enable-gpios = <&lsio_gpio3 13 GPIO_ACTIVE_HIGH>;
+		enable-gpios = <&lsio_gpio3 13 GPIO_ACTIVE_HIGH>; /* BKL1_ON */
 		power-supply = <&reg_module_3v3>;
 		pwms = <&pwm_mipi_lvds1 0 6666667 PWM_POLARITY_INVERTED>;
 		status = "disabled";
-        };
+	};
 
 	chosen {
 		stdout-path = &lpuart1;
 	};
 
+	/* Apalis Parallel RGB */
 	display_lcdif: display@disp1 {
 		compatible = "fsl,imx-lcdif-mux-display";
 		#address-cells = <1>;
@@ -68,7 +69,7 @@
 		gpios = <&lsio_gpio3 20 GPIO_ACTIVE_HIGH>;
 		gpio-fan,speed-map = <   0 0
 				      3000 1>;
-        };
+	};
 
 	/* Apalis WAKE1_MICO */
 	gpio-keys {
@@ -101,7 +102,7 @@
 		status = "okay";
 		power-domains = <&pd IMX_SC_R_M4_0_PID0>,
 				<&pd IMX_SC_R_M4_0_MU_1A>;
-        };
+	};
 
 	panel_dpi: panel-dpi {
 		compatible = "panel-dpi";
@@ -144,7 +145,7 @@
 		regulator-max-microvolt = <3300000>;
 	};
 
-	reg_module_vref_1v8: regulator-vref-1v8 {
+	reg_module_vref_1v8: regulator-module-vref-1v8 {
 		compatible = "regulator-fixed";
 		regulator-name = "vref-1v8";
 		regulator-min-microvolt = <1800000>;
@@ -164,9 +165,9 @@
 	};
 
 	reserved-memory {
-                #address-cells = <2>;
-                #size-cells = <2>;
-                ranges;
+		#address-cells = <2>;
+		#size-cells = <2>;
+		ranges;
 
 		/*
 		 * 0x8800_0000 ~ 0x8FFF_FFFF is reserved for M4
@@ -263,7 +264,7 @@
 		simple-audio-card,cpu {
 			sound-dai = <&sai1>;
 		};
-        };
+	};
 };
 
 /* Apalis AN1_ADC */
@@ -271,6 +272,12 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_adc0>;
 	vref-supply = <&reg_module_vref_1v8>;
+};
+
+&adma_lcdif {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lcdif>;
+	status = "disabled";
 };
 
 /* Display Prefetch Resolve, (Tiling) */
@@ -387,7 +394,7 @@
 };
 
 &gpu_3d0 {
-        status = "okay";
+	status = "okay";
 };
 
 &hsio_refa_clk {
@@ -400,14 +407,14 @@
 
 /* On-module I2C */
 &i2c0 {
-        #address-cells = <1>;
-        #size-cells = <0>;
-        pinctrl-names = "default";
-        pinctrl-0 = <&pinctrl_lpi2c0>;
-        clock-frequency = <100000>;
-        status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lpi2c0>;
+	clock-frequency = <100000>;
+	status = "okay";
 
-	/* Touch controller */
+	/* On-Module Resistive Touch Controller */
 	ad7879_ts: touchscreen@2c {
 		compatible = "adi,ad7879-1";
 		pinctrl-names = "default";
@@ -426,11 +433,11 @@
 	};
 
 	/* On-Module EEPROM */
-        eeprom: eeprom@50 {
+	eeprom: eeprom@50 {
 		compatible = "atmel,24c02";
 		reg = <0x50>;
 		pagesize = <16>;
-        };
+	};
 
 	lt8912_hdmi: dsi-hdmi@48 {
 		compatible = "lontium,lt8912";
@@ -520,8 +527,8 @@
 		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
 		reg = <0x4a>;
 		interrupt-parent = <&lsio_gpio3>;
-		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;                /* Apalis GPIO5 */
-		reset-gpios = <&lsio_gpio3 18 GPIO_ACTIVE_HIGH>;        /* Apalis GPIO6 */
+		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;		/* Apalis GPIO5 */
+		reset-gpios = <&lsio_gpio3 18 GPIO_ACTIVE_HIGH>;	/* Apalis GPIO6 */
 		status = "disabled";
 	};
 };
@@ -552,7 +559,7 @@
 		/* On-module touch pen-down interrupt */
 		pinctrl_ad7879_int: ad7879-int {
 			fsl,pins = <
-				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05              0x21	/* TOUCH_PEN_IRQ */
+				IMX8QXP_MIPI_CSI0_I2C0_SCL_LSIO_GPIO3_IO05	0x21	/* TOUCH_PEN_IRQ */
 			>;
 		};
 
@@ -1086,10 +1093,6 @@
 	};
 };
 
-&ldb1_phy {
-	status = "disabled";
-};
-
 &ldb1 {
 	status = "disabled";
 
@@ -1106,6 +1109,10 @@
 			};
 		};
 	};
+};
+
+&ldb1_phy {
+	status = "disabled";
 };
 
 /* Apalis SPI1 */
@@ -1307,6 +1314,7 @@
 			  "MXM3_61";
 };
 
+/* MIPI CSI accessible via type specific diff pair 14-18 on X1 MXM3 edge connector */
 &mipi_csi_0 {
 	#address-cells = <1>;
 	#size-cells = <0>;
@@ -1360,7 +1368,7 @@
 	 */
 	vdev-nums = <2>;
 	reg = <0x0 0x90000000 0x0 0x20000>;
-        memory-region = <&vdevbuffer>;
+	memory-region = <&vdevbuffer>;
 	status = "okay";
 };
 
@@ -1377,18 +1385,21 @@
 		polling-delay-passive = <250>;
 		polling-delay = <2000>;
 		thermal-sensors = <&tsens IMX_SC_R_PMIC_0>;
+
 		trips {
 			pmic_alert0: trip0 {
 				temperature = <110000>;
 				hysteresis = <2000>;
 				type = "passive";
 			};
+
 			pmic_crit0: trip1 {
 				temperature = <125000>;
 				hysteresis = <2000>;
 				type = "critical";
 			};
 		};
+
 		cooling-maps {
 			map0 {
 				trip = <&pmic_alert0>;
@@ -1402,7 +1413,7 @@
 	};
 };
 
-/* Manage on-module USB WiFi */
+/* Manage on-module USB Wi-Fi */
 &usb3phynop1 {
 	status = "okay";
 };
@@ -1469,4 +1480,3 @@
 		print-buf-size = <0x80000>;
 	};
 };
-
