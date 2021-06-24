@@ -582,29 +582,6 @@
 		reset-gpios = <&gpio6 9 GPIO_ACTIVE_HIGH>;
 		status = "disabled";
 	};
-
-	ov5640_csi_cam: ov5640_mipi@3c {
-		compatible = "ovti,ov5640";
-		reg = <0x3c>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_apalis_gpio1 &pinctrl_apalis_gpio2 &pinctrl_cam_mclk>;
-		clocks = <&clks IMX6QDL_CLK_CKO2>;
-		clock-names = "xclk";
-		DOVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
-		AVDD-supply = <&reg_ov5640_2v8_a_vdd>;
-		DVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
-		powerdown-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
-		reset-gpios = <&gpio2 4 GPIO_ACTIVE_LOW>;
-		status = "disabled";
-
-		port {
-			ov5640_to_mipi_csi2: endpoint {
-				remote-endpoint = <&mipi_csi_from_ov5640>;
-				clock-lanes = <0>;
-				data-lanes = <1 2>;
-			};
-		};
-	};
 };
 
 /*
@@ -793,6 +770,28 @@
                 };
         };
 
+	ov5640_csi_cam: ov5640_mipi@3c {
+		compatible = "ovti,ov5640";
+		reg = <0x3c>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_apalis_gpio1 &pinctrl_apalis_gpio2 &pinctrl_cam_mclk>;
+		clocks = <&clks IMX6QDL_CLK_CKO2>;
+		clock-names = "xclk";
+		DOVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
+		AVDD-supply = <&reg_ov5640_2v8_a_vdd>;
+		DVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
+		powerdown-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+		reset-gpios = <&gpio2 4 GPIO_ACTIVE_LOW>;
+		status = "disabled";
+
+		port {
+			ov5640_to_mipi_csi2: endpoint {
+				remote-endpoint = <&mipi_csi_from_ov5640>;
+				clock-lanes = <0>;
+				data-lanes = <1 2>;
+			};
+		};
+	};
 };
 
 &ipu1_di1_disp1 {
