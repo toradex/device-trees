@@ -224,33 +224,6 @@
 		cvbs = <1>;
 		status = "okay";
 	};
-
-	ov5640_mipi@3c {
-		compatible = "ovti,ov564x_mipi";
-		reg = <0x3c>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_cam_mclk>;
-		clocks = <&clks IMX6QDL_CLK_CKO2>;
-		clock-names = "csi_mclk";
-		DOVDD-supply = <&reg_1p8v>;
-		AVDD-supply = <&reg_2p5v>;
-		DVDD-supply = <&reg_1p8v>;
-		pwn-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
-		rst-gpios = <&gpio2 4 GPIO_ACTIVE_LOW>;
-		ipu_id = <0>;
-		csi_id = <1>;
-		mclk = <22000000>;
-		mclk_source = <0>;
-		status = "okay";
-	};
-};
-
-&mipi_csi {
-	ipu_id = <0>;
-	csi_id = <1>;
-	v_channel = <0>;
-	lanes = <2>;
-	status = "okay";
 };
 
 &pcie {

@@ -71,6 +71,12 @@
 		status = "disabled";
 	};
 
+	clk_ov5640_osc: clk_ov5640_osc_int {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <24000000>;
+	};
+
 	/*
 	 * HDMI_TX_DDC: I2C2_DDC_SDA/SCL on MXM3 205/207
 	 */
@@ -187,6 +193,26 @@
 		regulator-always-on;
 	};
 
+	reg_ov5640_1v8_d_o_vdd: regulator-ov5640-1v8-d-o-vdd {
+		compatible = "regulator-fixed";
+		regulator-name = "DOVDD/DVDD_1.8V";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		regulator-always-on;
+		/* Note: The CSI module uses on-board 3.3V_SW supply */
+		vin-supply = <&reg_module_3v3>;
+	};
+
+	reg_ov5640_2v8_a_vdd: regulator-ov5640-2v8-a-vdd {
+		compatible = "regulator-fixed";
+		regulator-name = "AVDD/AFVDD_2.8V";
+		regulator-min-microvolt = <2800000>;
+		regulator-max-microvolt = <2800000>;
+		regulator-always-on;
+		/* Note: The CSI module uses on-board 3.3V_SW supply */
+		vin-supply = <&reg_module_3v3>;
+	};
+
 	reg_usb_otg_vbus: regulator-usb-otg-vbus {
 		compatible = "regulator-fixed";
 		pinctrl-names = "default";
@@ -257,6 +283,30 @@
 		status = "disabled";
 	};
 
+	v4l2_cap_0 {
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <0>;
+		csi_id = <0>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
+	v4l2_cap_1 { // second parallel camera
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <1>;
+		csi_id = <1>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
+	v4l2_cap_2 { // mipi-csi2 camera
+		compatible = "fsl,imx6q-v4l2-capture";
+		ipu_id = <0>;
+		csi_id = <1>;
+		mclk_source = <0>;
+		status = "okay";
+	};
+
 	vdac: vdac@0 {
 		compatible = "fsl,vdac";
 		ipu_id = <1>;
@@ -265,11 +315,6 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_ipu2_vdac>;
 		status = "disabled";
-	};
-
-	v4l2_out {
-		compatible = "fsl,mxc_v4l2_output";
-		status = "okay";
 	};
 };
 
@@ -745,6 +790,29 @@
 	scl-gpios = <&gpio3 17 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	sda-gpios = <&gpio3 18 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	status = "disabled";
+
+	ov5640_csi_cam: camera@3c {
+		compatible = "ovti,ov564x_mipi";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_cam_mclk>;
+		reg = <0x3c>;
+		/*
+		 * By default use the internal on-cam clock source
+		 * (Compatible with Toradex OV5640 v1.1b and later)
+		 */
+		clocks = <&clk_ov5640_osc>;
+		clock-names = "csi_mclk";
+		DOVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
+		AVDD-supply = <&reg_ov5640_2v8_a_vdd>;
+		DVDD-supply = <&reg_ov5640_1v8_d_o_vdd>;
+		pwn-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+		rst-gpios = <&gpio2 4 GPIO_ACTIVE_LOW>;
+		ipu_id = <0>;
+		csi_id = <1>;
+		mclk = <24000000>;
+		mclk_source = <0>;
+		status = "disabled";
+	};
 };
 
 &ldb {
@@ -862,6 +930,15 @@
 			};
 		};
 	};
+};
+
+&mipi_csi {
+	csi_id = <1>;
+	ipu_id = <0>;
+	lanes = <2>;
+	v_channel = <0>;
+
+	status = "disabled";
 };
 
 &pcie {
