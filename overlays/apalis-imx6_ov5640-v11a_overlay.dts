@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// CSI Camera Module 5MP OV5640 v1.1A (with external mclk), EOL Toradex product.
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/clock/imx6qdl-clock.h>
+
+/ {
+	compatible = "toradex,apalis_imx6q";
+};
+
+&i2c3 {
+	status = "okay";
+};
+
+&ov5640_csi_cam {
+	/* external mclk */
+	clocks = <&clks IMX6QDL_CLK_CKO2>;
+	status = "okay";
+};
+
+&mipi_csi {
+	status = "okay";
+};
