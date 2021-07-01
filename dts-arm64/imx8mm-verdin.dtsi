@@ -132,6 +132,9 @@
 		#size-cells = <2>;
 		ranges;
 
+		/* use the kernel configuration settings instead */
+		/delete-node/ linux,cma;
+
 		rpmsg_reserved: rpmsg@b8000000 {
 			no-map;
 			reg = <0 0xb8000000 0 0x400000>;
