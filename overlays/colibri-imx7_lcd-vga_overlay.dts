@@ -4,6 +4,7 @@
  */
 
 // Enable the parallel RGB interface with settings for VGA Displays on the Colibri iMX7
+#include <dt-bindings/clock/imx7d-clock.h>
 
 /dts-v1/;
 /plugin/;
@@ -25,6 +26,11 @@
 };
 
 &lcdif {
+	assigned-clocks = <&clks IMX7D_PLL_VIDEO_MAIN>,
+			  <&clks IMX7D_LCDIF_PIXEL_ROOT_SRC>;
+	assigned-clock-parents = <&clks IMX7D_PLL_VIDEO_MAIN_SRC>,
+				 <&clks IMX7D_PLL_VIDEO_POST_DIV>;
+	assigned-clock-rates = <853176000>, <213294000>;
 	status = "okay";
 };
 
