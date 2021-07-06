@@ -307,6 +307,11 @@
 		status = "okay";
 	};
 
+	v4l2_out {
+		compatible = "fsl,mxc_v4l2_output";
+		status = "okay";
+	};
+
 	vdac: vdac@0 {
 		compatible = "fsl,vdac";
 		ipu_id = <1>;

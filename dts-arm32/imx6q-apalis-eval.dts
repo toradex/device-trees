@@ -64,29 +64,6 @@
 		regulator-always-on;
 	};
 
-	v4l2_cap_0 {
-		compatible = "fsl,imx6q-v4l2-capture";
-		ipu_id = <0>;
-		csi_id = <0>;
-		mclk_source = <0>;
-		status = "okay";
-	};
-
-	v4l2_cap_1 { // second parallel camera
-		compatible = "fsl,imx6q-v4l2-capture";
-		ipu_id = <1>;
-		csi_id = <1>;
-		mclk_source = <0>;
-		status = "okay";
-	};
-
-	v4l2_cap_2 { // mipi-csi2 camera
-		compatible = "fsl,imx6q-v4l2-capture";
-		ipu_id = <0>;
-		csi_id = <1>;
-		mclk_source = <0>;
-		status = "okay";
-	};
 };
 
 &can1 {
