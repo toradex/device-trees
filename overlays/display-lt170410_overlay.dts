@@ -11,7 +11,8 @@
 / {
 	compatible = "toradex,apalis_imx6q",
 		     "toradex,apalis-imx8",
-		     "toradex,apalis-imx8x";
+		     "toradex,apalis-imx8x",
+		     "toradex,verdin-imx8mp";
 };
 
 &{/panel-lvds} {

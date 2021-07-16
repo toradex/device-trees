@@ -1,0 +1,54 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Verdin iMX8M Plus Mezzanine single-channel LVDS
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+&backlight_mezzanine {
+	status = "okay";
+};
+
+&gpu_2d {
+	status = "okay";
+};
+
+&gpu_3d {
+	status = "okay";
+};
+
+&lcdif2 {
+	status = "okay";
+};
+
+&ldb {
+	status = "okay";
+};
+
+&ldb_phy {
+	status = "okay";
+};
+
+&mix_gpu_ml {
+	status = "okay";
+};
+
+&ml_vipsi {
+	status = "okay";
+};
+
+&panel_lvds {
+	backlight = <&backlight_mezzanine>;
+	status = "okay";
+};
+
+&pwm2 {
+	status = "okay";
+};

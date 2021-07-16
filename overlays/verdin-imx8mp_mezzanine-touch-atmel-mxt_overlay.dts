@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Atmel MXT touchscreen on the Verdin iMX8M Plus Mezzanine
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,verdin-imx8mp";
+};
+
+&atmel_mxt_ts_mezzanine {
+	status = "okay";
+};
