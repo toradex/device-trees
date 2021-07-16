@@ -30,6 +30,17 @@
 		status = "disabled";
 	};
 
+	backlight_mezzanine: backlight-mezzanine {
+		compatible = "pwm-backlight";
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
+		/* Verdin GPIO 4 (SODIMM 212) */
+		enable-gpios = <&gpio1 6 GPIO_ACTIVE_HIGH>;
+		/* Verdin PWM_2 (SODIMM 16) */
+		pwms = <&pwm2 0 6666667 PWM_POLARITY_INVERTED>;
+		status = "disabled";
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 		pinctrl-names = "default";
@@ -42,6 +53,19 @@
 			label = "Wake-Up";
 			linux,code = <KEY_WAKEUP>;
 			wakeup-source;
+		};
+	};
+
+	panel_lvds: panel-lvds {
+		compatible = "panel-lvds";
+		backlight = <&backlight>;
+		data-mapping = "vesa-24";
+		status = "disabled";
+
+		port {
+			panel_lvds_in: endpoint {
+				remote-endpoint = <&lvds_out>;
+			};
 		};
 	};
 
@@ -459,6 +483,17 @@
 	pinctrl-names = "default", "gpio";
 	pinctrl-0 = <&pinctrl_i2c2>;
 	pinctrl-1 = <&pinctrl_i2c2_gpio>;
+
+	atmel_mxt_ts_mezzanine: touch-mezzanine@4a {
+		compatible = "atmel,maxtouch";
+		/* Verdin GPIO_3 (SODIMM 210) */
+		interrupt-parent = <&gpio1>;
+		interrupts = <5 IRQ_TYPE_EDGE_FALLING>;
+		reg = <0x4a>;
+		/* Verdin GPIO_2 (SODIMM 208) */
+		reset-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
+		status = "disabled";
+	};
 };
 
 /* Verdin I2C_4_CSI */
@@ -555,6 +590,24 @@
 		pagesize = <16>;
 		reg = <0x57>;
 		status = "disabled";
+	};
+};
+
+&ldb {
+	status = "disabled";
+
+	lvds_channel0: lvds-channel@0 {
+		fsl,data-mapping = "spwg";
+		fsl,data-width = <24>;
+		status = "okay";
+
+		port@1 {
+			reg = <1>;
+
+			lvds_out: endpoint {
+				remote-endpoint = <&panel_lvds_in>;
+			};
+		};
 	};
 };
 
