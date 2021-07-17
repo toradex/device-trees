@@ -3,7 +3,7 @@
  * Copyright 2020-2021 Toradex
  */
 
-// Verdin iMX8M Plus Mezzanine dual-channel LVDS
+// Verdin iMX8M Plus Mezzanine with LG LP156WF1 dual-channel LVDS Panel
 
 /dts-v1/;
 /plugin/;
@@ -51,19 +51,22 @@
 
 &panel_lvds {
 	backlight = <&backlight_mezzanine>;
+	data-mapping = "jeida-18";
+	height-mm = <194>;
+	width-mm = <345>;
 	status = "okay";
 
 	panel-timing {
-		clock-frequency = <148500000>;
+		clock-frequency = <138500000>;
 		hactive = <1920>;
-		hback-porch = <148>;
-		hfront-porch = <88>;
-		hsync-len = <44>;
-		vactive = <1080>;
-		vback-porch = <36>;
-		vfront-porch = <4>;
-		vsync-len = <5>;
+		hback-porch = <40>;
+		hfront-porch = <24>;
+		hsync-len = <16>;
 		pixelclk-active = <0>;
+		vactive = <1080>;
+		vback-porch = <23>;
+		vfront-porch = <3>;
+		vsync-len = <5>;
 	};
 };
 
