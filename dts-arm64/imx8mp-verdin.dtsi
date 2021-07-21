@@ -99,30 +99,6 @@
 		vin-supply = <&buck4_reg>;
 	};
 
-	reg_usb0_vbus: regulator-usb0-vbus {
-		compatible = "regulator-fixed";
-		enable-active-high;
-		/* Verdin USB1_EN */
-		gpio = <&gpio1 12 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_reg_usb1_en>;
-		regulator-max-microvolt = <5000000>;
-		regulator-min-microvolt = <5000000>;
-		regulator-name = "usb0_vbus";
-	};
-
-	reg_usb1_vbus: regulator-usb1-vbus {
-		compatible = "regulator-fixed";
-		enable-active-high;
-		/* Verdin USB_2_EN (SODIMM 185) */
-		gpio = <&gpio1 14 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_reg_usb2_en>;
-		regulator-max-microvolt = <5000000>;
-		regulator-min-microvolt = <5000000>;
-		regulator-name = "usb1_vbus";
-	};
-
 	reg_usdhc2_vmmc: regulator-usdhc2 {
 		compatible = "regulator-fixed";
 		enable-active-high;
@@ -732,7 +708,6 @@
 	fsl,phy-tx-preemp-amp-tune = <3>;
 	fsl,phy-tx-rise-tune = <0>;
 	fsl,phy-tx-vref-tune = <6>;
-	vbus-supply = <&reg_usb0_vbus>;
 };
 
 &usb_dwc3_0 {
@@ -742,16 +717,19 @@
 	srp-disable;
 	adp-disable;
 	usb-role-switch;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usb1_en>;
 };
 
 /* Verdin USB_2 */
 &usb3_phy1 {
 	fsl,phy-tx-preemp-amp-tune = <2>;
-	vbus-supply = <&reg_usb1_vbus>;
 };
 
 &usb_dwc3_1 {
 	dr_mode = "host";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usb2_en>;
 };
 
 /* Verdin SD_1 */
@@ -1131,18 +1109,6 @@
 		>;
 	};
 
-	pinctrl_reg_usb1_en: regusb1engrp {
-		fsl,pins = <
-			MX8MP_IOMUXC_GPIO1_IO12__GPIO1_IO12		0x184	/* SODIMM 155 */
-		>;
-	};
-
-	pinctrl_reg_usb2_en: regusb2engrp {
-		fsl,pins = <
-			MX8MP_IOMUXC_GPIO1_IO14__GPIO1_IO14		0x184	/* SODIMM 185 */
-		>;
-	};
-
 	pinctrl_sai1: sai1grp {
 		fsl,pins = <
 			MX8MP_IOMUXC_SAI5_RXD1__AUDIOMIX_SAI1_TX_SYNC	0x1d6	/* SODIMM 32 */
@@ -1198,6 +1164,18 @@
 		fsl,pins = <
 			MX8MP_IOMUXC_UART4_TXD__UART4_DCE_TX		0x1c4	/* SODIMM 151 */
 			MX8MP_IOMUXC_UART4_RXD__UART4_DCE_RX		0x1c4	/* SODIMM 153 */
+		>;
+	};
+
+	pinctrl_usb1_en: usb1engrp {
+		fsl,pins = <
+			MX8MP_IOMUXC_GPIO1_IO12__USB1_PWR		0x184	/* SODIMM 155 */
+		>;
+	};
+
+	pinctrl_usb2_en: usb2engrp {
+		fsl,pins = <
+			MX8MP_IOMUXC_GPIO1_IO14__USB2_PWR		0x184	/* SODIMM 185 */
 		>;
 	};
 
