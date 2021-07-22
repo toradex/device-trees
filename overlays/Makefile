@@ -89,6 +89,7 @@ dtb-y += verdin-imx8mm_sn65dsi84_overlay.dtbo
 dtb-y += verdin-imx8mp_lt8912_overlay.dtbo
 dtb-y += verdin-imx8mp_mezzanine-lvds-single-channel_overlay.dtbo
 dtb-y += verdin-imx8mp_mezzanine-lvds-dual-channel_overlay.dtbo
+dtb-y += verdin-imx8mp_mezzanine-ov5640-2_overlay.dtbo
 dtb-y += verdin-imx8mp_mezzanine-ov5640_overlay.dtbo
 dtb-y += verdin-imx8mp_mezzanine-touch-atmel-mxt_overlay.dtbo
 dtb-y += verdin-imx8mp_native-hdmi_overlay.dtbo

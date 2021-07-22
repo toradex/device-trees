@@ -6,6 +6,9 @@
 // Verdin iMX8M Plus Mezzanine orderable at Toradex.
 // CSI Camera Module 5MP OV5640 previously orderable at Toradex.
 
+// Note: Uses the same GPIOs as the first camera interface CSI_1
+//       and the same I2C bus as used for DSI display adapters!
+
 /dts-v1/;
 /plugin/;
 
@@ -41,13 +44,13 @@
 		mclk_source = <0>;
 		mipi_csi;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio1>, <&pinctrl_gpio2>;
-		/* Verdin GPIO2 (JP6 1-2) */
-		powerdown-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
+		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
+		/* Verdin GPIO6 (JP6 2-3) */
+		powerdown-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
 		PVDD-supply = <&reg_3p3v>;
 		reg = <0x3c>;
-		/* Verdin GPIO1 (JP5 1-2) */
-		reset-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+		/* Verdin GPIO5 (JP5 2-3) */
+		reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
 		status = "okay";
 
 		port {
@@ -58,15 +61,6 @@
 			};
 		};
 	};
-};
-
-/* make sure Verdin GPIO1 and GPIO2 are NOT muxed by default to avoid any conflict */
-&iomuxc {
-        pinctrl-names = "default";
-        pinctrl-0 = <&pinctrl_gpio3>, <&pinctrl_gpio4>,
-                    <&pinctrl_gpio7>, <&pinctrl_gpio8>,
-                    <&pinctrl_gpio_hog1>, <&pinctrl_gpio_hog2>, <&pinctrl_gpio_hog3>,
-                    <&pinctrl_hdmi_hog>, <&pinctrl_pmic_tpm_ena>;
 };
 
 &isi_1 {

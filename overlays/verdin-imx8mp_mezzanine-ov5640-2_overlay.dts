@@ -1,9 +1,13 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 /*
- * Copyright 2020-2021 Toradex
+ * Copyright 2021 Toradex
  */
 
+// Verdin iMX8M Plus Mezzanine orderable at Toradex.
 // CSI Camera Module 5MP OV5640 previously orderable at Toradex.
+
+// Note: Uses the same Verdin GPIO2 as used for the Atmel MXT Touchscreen
+//       and the same I2C bus as used for DSI display adapters!
 
 /dts-v1/;
 /plugin/;
@@ -19,8 +23,8 @@
 	status = "okay";
 };
 
-/* Verdin I2C_4_CSI */
-&i2c3 {
+/* Verdin I2C_2_DSI (JP3 2-3, JP4 2-3) */
+&i2c2 {
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
@@ -33,58 +37,53 @@
 		compatible = "ovti,ov5640";
 		clock-names = "xclk";
 		clocks = <&clk IMX8MP_CLK_IPP_DO_CLKO2>;
-		csi_id = <0>;
+		csi_id = <1>;
 		DOVDD-supply = <&reg_3p3v>;
 		DVDD-supply = <&reg_3p3v>;
 		mclk = <24000000>;
 		mclk_source = <0>;
 		mipi_csi;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
-		/* Verdin GPIO6 */
-		powerdown-gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+		/* Verdin GPIO2 (JP6 1-2) */
+		powerdown-gpios = <&gpio1 1 GPIO_ACTIVE_HIGH>;
 		PVDD-supply = <&reg_3p3v>;
 		reg = <0x3c>;
-		/* Verdin GPIO5 */
-		reset-gpios = <&gpio1 7 GPIO_ACTIVE_LOW>;
+		/* Verdin GPIO1 (JP5 1-2) */
+		reset-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
 		status = "okay";
 
 		port {
-			ov5640_mipi_0_ep: endpoint {
+			ov5640_mipi_1_ep: endpoint {
 				clock-lanes = <0>;
 				data-lanes = <1 2>;
-				remote-endpoint = <&mipi_csi0_ep>;
+				remote-endpoint = <&mipi_csi1_ep>;
 			};
 		};
 	};
 };
 
-&isi_0 {
+&isi_1 {
 	status = "okay";
 
 	cap_device {
 		status = "okay";
 	};
-
-	m2m_device {
-		status = "okay";
-	};
 };
 
-&mipi_csi_0 {
+&mipi_csi_1 {
 	#address-cells = <1>;
 	#size-cells = <0>;
 	status = "okay";
 
-	port@0 {
-		reg = <0>;
+	port@1 {
+		reg = <1>;
 
-		mipi_csi0_ep: endpoint {
+		mipi_csi1_ep: endpoint {
 			csis-hs-settle = <13>;
 			csis-clk-settle = <2>;
 			csis-wclk;
 			data-lanes = <2>;
-			remote-endpoint = <&ov5640_mipi_0_ep>;
+			remote-endpoint = <&ov5640_mipi_1_ep>;
 		};
 	};
 };
