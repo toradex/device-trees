@@ -414,6 +414,3 @@
 	status = "okay";
 };
 
-&wakeup_key {
-	status = "okay";
-};

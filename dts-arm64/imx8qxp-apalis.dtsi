@@ -71,22 +71,6 @@
 				      3000 1>;
 	};
 
-	/* Apalis WAKE1_MICO */
-	gpio-keys {
-		compatible = "gpio-keys";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio_keys>;
-		status = "disabled";
-
-		wakeup_key: wakeup-key {
-			label = "Wake-Up";
-			gpios = <&lsio_gpio1 26 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_WAKEUP>;
-			debounce-interval = <10>;
-			wakeup-source;
-		};
-	};
-
 	imx8x_cm4: imx8x_cm4@0 {
 		compatible = "fsl,imx8qxp-cm4";
 		rsc-da = <0x90000000>;
@@ -541,7 +525,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_dap1_gpios>,
 		    <&pinctrl_gpio3>, <&pinctrl_gpio4>, <&pinctrl_gpio5>,
-		    <&pinctrl_gpio6>, <&pinctrl_mmc1_gpios>,
+		    <&pinctrl_gpio6>, <&pinctrl_gpio_keys>, <&pinctrl_mmc1_gpios>,
 		    <&pinctrl_qspi0a_gpios>, <&pinctrl_sata1_act>,
 		    <&pinctrl_usbh_oc_n>, <&pinctrl_usbo1oc>,
 		    <&pinctrl_wifi_sclk>;

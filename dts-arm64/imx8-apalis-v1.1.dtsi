@@ -27,22 +27,6 @@
 				      3000 1>;
 	};
 
-	/* Apalis WAKE1_MICO */
-	wakeup_key: gpio-keys {
-		compatible = "gpio-keys";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio_keys>;
-		status = "disabled";
-
-		wakeup-key {
-			label = "Wake-Up";
-			gpios = <&lsio_gpio2 20 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_WAKEUP>;
-			debounce-interval = <10>;
-			wakeup-source;
-		};
-	};
-
 	panel_lvds: panel-lvds {
 		compatible = "panel-lvds";
 		backlight = <&backlight>;
@@ -71,23 +55,6 @@
 		enable-gpios = <&lsio_gpio4 11 GPIO_ACTIVE_HIGH>;
 	};
 
-	/*
-	 * Power management bus used to control LDO1OUT of the
-	 * second PMIC PF8100. This is used for controlling voltage levels of
-	 * typespecific RGMII signals and Apalis UART2_RTS UART2_CTS.
-	 *
-	 * IMX_SC_R_BOARD_R1 for 3.3V
-	 * IMX_SC_R_BOARD_R2 for 1.8V
-	 * IMX_SC_R_BOARD_R3 for 2.5V
-	 * Note that for 2.5V operation the pad muxing needs to be changed,
-	 * compare with PSW_OVR field of IMX8QM_COMP_CTL_GPIO_1V8_3V3_ENET_ENETA_PAD.
-	 *
-	 * those power domains are mutually exclusive.
-	 */
-	pmbus_external_rgmii: pmbusextrgmii {
-		compatible = "simple-pm-bus";
-		power-domains = <&pd IMX_SC_R_BOARD_R1>;
-	};
 
 	pcie_wifi_refclk: wifi-clock-generator {
 		compatible = "fixed-clock";
@@ -104,63 +71,113 @@
 		enable-gpios = <&lsio_gpio2 11 GPIO_ACTIVE_HIGH>;
 	};
 
-	reg_module_3v3: regulator-module-3v3 {
-		compatible = "regulator-fixed";
-		regulator-name = "+V3.3";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-	};
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
 
-	reg_module_3v3_avdd: regulator-module-3v3-avdd {
-		compatible = "regulator-fixed";
-		regulator-name = "+V3.3_AUDIO";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-	};
+		/*
+		 * Power management bus used to control LDO1OUT of the
+		 * second PMIC PF8100. This is used for controlling voltage levels of
+		 * typespecific RGMII signals and Apalis UART2_RTS UART2_CTS.
+		 *
+		 * IMX_SC_R_BOARD_R1 for 3.3V
+		 * IMX_SC_R_BOARD_R2 for 1.8V
+		 * IMX_SC_R_BOARD_R3 for 2.5V
+		 * Note that for 2.5V operation the pad muxing needs to be changed,
+		 * compare with PSW_OVR field of IMX8QM_COMP_CTL_GPIO_1V8_3V3_ENET_ENETA_PAD.
+		 *
+		 * those power domains are mutually exclusive.
+		 */
+		reg_ext_rgmii: regulator-ext-rgmii {
+			compatible = "regulator-fixed";
+			regulator-name = "VDD_EXT_RGMII (LDO1)";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			power-domains = <&pd IMX_SC_R_BOARD_R1>;
 
-	reg_module_wifi: regulator-module-wifi {
-		compatible = "regulator-fixed";
-		enable-active-high;
-		gpio = <&lsio_gpio1 28 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_wifi_pdn>;
-		regulator-name = "wifi_pwrdn_fake_regulator";
-		regulator-settling-time-us = <100>;
+			regulator-state-mem {
+				regulator-off-in-suspend;
+			};
+		};
 
-		regulator-state-mem {
-			regulator-off-in-suspend;
+		/*
+		 * Power management bus used for powering down phy in suspend
+		 *
+		 * Power management bus used to control LDO4OUT of the
+		 * first PMIC PF8100 from SCFW using IMX_SC_R_BOARD_R0 (+3.3V_ETH)
+		 */
+		reg_fec_supply: regulator-fec-supply {
+			compatible = "regulator-fixed";
+			regulator-name = "+V3.3_ETH (LDO4)";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			power-domains = <&pd IMX_SC_R_BOARD_R0>;
+
+			regulator-state-mem {
+				regulator-off-in-suspend;
+			};
+		};
+
+		reg_module_3v3: regulator-module-3v3 {
+			compatible = "regulator-fixed";
+			regulator-name = "+V3.3";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+		};
+
+		reg_module_3v3_avdd: regulator-module-3v3-avdd {
+			compatible = "regulator-fixed";
+			regulator-name = "+V3.3_AUDIO";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+		};
+
+		reg_module_wifi: regulator-module-wifi {
+			compatible = "regulator-fixed";
+			enable-active-high;
+			gpio = <&lsio_gpio1 28 GPIO_ACTIVE_HIGH>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_wifi_pdn>;
+			regulator-name = "wifi_pwrdn_fake_regulator";
+			regulator-settling-time-us = <100>;
+
+			regulator-state-mem {
+				regulator-off-in-suspend;
+			};
+		};
+
+		reg_pcie_switch: regulator-pcie-switch {
+			compatible = "regulator-fixed";
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_gpio7>;
+			enable-active-high;
+			gpio = <&lsio_gpio3 26 GPIO_ACTIVE_HIGH>;
+			regulator-name = "pcie_switch";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			startup-delay-us = <100000>;
+		};
+
+		reg_vref_1v8: regulator-vref-1v8 {
+			compatible = "regulator-fixed";
+			regulator-name = "+V1.8";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
 		};
 	};
 
-	reg_pcie_switch: regulator-pcie-switch {
-		compatible = "regulator-fixed";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio7>;
-		enable-active-high;
-		gpio = <&lsio_gpio3 26 GPIO_ACTIVE_HIGH>;
-		regulator-name = "pcie_switch";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
-		startup-delay-us = <100000>;
-	};
-
 	reg_usb_host_vbus: regulator-usb-host-vbus {
-		compatible = "regulator-fixed";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_usbh_en>;
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		enable-active-high;
-		/* Apalis USBH_EN */
-		gpio = <&lsio_gpio4 4 GPIO_ACTIVE_HIGH>;
-		regulator-always-on;
-	};
+			compatible = "regulator-fixed";
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_usbh_en>;
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			enable-active-high;
 
-	reg_vref_1v8: regulator-vref-1v8 {
-		compatible = "regulator-fixed";
-		regulator-name = "+V1.8";
-		regulator-min-microvolt = <1800000>;
-		regulator-max-microvolt = <1800000>;
+			/* Apalis USBH_EN */
+			gpio = <&lsio_gpio4 4 GPIO_ACTIVE_HIGH>;
+			regulator-always-on;
 	};
 
 	reserved-memory {
@@ -297,6 +314,8 @@
 	pinctrl-1 = <&pinctrl_fec1_sleep>;
 	fsl,magic-packet;
 	fsl,mii-exclusive;
+
+	phy-supply = <&reg_fec_supply>;
 	phy-handle = <&ethphy0>;
 	phy-mode = "rgmii-id";
 	phy-reset-duration = <10>;
@@ -311,7 +330,6 @@
 			interrupt-parent = <&lsio_gpio1>;
 			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
 			micrel,led-mode = <0>;
-			power-domains = <&pd IMX_SC_R_BOARD_R0>;
 			reg = <7>;
 		};
 	};
@@ -416,7 +434,7 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_cam1_gpios>, <&pinctrl_dap1_gpios>,
 		    <&pinctrl_esai0_gpios>, <&pinctrl_fec2_gpios>,
-		    <&pinctrl_gpio3>, <&pinctrl_gpio4>,
+		    <&pinctrl_gpio3>, <&pinctrl_gpio4>, <&pinctrl_gpio_keys>,
 		    <&pinctrl_gpio_usbh_oc_n>, <&pinctrl_lpuart1ctrl>,
 		    <&pinctrl_lvds0_i2c0_gpio>, <&pinctrl_lvds1_i2c0_gpios>,
 		    <&pinctrl_mipi_dsi_0_1_en>, <&pinctrl_mipi_dsi1_gpios>,
@@ -1385,11 +1403,11 @@
 
 	/*
 	 * Add GPIO2_20 as a wakeup source:
-	 * Pin:  SC_P_SPI3_CS0 (MXM3_37/WAKE1_MICO)
-	 * Type: SC_PAD_WAKEUP_FALL_EDGE
+	 * Pin:  101	SC_P_SPI3_CS0 (MXM3_37/WAKE1_MICO)
+	 * Type: 5 	SC_PAD_WAKEUP_FALL_EDGE
 	 * Line: 20
 	 */
-	 pad-wakeup = <101 5 20>;
+	 pad-wakeup = <IMX8QM_SPI3_CS0 5 20>;
 	 pad-wakeup-num = <1>;
 };
 
