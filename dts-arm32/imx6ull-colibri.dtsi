@@ -94,9 +94,6 @@
 	pinctrl-0 = <&pinctrl_adc1>;
 };
 
-&cpu0 {
-	dc-supply = <&reg_soc_in>;
-};
 
 /* Colibri SPI */
 &ecspi1 {
