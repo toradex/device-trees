@@ -6,11 +6,11 @@
 /dts-v1/;
 
 #include "imx8qxp-colibri.dtsi"
-#include "imx8x-colibri-eval-v3.dtsi"
+#include "imx8x-colibri-iris.dtsi"
 
 / {
-	model = "Toradex Colibri iMX8QXP on Colibri Evaluation Board V3";
-	compatible = "toradex,colibri-imx8x-eval-v3",
+	model = "Toradex Colibri iMX8QXP on Colibri Iris Board";
+	compatible = "toradex,colibri-imx8x-iris",
 		     "toradex,colibri-imx8x",
 		     "fsl,imx8qxp";
 };

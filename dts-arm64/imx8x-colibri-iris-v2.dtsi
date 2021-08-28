@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: GPL-2.0+ OR X11
+/*
+ * Copyright 2018-2021 Toradex
+ */
+
+#include "imx8x-colibri-iris.dtsi"
+
+/ {
+	reg_3v3_vmmc: regulator-3v3-vmmc {
+		compatible = "regulator-fixed";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_enable_3v3_vmmc>;
+		regulator-name = "3v3_vmmc";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&lsio_gpio0 31 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <100>;
+		enable-active-high;
+	};
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_lvds_converter &pinctrl_gpio_iris>;
+
+	usdhc {
+		pinctrl_enable_3v3_vmmc: enable_3v3_vmmc {
+			fsl,pins = <
+				IMX8QXP_SAI1_RXFS_LSIO_GPIO0_IO31	0x20 /* SODIMM 100 */
+			>;
+		};
+	};
+};
+
+/* Colibri SD/MMC Card */
+&usdhc2 {
+	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
+	sd-uhs-sdr12;
+	sd-uhs-sdr25;
+	sd-uhs-sdr50;
+	sd-uhs-sdr104;
+	cap-power-off-card;
+	/delete-property/ keep-power-in-suspend;
+	vmmc-supply = <&reg_3v3_vmmc>;
+	status = "okay";
+};
