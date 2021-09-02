@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /*
- * Copyright 2018 Toradex AG
+ * Copyright 2018-2021 Toradex
  */
 
 #include "imx6ull-colibri.dtsi"
@@ -17,6 +17,10 @@
 		pinctrl-0 = <&pinctrl_snvs_wifi_pdn>;
 		reset-gpios = <&gpio5 11 GPIO_ACTIVE_LOW>;
 	};
+};
+
+&backlight {
+	status = "okay";
 };
 
 &cpu0 {
@@ -157,6 +161,18 @@
 			  "",
 			  "",
 			  "SODIMM_105";
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
 };
 
 &iomuxc {

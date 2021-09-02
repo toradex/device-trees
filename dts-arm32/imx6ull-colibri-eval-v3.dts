@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /*
- * Copyright 2018 Toradex AG
+ * Copyright 2018-2021 Toradex
  */
 
 /dts-v1/;
@@ -11,4 +11,24 @@
 / {
 	model = "Toradex Colibri iMX6ULL 256MB on Colibri Evaluation Board V3";
 	compatible = "toradex,colibri-imx6ull-eval", "fsl,imx6ull";
+};
+
+&atmel_mxt_ts {
+	pinctrl-0 = <&pinctrl_atmel_adap>;
+	interrupt-parent = <&gpio4>;
+	interrupts = <16 IRQ_TYPE_EDGE_FALLING>;   /* SODIMM 28, INT */
+	reset-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>; /* SODIMM 30, RST */
+	status = "okay";
+};
+
+/* PWM <B> */
+&pwm5 {
+	/* Pin already used by atmel_mxt_ts touchscreen */
+	status = "disabled";
+};
+
+/* PWM <C> */
+&pwm6 {
+	/* Pin already used by atmel_mxt_ts touchscreen */
+	status = "disabled";
 };

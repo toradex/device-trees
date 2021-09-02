@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /*
- * Copyright 2018 Toradex AG
+ * Copyright 2018-2021 Toradex
  */
 
 #include "imx6ull-colibri.dtsi"
@@ -10,6 +10,10 @@
 		device_type = "memory";
 		reg = <0x80000000 0x10000000>;
 	};
+};
+
+&backlight {
+	status = "okay";
 };
 
 &gpio1 {
@@ -147,6 +151,18 @@
 			  "",
 			  "SODIMM_105",
 			  "SODIMM_127";
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
 };
 
 &iomuxc {

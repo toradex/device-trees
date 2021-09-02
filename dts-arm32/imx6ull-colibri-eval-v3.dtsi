@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: (GPL-2.0 OR MIT)
 /*
- * Copyright 2017 Toradex AG
+ * Copyright 2017-2021 Toradex
  */
 
 / {
@@ -34,33 +34,6 @@
 		id-gpio = <&gpio5 2 GPIO_ACTIVE_HIGH>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_snvs_usbc_det>;
-	};
-
-	panel_dpi: panel-dpi {
-		compatible = "panel-dpi";
-		backlight = <&backlight>;
-		width-mm = <115>;
-		height-mm = <86>;
-
-		data-mapping = "bgr666";
-
-		panel-timing {
-			clock-frequency = <25175000>;
-			hactive = <640>;
-			vactive = <480>;
-			hsync-len = <96>;
-			hfront-porch = <16>;
-			hback-porch = <48>;
-			vsync-len = <2>;
-			vfront-porch = <10>;
-			vback-porch = <33>;
-		};
-
-		port {
-			lcd_panel_in: endpoint {
-				remote-endpoint = <&lcdif_out>;
-			};
-		};
 	};
 
 	reg_3v3: regulator-3v3 {
@@ -98,7 +71,7 @@
 	default-brightness-level = <6>;
 	power-supply = <&reg_3v3>;
 	pwms = <&pwm4 0 5000000 1>;
-	status = "okay";
+	status = "disabled";
 };
 
 &ecspi1 {
@@ -134,21 +107,6 @@
 		compatible = "st,m41t0";
 		reg = <0x68>;
 	};
-};
-
-&lcdif {
-	status = "okay";
-
-	port {
-		lcdif_out: endpoint {
-			remote-endpoint = <&lcd_panel_in>;
-		};
-	};
-};
-
-/* PWM <A> */
-&pwm4 {
-	status = "okay";
 };
 
 /* PWM <B> */
