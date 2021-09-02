@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Enable the resistive touch controller (AD7879) on the Colibri iMX6ULL.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri-imx6ull-emmc";
+};
+
+&ad7879_ts {
+	status = "okay";
+};
+
+&i2c2 {
+	/* Was disabled because ad7879 is a single I2C slave */
+	status = "okay";
+};

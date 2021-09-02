@@ -13,7 +13,7 @@
 	compatible = "toradex,colibri_imx6dl",
 		     "toradex,colibri-imx7s",
 		     "toradex,colibri-imx7d",
-		     "toradex,colibri-imx6ull",
+		     "toradex,colibri-imx6ull-emmc",
 		     "toradex,colibri-imx8x";
 };
 
