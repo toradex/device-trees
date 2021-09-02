@@ -107,11 +107,6 @@
 	};
 };
 
-/* ATMEL TS connector */
-&atmel_mxt_ts {
-	status = "okay";
-};
-
 /* PWM <A> */
 &pwm4 {
 	status = "okay";

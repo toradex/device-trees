@@ -93,7 +93,6 @@
 				vfront-porch = <11>;
 				hsync-len = <96>;
 				vsync-len = <2>;
-
 				de-active = <1>;
 				hsync-active = <0>;
 				vsync-active = <0>;
@@ -111,7 +110,6 @@
 				vfront-porch = <10>;
 				hsync-len = <128>;
 				vsync-len = <2>;
-
 				de-active = <1>;
 				hsync-active = <0>;
 				vsync-active = <0>;
@@ -128,7 +126,6 @@
 				vfront-porch = <10>;
 				hsync-len = <128>;
 				vsync-len = <2>;
-
 				de-active = <1>;
 				hsync-active = <0>;
 				vsync-active = <0>;
@@ -145,7 +142,6 @@
 				vfront-porch = <1>;
 				hsync-len = <128>;
 				vsync-len = <4>;
-
 				de-active = <1>;
 				hsync-active = <1>;
 				vsync-active = <1>;
@@ -162,7 +158,6 @@
 				vfront-porch = <20>;
 				hsync-len = <5>;
 				vsync-len = <5>;
-
 				de-active = <1>;
 				hsync-active = <0>;
 				vsync-active = <0>;
@@ -179,7 +174,22 @@
 				vfront-porch = <3>;
 				hsync-len = <136>;
 				vsync-len = <6>;
-
+				de-active = <1>;
+				hsync-active = <0>;
+				vsync-active = <0>;
+				pixelclk-active = <0>;
+			};
+			/* WXGA Timing, LT170410 display 10" */
+			timing_wxga: 1280x800 {
+				clock-frequency = <68930000>;
+				hactive = <1280>;
+				vactive = <800>;
+				hback-porch = <64>;
+				hfront-porch = <64>;
+				vback-porch = <5>;
+				vfront-porch = <5>;
+				hsync-len = <40>;
+				vsync-len = <6>;
 				de-active = <1>;
 				hsync-active = <0>;
 				vsync-active = <0>;

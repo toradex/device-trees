@@ -113,11 +113,6 @@
 	status = "okay";
 };
 
-/* Atmel TS connector */
-&atmel_mxt_ts {
-	status = "okay";
-};
-
 /* Colibri UART_A */
 &uart1 {
 	status = "okay";
@@ -178,19 +173,6 @@
 };
 
 &gpio1 {
-	/*
-	 * lvds_tx_on turns the LVDS transceiver on. If one wants to turn the
-	 * transceiver off, that property has to be deleted and the gpio handled
-	 * in userspace.
-	 * The same applies to uart25_tx_on and uart1_tx_on, where the UART
-	 * transceiver is turned on.
-	 */
-	lvds_tx_on {
-		gpio-hog;
-		gpios = <14 0>;
-		output-high;
-	};
-
 	uart25_tx_on {
 		gpio-hog;
 		gpios = <15 0>;

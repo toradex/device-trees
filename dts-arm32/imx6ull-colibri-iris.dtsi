@@ -87,8 +87,8 @@
 &atmel_mxt_ts {
 	pinctrl-0 = <&pinctrl_atmel_adap>;
 	interrupt-parent = <&gpio4>;
-	interrupts = <16 IRQ_TYPE_EDGE_FALLING>;
-	reset-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+	interrupts = <16 IRQ_TYPE_EDGE_FALLING>;   /* SODIMM 28, INT */
+	reset-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>; /* SODIMM 30, RST */
 	status = "disabled";
 };
 

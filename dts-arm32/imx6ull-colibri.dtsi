@@ -154,7 +154,7 @@
 	pinctrl-1 = <&pinctrl_i2c1_gpio>;
 	sda-gpios = <&gpio1 29 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	scl-gpios = <&gpio1 28 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-	status = "okay";
+	status = "disabled";
 
 	/* Atmel maxtouch controller */
 	atmel_mxt_ts: touchscreen@4a {
@@ -188,9 +188,9 @@
 	pinctrl-1 = <&pinctrl_i2c2_gpio>;
 	sda-gpios = <&gpio1 31 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	scl-gpios = <&gpio1 30 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-	status = "okay";
+	status = "disabled";
 
-	ad7879@2c {
+	ad7879_ts: touchscreen@2c {
 		compatible = "adi,ad7879-1";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_snvs_ad7879_int>;
@@ -204,19 +204,8 @@
 		adi,median-filter-size = /bits/ 8 <2>;
 		adi,averaging = /bits/ 8 <1>;
 		adi,conversion-interval = /bits/ 8 <255>;
+		status = "disabled";
 	};
-};
-
-&backlight {
-	status = "okay";
-};
-
-&lcdif {
-	status = "okay";
-};
-
-&pwm4 {
-	status = "okay";
 };
 
 &pwm5 {
