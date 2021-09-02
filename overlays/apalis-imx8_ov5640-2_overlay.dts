@@ -29,10 +29,13 @@
 		mclk_source = <0>;
 		mipi_csi;
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio_keys>, <&pinctrl_lpspi0>;
+		pinctrl-0 = <&pinctrl_lpspi0>;
 		powerdown-gpios = <&lsio_gpio2 20 GPIO_ACTIVE_HIGH>;	/* Apalis WAKE1_MICO (MXM3 pin 37) */
 		reg = <0x3c>;
 		reset-gpios = <&lsio_gpio3 5 GPIO_ACTIVE_LOW>;		/* Apalis SPI1_CS (MXM3 pin 227) */
+		AVDD-supply = <&reg_module_3v3>;
+		DOVDD-supply = <&reg_module_3v3>;
+		DVDD-supply = <&reg_module_3v3>;
 		status = "okay";
 
 		port {
@@ -80,7 +83,3 @@
 	};
 };
 
-/* Disable wake-up key as Apalis WAKE1_MICO is used as power-down GPIO */
-&wakeup_key{
-	status = "disabled";
-};

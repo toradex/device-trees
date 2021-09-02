@@ -1,0 +1,32 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Turn on the parallel RGB interface with setting for 7" Displays on the
+// Colibri iMX6ULL.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,colibri-imx6ull-emmc";
+};
+
+&backlight {
+	status = "okay";
+};
+
+&display0 {
+	display-timings {
+		native-mode = <&timing_wvga2>;
+	};
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
+};

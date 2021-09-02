@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Fusion F0710A touchscreen. Compatible with a Capacitive Touch Connector.
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "toradex,colibri-imx6ull-emmc";
+};
+
+&atmel_mxt_ts {
+	status = "disabled";
+};
+
+&fusion_f0710a {
+	pinctrl-0 = <&pinctrl_atmel_conn>;
+	gpios = <&gpio5 4 GPIO_ACTIVE_HIGH /* SODIMM 107, INT */
+		 &gpio1 10 GPIO_ACTIVE_LOW /* SODIMM 106, RST */
+		>;
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+};
