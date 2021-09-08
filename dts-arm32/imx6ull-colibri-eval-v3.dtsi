@@ -66,14 +66,6 @@
 	status = "okay";
 };
 
-&backlight {
-	brightness-levels = <0 4 8 16 32 64 128 255>;
-	default-brightness-level = <6>;
-	power-supply = <&reg_3v3>;
-	pwms = <&pwm4 0 5000000 1>;
-	status = "disabled";
-};
-
 &ecspi1 {
 	status = "okay";
 

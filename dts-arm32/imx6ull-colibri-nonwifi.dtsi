@@ -12,6 +12,10 @@
 	};
 };
 
+&ad7879_ts {
+	status = "okay";
+};
+
 &backlight {
 	status = "okay";
 };
@@ -153,17 +157,10 @@
 			  "SODIMM_127";
 };
 
-&lcdif {
+&i2c2 {
 	status = "okay";
 };
 
-&panel_dpi {
-	status = "okay";
-};
-
-&pwm4 {
-	status = "okay";
-};
 
 &iomuxc {
 	pinctrl-names = "default";
@@ -174,4 +171,16 @@
 &iomuxc_snvs {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_snvs_gpio1 &pinctrl_snvs_gpio2 &pinctrl_snvs_gpio3>;
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
 };

@@ -19,6 +19,10 @@
 	};
 };
 
+&ad7879_ts {
+	status = "okay";
+};
+
 &backlight {
 	status = "okay";
 };
@@ -163,15 +167,7 @@
 			  "SODIMM_105";
 };
 
-&lcdif {
-	status = "okay";
-};
-
-&panel_dpi {
-	status = "okay";
-};
-
-&pwm4 {
+&i2c2 {
 	status = "okay";
 };
 
@@ -185,6 +181,18 @@
 &iomuxc_snvs {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_snvs_gpio1 &pinctrl_snvs_gpio2>;
+};
+
+&lcdif {
+	status = "okay";
+};
+
+&panel_dpi {
+	status = "okay";
+};
+
+&pwm4 {
+	status = "okay";
 };
 
 &usdhc2 {
