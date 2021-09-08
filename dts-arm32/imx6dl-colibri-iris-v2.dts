@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0+ OR X11
 /*
- * Copyright 2018-2019 Toradex
+ * Copyright 2018-2021 Toradex
  */
 
 /dts-v1/;
@@ -49,6 +49,27 @@
 	};
 };
 
+&gpio2 {
+	/*
+	 * uart_a_on_x13_enable turns the UART transceiver for UART_A on. If one
+	 * wants to turn the transceiver off, that property has to be deleted
+	 * and the gpio handled in userspace.
+	 * The same applies to uart_b_c_on_x14_enable where the UART_B and
+	 * UART_C transceiver is turned on.
+	 */
+	uart_a_on_x13_enable {
+		gpio-hog;
+		gpios = <4 GPIO_ACTIVE_HIGH>; /* SODIMM 102 */
+		output-high;
+	};
+
+	uart_b_c_on_x14_enable {
+		gpio-hog;
+		gpios = <8 GPIO_ACTIVE_HIGH>; /* SODIMM 104 */
+		output-high;
+	};
+};
+
 /*
  * I2C: I2C3_SDA/SCL on SODIMM 194/196 (e.g. RTC on carrier
  * board)
@@ -94,25 +115,16 @@
 /* Colibri UART_A */
 &uart1 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_uart1_dte &pinctrl_uart1_ctrl
-			&pinctrl_uart1_forceoff>;
 };
 
 /* Colibri UART_B */
 &uart2 {
 	status = "okay";
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_uart2_dte &pinctrl_uart23_forceoff>;
 };
 
 /* Colibri UART_C */
 &uart3 {
 	status = "okay";
-	/*
-	 * Note that UART3 is on the same tranceiver as UART2 and this needs
-	 * to be enabled with the pinmuxing &pinctrl_uart23_forceoff
-	 */
 };
 
 &usbh1 {
@@ -180,20 +192,6 @@
 				MX6QDL_PAD_EIM_A23__GPIO6_IO06	0x1b0b0 /* SODIMM 85 */
 				MX6QDL_PAD_EIM_A19__GPIO2_IO19	0x1b0b0 /* SODIMM 79 */
 				MX6QDL_PAD_EIM_A16__GPIO2_IO22	0x1b0b0 /* SODIMM 45 */
-			>;
-		};
-	};
-
-	uart {
-		pinctrl_uart1_forceoff: uart1_forceoff {
-			fsl,pins = <
-				MX6QDL_PAD_NANDF_D4__GPIO2_IO04 0x1b0b0
-			>;
-		};
-
-		pinctrl_uart23_forceoff: uart23_forceoff {
-			fsl,pins = <
-				MX6QDL_PAD_SD4_DAT0__GPIO2_IO08 0x1b0b0
 			>;
 		};
 	};

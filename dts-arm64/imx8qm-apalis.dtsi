@@ -9,10 +9,22 @@
 	model = "Toradex Apalis iMX8QM";
 	compatible = "toradex,apalis-imx8",
 		     "fsl,imx8qm";
-};
 
-/delete-node/ &pcie_wifi_refclk;
-/delete-node/ &pcie_wifi_refclk_gate;
+	pcie_sata_refclk: sata-clock-generator {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <100000000>;
+	};
+
+	pcie_sata_refclk_gate: sata-ref-clock {
+		compatible = "gpio-gate-clock";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_pcie_sata_refclk>;
+		#clock-cells = <0>;
+		clocks = <&pcie_sata_refclk>;
+		enable-gpios = <&lsio_gpio4 27 GPIO_ACTIVE_HIGH>;
+	};
+};
 
 &ethphy0 {
 	interrupts = <5 IRQ_TYPE_LEVEL_LOW>;
@@ -321,10 +333,6 @@
 	fsl,pins = <
 		IMX8QM_PCIE_CTRL0_CLKREQ_B_LSIO_GPIO4_IO27	0x00000021
 	>;
-};
-
-&pcie_sata_refclk_gate {
-	enable-gpios = <&lsio_gpio4 27 GPIO_ACTIVE_HIGH>;
 };
 
 /* On-module Wi-Fi */

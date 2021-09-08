@@ -40,37 +40,6 @@
 		};
 	};
 
-	pcie_sata_refclk: sata-clock-generator {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <100000000>;
-	};
-
-	pcie_sata_refclk_gate: sata-ref-clock {
-		compatible = "gpio-gate-clock";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_pcie_sata_refclk>;
-		#clock-cells = <0>;
-		clocks = <&pcie_sata_refclk>;
-		enable-gpios = <&lsio_gpio4 11 GPIO_ACTIVE_HIGH>;
-	};
-
-
-	pcie_wifi_refclk: wifi-clock-generator {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <100000000>;
-	};
-
-	pcie_wifi_refclk_gate: wifi-ref-clock {
-		compatible = "gpio-gate-clock";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_pcie_wifi_refclk>;
-		#clock-cells = <0>;
-		clocks = <&pcie_wifi_refclk>;
-		enable-gpios = <&lsio_gpio2 11 GPIO_ACTIVE_HIGH>;
-	};
-
 	regulators {
 		compatible = "simple-bus";
 		#address-cells = <1>;
@@ -1447,6 +1416,8 @@
 };
 
 &lsio_gpio4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pcie_sata_refclk>;
 	gpio-line-names = "MXM3_18",
 			  "MXM3_11/GPIO5",
 			  "MXM3_13/GPIO6",
@@ -1474,6 +1445,19 @@
 			  "MXM3_291",
 			  "MXM3_289",
 			  "MXM3_287";
+
+	/*
+	 * This will make sure the PCIe clock for the SoC and SATA gets enabled
+	 * and stays enabled.
+	 * If this clock gets disabled after boot, in some cases PCIe does not
+	 * after a reboot work.
+	 */
+	pcie_sata_clock {
+		gpio-hog;
+		gpios = <11 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "SATA and PCIe clock";
+	};
 };
 
 &lsio_gpio5 {
@@ -1556,18 +1540,6 @@
 &pciea {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_reset_moci>;
-	clocks = <&pciea_lpcg 0>,
-		 <&pciea_lpcg 1>,
-		 <&pciea_lpcg 2>,
-		 <&phyx2_lpcg 0>,
-		 <&phyx2_crr0_lpcg 0>,
-		 <&pciea_crr2_lpcg 0>,
-		 <&misc_crr5_lpcg 0>,
-		 <&pcie_sata_refclk_gate>;
-	clock-names = "pcie", "pcie_bus", "pcie_inbound_axi",
-		      "pcie_phy", "phy_per", "pcie_per", "misc_per",
-		      "pcie_ext";
-
 	ext_osc = <1>;
 	fsl,max-link-speed = <1>;
 	reset-gpio = <&lsio_gpio0 30 GPIO_ACTIVE_LOW>;
@@ -1577,21 +1549,8 @@
 /* On-module Wi-Fi */
 &pcieb {
 	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_pcieb &pinctrl_wifi>;
-	clocks = <&pcieb_lpcg 0>,
-		 <&pcieb_lpcg 1>,
-		 <&pcieb_lpcg 2>,
-		 <&phyx2_lpcg 1>,
-		 <&phyx2_lpcg 0>,
-		 <&phyx2_crr0_lpcg 0>,
-		 <&pcieb_crr3_lpcg 0>,
-		 <&pciea_crr2_lpcg 0>,
-		 <&misc_crr5_lpcg 0>,
-		 <&pcie_wifi_refclk_gate>;
-	clock-names = "pcie", "pcie_bus", "pcie_inbound_axi",
-		      "pcie_phy", "pcie_phy_pclk", "phy_per",
-		      "pcie_per", "pciex2_per", "misc_per",
-		      "pcie_ext";
+	pinctrl-0 = <&pinctrl_pcieb &pinctrl_wifi &pinctrl_pcie_wifi_refclk>;
+	clkreq-gpio = <&lsio_gpio2 11 GPIO_ACTIVE_HIGH>;
 	epdev_on-supply = <&reg_module_wifi>;
 	ext_osc = <1>;
 	fsl,max-link-speed = <1>;
@@ -1664,25 +1623,6 @@
 
 /* Apalis SATA1 */
 &sata {
-	clocks = <&sata_lpcg 0>,
-		 <&phyx1_lpcg 0>,
-		 <&phyx1_lpcg 1>,
-		 <&phyx1_lpcg 2>,
-		 <&phyx2_crr0_lpcg 0>,
-		 <&phyx1_crr1_lpcg 0>,
-		 <&pciea_crr2_lpcg 0>,
-		 <&pcieb_crr3_lpcg 0>,
-		 <&sata_crr4_lpcg 0>,
-		 <&misc_crr5_lpcg 0>,
-		 <&phyx2_lpcg 0>,
-		 <&phyx2_lpcg 1>,
-		 <&phyx1_lpcg 3>,
-		 <&pcie_sata_refclk_gate>;
-	clock-names = "sata", "sata_ref", "epcs_tx", "epcs_rx",
-		      "per_clk0", "per_clk1", "per_clk2",
-		      "per_clk3", "per_clk4", "per_clk5",
-		      "phy_pclk0", "phy_pclk1", "phy_apbclk",
-		      "sata_ext";
 	ext_osc = <1>;
 };
 

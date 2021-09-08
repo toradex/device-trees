@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0+ OR MIT
 /*
- * Copyright 2018-2020 Toradex
+ * Copyright 2018-2021 Toradex
  */
 
 #include <dt-bindings/input/input.h>
@@ -8,6 +8,14 @@
 / {
 	chosen {
 		bootargs = "console=ttymxc0,115200";
+	};
+
+	extcon_usbc_det: usbc_det {
+		compatible = "linux,extcon-usb-gpio";
+		debounce = <25>;
+		id-gpio = <&gpio7 14 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usbc_det>;
 	};
 
 	gpio-keys {
@@ -34,12 +42,11 @@
 		enable-active-high;
 	};
 
-	extcon_usbc_det: usbc_det {
-		compatible = "linux,extcon-usb-gpio";
-		debounce = <25>;
-		id-gpio = <&gpio7 14 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_usbc_det>;
+	reg_5v0: regulator-5v0 {
+		compatible = "regulator-fixed";
+		regulator-name = "5V";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
 	};
 
 	reg_usbh_vbus: regulator-usbh-vbus {
@@ -51,13 +58,6 @@
 		regulator-max-microvolt = <5000000>;
 		gpio = <&gpio4 7 GPIO_ACTIVE_LOW>;
 		vin-supply = <&reg_5v0>;
-	};
-
-	reg_5v0: regulator-5v0 {
-		compatible = "regulator-fixed";
-		regulator-name = "5V";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
 	};
 };
 
@@ -75,6 +75,29 @@
 
 &fec1 {
 	status = "okay";
+};
+
+&gpio2 {
+	/*
+	 * uart_b_c_on_x14_enable turns the UART transceiver for UART_B and
+	 * UART_C on. If one wants to turn the transceiver off, that property
+	 * has to be deleted and the gpio handled in userspace.
+	 * The same applies to uart_a_on_x13_enable where the UART_A
+	 * transceiver is turned on.
+	 */
+	uart_b_c_on_x14_enable {
+		gpio-hog;
+		gpios = <27 GPIO_ACTIVE_HIGH>; /* SODIMM 104 */
+		output-high;
+	};
+};
+
+&gpio5 {
+	uart_a_on_x13_enable {
+		gpio-hog;
+		gpios = <17 GPIO_ACTIVE_HIGH>; /* SODIMM 102 */
+		output-high;
+	};
 };
 
 &i2c4 {
@@ -116,32 +139,9 @@
 };
 
 &usbotg1 {
-	extcon = <&extcon_usbc_det>,  <&extcon_usbc_det>;
+	extcon = <&extcon_usbc_det>, <&extcon_usbc_det>;
 	vbus-supply = <&reg_usbh_vbus>;
 	status = "okay";
-};
-
-&gpio2 {
-	/*
-	 * uart25 turns the UART transceiver for UART2 and 5 on. If one wants to
-	 * turn the transceiver off, that property has to be deleted and the
-	 * gpio handled in userspace.
-	 * The same applies to uart1_tx_on and lvds_tx_on, where the UART / LVDS
-	 * transceiver is turned on.
-	 */
-	uart25_tx_on {
-		gpio-hog;
-		gpios = <27 0>; /* SODIMM 104 */
-		output-high;
-	};
-};
-
-&gpio5 {
-	uart1_tx_on {
-		gpio-hog;
-		gpios = <17 0>; /* SODIMM 102 */
-		output-high;
-	};
 };
 
 /* The define SD_1_8 allows to use the SD interface at a higher speed mode
@@ -196,6 +196,4 @@
 			MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x0 /* CD */
 		>;
 	};
-
 };
-
