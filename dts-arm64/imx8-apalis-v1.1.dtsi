@@ -322,6 +322,16 @@
 	/* xceiver-supply = <&reg_can_stby>; */
 };
 
+/* Apalis CAN3 - Mezzanine */
+&flexcan3 {
+	/* define the following property to disable CAN-FD mode */
+	/* disable-fd-mode; */
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_flexcan3>;
+	/* xceiver-supply = <&reg_can_stby>; */
+};
+
+
 /* Apalis HDMI1 */
 &hdmi {
 	compatible = "cdn,imx8qm-hdmi";
@@ -497,6 +507,14 @@
 			fsl,pins = <
 				IMX8QM_FLEXCAN1_TX_DMA_FLEXCAN1_TX		0x21
 				IMX8QM_FLEXCAN1_RX_DMA_FLEXCAN1_RX		0x21
+			>;
+		};
+
+		/* Apalis CAN3 */
+		pinctrl_flexcan3: flexcan2grp {
+			fsl,pins = <
+				IMX8QM_FLEXCAN2_TX_DMA_FLEXCAN2_TX		0x21
+				IMX8QM_FLEXCAN2_RX_DMA_FLEXCAN2_RX		0x21
 			>;
 		};
 
