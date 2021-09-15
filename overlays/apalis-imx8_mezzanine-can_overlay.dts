@@ -1,0 +1,30 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Apalis iMX8 Mezzanine CAN overlay
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	compatible = "toradex,apalis-imx8";
+};
+
+/* Please note atmel_mxt_ts node should be disabled */
+&flexcan3 {
+	status = "okay";
+};
+
+&lsio_gpio2 {
+	/* Disable CAN transceiver silent mode */
+	CAN_SILENT {
+		gpio-hog;
+		gpios = <18 GPIO_ACTIVE_HIGH>; /* SODIMM 193 */
+		line-name = "CAN_SILENT";
+		output-low;
+	};
+};
