@@ -14,7 +14,3 @@
 		     "toradex,colibri-imx6ull",
 		     "fsl,imx6ull";
 };
-
-&atmel_mxt_ts {
-	status = "okay";
-};
