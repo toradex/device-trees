@@ -33,6 +33,9 @@
 		powerdown-gpios = <&lsio_gpio0 9 GPIO_ACTIVE_HIGH>;	/* Apalis GPIO2 */
 		reg = <0x3c>;
 		reset-gpios = <&lsio_gpio0 8 GPIO_ACTIVE_LOW>;		/* Apalis GPIO1 */
+		AVDD-supply = <&reg_module_3v3>;
+		DOVDD-supply = <&reg_module_3v3>;
+		DVDD-supply = <&reg_module_3v3>;
 		status = "okay";
 
 		port {
