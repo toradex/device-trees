@@ -499,9 +499,11 @@
 
 /* Apalis MMC1 */
 &usdhc2 {
-	pinctrl-names = "default", "sleep";
+	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
 	pinctrl-0 = <&pinctrl_usdhc2_4bit>, <&pinctrl_mmc1_cd_4bit>;
-	pinctrl-1 = <&pinctrl_usdhc2_4bit_sleep &pinctrl_mmc1_cd_4bit_sleep>;
+	pinctrl-1 = <&pinctrl_usdhc2_4bit>, <&pinctrl_mmc1_cd_4bit>;
+	pinctrl-2 = <&pinctrl_usdhc2_4bit>, <&pinctrl_mmc1_cd_4bit>;
+	pinctrl-3 = <&pinctrl_usdhc2_4bit_sleep &pinctrl_mmc1_cd_4bit_sleep>;
 	bus-width = <4>;
 	cd-gpios = <&lsio_gpio2 9 GPIO_ACTIVE_LOW>; /* Apalis MMC1_CD# */
 	cap-power-off-card;

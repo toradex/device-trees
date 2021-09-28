@@ -499,7 +499,6 @@
 	atmel_mxt_ts: touchscreen@4a {
 		compatible = "atmel,maxtouch";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio5>, <&pinctrl_gpio6>;
 		reg = <0x4a>;
 		interrupt-parent = <&lsio_gpio3>;
 		interrupts = <17 IRQ_TYPE_EDGE_FALLING>;		/* Apalis GPIO5 */

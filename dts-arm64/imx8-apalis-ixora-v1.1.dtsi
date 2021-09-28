@@ -403,6 +403,7 @@
 
 /* Apalis MMC1 */
 &usdhc2 {
+	no-1-8-v;
 	status = "okay";
 };
 

@@ -1788,42 +1788,20 @@
 
 /* Apalis MMC1 */
 &usdhc2 {
-/*
- * The define SD_1_8 allows to use the SD interface at a higher speed mode
- * if the card supports it. For this the signaling voltage is switched from
- * 3.3V to 1.8V under the usdhc2's drivers control.
- * However the by default placed pull-up resistors on SD data lines on Apalis
- * Carrier Boards (except Ixora V1.2) are interfering with UHS's 1.8V signaling
- * voltage. Remove those pull-ups on the carrier board for UHS usage.
- */
-// #define SD_1_8
-#ifdef SD_1_8
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
 	pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_mmc1_cd>;
 	pinctrl-1 = <&pinctrl_usdhc2_100mhz>, <&pinctrl_mmc1_cd>;
 	pinctrl-2 = <&pinctrl_usdhc2_200mhz>, <&pinctrl_mmc1_cd>;
-#else
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_mmc1_cd>;
-	no-1-8-v;
-#endif
 	bus-width = <8>;
 	cd-gpios = <&lsio_gpio2 9 GPIO_ACTIVE_LOW>; /* Apalis MMC1_CD# */
 };
 
 /* Apalis SD1 */
 &usdhc3 {
-// #define SD_1_8
-#ifdef SD_1_8
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
 	pinctrl-0 = <&pinctrl_usdhc3>, <&pinctrl_sd1_cd>;
 	pinctrl-1 = <&pinctrl_usdhc3_100mhz>, <&pinctrl_sd1_cd>;
 	pinctrl-2 = <&pinctrl_usdhc3_200mhz>, <&pinctrl_sd1_cd>;
-#else
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_usdhc3>, <&pinctrl_sd1_cd>;
-	no-1-8-v;
-#endif
 	bus-width = <4>;
 	cd-gpios = <&lsio_gpio4 12 GPIO_ACTIVE_LOW>; /* Apalis SD1_CD# */
 };
