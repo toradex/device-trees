@@ -101,6 +101,11 @@
 	};
 };
 
+/* PWM <A> */
+&pwm4 {
+	status = "okay";
+};
+
 /* PWM <B> */
 &pwm5 {
 	status = "okay";

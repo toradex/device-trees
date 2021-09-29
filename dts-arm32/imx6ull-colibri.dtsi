@@ -166,7 +166,7 @@
 	pinctrl-1 = <&pinctrl_i2c2_gpio>;
 	sda-gpios = <&gpio1 31 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
 	scl-gpios = <&gpio1 30 (GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN)>;
-	status = "disabled";
+	status = "okay";
 
 	ad7879_ts: touchscreen@2c {
 		compatible = "adi,ad7879-1";
@@ -203,7 +203,6 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_pwm4>;
 	#pwm-cells = <3>;
-	status = "disabled";
 };
 
 &pwm5 {

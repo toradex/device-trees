@@ -157,11 +157,6 @@
 			  "SODIMM_127";
 };
 
-&i2c2 {
-	status = "okay";
-};
-
-
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_gpio1 &pinctrl_gpio2 &pinctrl_gpio3
@@ -178,9 +173,5 @@
 };
 
 &panel_dpi {
-	status = "okay";
-};
-
-&pwm4 {
 	status = "okay";
 };
