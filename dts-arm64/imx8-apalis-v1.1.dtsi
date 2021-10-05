@@ -18,7 +18,7 @@
 		enable-gpios = <&lsio_gpio1 4 GPIO_ACTIVE_HIGH>; /* Apalis BKL1_ON */
 	};
 
-	gpio-fan {
+	gpio_fan: gpio-fan {
 		compatible = "gpio-fan";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio8>;
