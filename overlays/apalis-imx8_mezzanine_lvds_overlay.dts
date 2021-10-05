@@ -4,6 +4,7 @@
  */
 
 // LVDS display overlay for Apalis Evaluation board Mezzanine
+#include <dt-bindings/gpio/gpio.h>
 
 /dts-v1/;
 /plugin/;
@@ -38,4 +39,31 @@
 
 &panel_lvds {
 	status = "okay";
+};
+
+/* Enable 10" LVDS backlight LVDS_0_BKL1_ON */
+&lsio_gpio1 {
+	LVDS_0_BKL1_ON {
+		gpio-hog;
+		gpios = <22 GPIO_ACTIVE_HIGH>;
+		line-name = "LVDS_0_BKL1_ON";
+		output-high;
+	};
+};
+
+/*
+ * Put LVDS_0_PWM_BKL1 (GPIO8) low. GPIO8 is shared with gpio-fan.
+ * JP20 should be set to 1-2 (automatic) instead of GPIO8 (2-3).
+ */
+&lsio_gpio3 {
+	PWM_BKL1 {
+		gpio-hog;
+		gpios = <28 GPIO_ACTIVE_HIGH>;
+		line-name = "LVDS_0_PWM_BKL1";
+		output-low;
+	};
+};
+
+&gpio_fan {
+	status = "disabled";
 };
