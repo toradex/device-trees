@@ -13,6 +13,9 @@
 	};
 
 	aliases {
+		/* Ethernet aliases to ensure correct MAC addresses */
+		ethernet0 = &eqos;
+		ethernet1 = &fec;
 		rtc0 = &rtc_i2c;
 		rtc1 = &snvs_rtc;
 	};
