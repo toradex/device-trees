@@ -11,3 +11,8 @@
 	model = "Toradex Colibri iMX8DX Module";
 	compatible = "toradex,colibri-imx8x", "fsl,imx8dx";
 };
+
+&imx8_gpu_ss {
+	reg = <0x80000000 0x40000000>, <0x0 0x08000000>;
+	reg-names = "phys_baseaddr", "contiguous_mem";
+};
