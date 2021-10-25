@@ -1,0 +1,18 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2020-2021 Toradex
+ */
+
+// Disable CAN1 for Verdin iMX8M Mini DualLite
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,verdin-imx8mm";
+};
+
+&can1 {
+	status = "disabled";
+};
+
