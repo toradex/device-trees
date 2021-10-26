@@ -55,19 +55,12 @@
 		enable-gpios = <&lsio_gpio4 11 GPIO_ACTIVE_HIGH>;
 	};
 
-
-	pcie_wifi_refclk: wifi-clock-generator {
-		compatible = "fixed-clock";
-		#clock-cells = <0>;
-		clock-frequency = <100000000>;
-	};
-
 	pcie_wifi_refclk_gate: wifi-ref-clock {
 		compatible = "gpio-gate-clock";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_pcie_wifi_refclk>;
 		#clock-cells = <0>;
-		clocks = <&pcie_wifi_refclk>;
+		clocks = <&pcie_sata_refclk_gate>;
 		enable-gpios = <&lsio_gpio2 11 GPIO_ACTIVE_HIGH>;
 	};
 
