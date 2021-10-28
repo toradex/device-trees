@@ -15,5 +15,6 @@
 		     "toradex,apalis-imx8qp-v1.1",
 		     "toradex,apalis-imx8-v1.1",
 		     "toradex,apalis-imx8",
-		     "fsl,imx8qp";
+		     "fsl,imx8qp",
+		     "fsl,imx8qm";
 };
