@@ -73,6 +73,11 @@
 	};
 };
 
+/* Limit frequency on dev board due to long traces and bad signal integrity */
+&usdhc2 {
+	max-frequency = <100000000>;
+};
+
 &wm8904_1a {
 	status = "disabled";
 };

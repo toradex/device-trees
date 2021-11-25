@@ -6,10 +6,6 @@
 / {
 	reg_wifi_en: regulator-wifi-en {
 		compatible = "regulator-fixed";
-		enable-active-high;
-		gpio = <&gpio3 25 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_wifi_pwr_en>;
 		regulator-name = "V3.3_WI-FI";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
@@ -20,7 +16,6 @@
 /* On-module Wi-Fi */
 &usdhc3 {
 	bus-width = <4>;
-	cap-power-off-card;
 	keep-power-in-suspend;
 	non-removable;
 	pinctrl-names = "default", "state_100mhz", "state_200mhz";
