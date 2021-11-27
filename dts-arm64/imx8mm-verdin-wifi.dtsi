@@ -6,7 +6,11 @@
 / {
 	reg_wifi_en: regulator-wifi-en {
 		compatible = "regulator-fixed";
-		regulator-name = "V3.3_WI-FI";
+		enable-active-high;
+		gpio = <&gpio3 25 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_wifi_pwr_en>;
+		regulator-name = "PDn_AW-CM276NF";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		startup-delay-us = <2000>;
