@@ -94,24 +94,6 @@
 			};
 		};
 
-		/*
-		 * Power management bus used for powering down phy in suspend
-		 *
-		 * Power management bus used to control LDO4OUT of the
-		 * first PMIC PF8100 from SCFW using IMX_SC_R_BOARD_R0 (+3.3V_ETH)
-		 */
-		reg_fec_supply: regulator-fec-supply {
-			compatible = "regulator-fixed";
-			regulator-name = "+V3.3_ETH (LDO4)";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-			power-domains = <&pd IMX_SC_R_BOARD_R0>;
-
-			regulator-state-mem {
-				regulator-off-in-suspend;
-			};
-		};
-
 		reg_module_3v3: regulator-module-3v3 {
 			compatible = "regulator-fixed";
 			regulator-name = "+V3.3";
@@ -308,11 +290,8 @@
 	fsl,magic-packet;
 	fsl,mii-exclusive;
 
-	phy-supply = <&reg_fec_supply>;
 	phy-handle = <&ethphy0>;
 	phy-mode = "rgmii-id";
-	phy-reset-duration = <10>;
-	phy-reset-gpios = <&lsio_gpio1 11 GPIO_ACTIVE_LOW>;
 
 	mdio {
 		#address-cells = <1>;
@@ -324,6 +303,10 @@
 			interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
 			micrel,led-mode = <0>;
 			reg = <7>;
+			reset-assert-us = <2>;
+			reset-deassert-us = <2>;
+			reset-gpios = <&lsio_gpio1 11 GPIO_ACTIVE_LOW>;
+			reset-names = "phy-reset";
 		};
 	};
 };
@@ -1122,7 +1105,7 @@
 				IMX8QM_ENET0_RGMII_RXD2_LSIO_GPIO6_IO08		0x04000040
 				IMX8QM_ENET0_RGMII_RXD3_LSIO_GPIO6_IO09		0x04000040
 				IMX8QM_ENET0_REFCLK_125M_25M_LSIO_GPIO4_IO15	0x04000040
-				IMX8QM_LVDS1_GPIO01_LSIO_GPIO1_IO11		0x04000040
+				IMX8QM_LVDS1_GPIO01_LSIO_GPIO1_IO11		0x06000020
 				IMX8QM_MIPI_CSI1_MCLK_OUT_LSIO_GPIO1_IO29	0x04000040
 			>;
 		};
