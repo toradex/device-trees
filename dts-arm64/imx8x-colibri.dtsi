@@ -1431,12 +1431,13 @@
 &usdhc2 {
 	bus-width = <4>;
 	cd-gpios = <&lsio_gpio3 9 GPIO_ACTIVE_LOW>;
+	disable-wp;
+	no-1-8-v;
 	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
 	pinctrl-0 = <&pinctrl_usdhc2>, <&pinctrl_usdhc2_gpio>;
 	pinctrl-1 = <&pinctrl_usdhc2_100mhz>, <&pinctrl_usdhc2_gpio>;
 	pinctrl-2 = <&pinctrl_usdhc2_200mhz>, <&pinctrl_usdhc2_gpio>;
 	pinctrl-3 = <&pinctrl_usdhc2_sleep>, <&pinctrl_usdhc2_gpio_sleep>;
-	disable-wp;
 	vmmc-supply = <&reg_module_3v3>;
 };
 
