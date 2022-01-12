@@ -178,7 +178,7 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_can1_int>;
 		reg = <0>;
-		spi-max-frequency = <2000000>;
+		spi-max-frequency = <8500000>;
 	};
 
 	can2: can@1 {
