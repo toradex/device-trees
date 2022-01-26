@@ -144,7 +144,6 @@
 };
 
 &usdhc1 {
-	no-1-8-v;
 	vmmc-supply = <&reg_3v3>;
 	status = "okay";
 };

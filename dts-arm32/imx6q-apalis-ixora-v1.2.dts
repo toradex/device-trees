@@ -284,7 +284,6 @@
 &usdhc1 {
 	bus-width = <4>;
 	cap-power-off-card;
-	cd-gpios = <&gpio4 20 GPIO_ACTIVE_LOW>;
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&pinctrl_usdhc1_4bit &pinctrl_mmc_cd>;
 	pinctrl-1 = <&pinctrl_usdhc1_4bit_sleep &pinctrl_mmc_cd_sleep>;
