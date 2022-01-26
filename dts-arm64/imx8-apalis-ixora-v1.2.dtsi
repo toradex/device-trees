@@ -505,9 +505,9 @@
 	pinctrl-2 = <&pinctrl_usdhc2_4bit>, <&pinctrl_mmc1_cd_4bit>;
 	pinctrl-3 = <&pinctrl_usdhc2_4bit_sleep &pinctrl_mmc1_cd_4bit_sleep>;
 	bus-width = <4>;
-	cd-gpios = <&lsio_gpio2 9 GPIO_ACTIVE_LOW>; /* Apalis MMC1_CD# */
 	cap-power-off-card;
 	vmmc-supply = <&reg_3v3_vmmc>;
+	/delete-property/ no-1-8-v;
 	status = "okay";
 };
 

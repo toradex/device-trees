@@ -1770,6 +1770,7 @@
 	pinctrl-2 = <&pinctrl_usdhc2_200mhz>, <&pinctrl_mmc1_cd>;
 	bus-width = <8>;
 	cd-gpios = <&lsio_gpio2 9 GPIO_ACTIVE_LOW>; /* Apalis MMC1_CD# */
+	no-1-8-v;
 };
 
 /* Apalis SD1 */
@@ -1780,6 +1781,7 @@
 	pinctrl-2 = <&pinctrl_usdhc3_200mhz>, <&pinctrl_sd1_cd>;
 	bus-width = <4>;
 	cd-gpios = <&lsio_gpio4 12 GPIO_ACTIVE_LOW>; /* Apalis SD1_CD# */
+	no-1-8-v;
 };
 
 &vpu_decoder {

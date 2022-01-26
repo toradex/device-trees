@@ -143,35 +143,7 @@
 	status = "okay";
 };
 
-/*
- * The define SD_1_8 allows to use the SD interface at a higher speed mode
- * if the card supports it. For this the signaling voltage is switched from
- * 3.3V to 1.8V under the usdhc1's drivers control which is supported starting
- * with hardware revision V1.1A.
- */
-/* #define SD_1_8 */
 &usdhc1 {
-#ifdef SD_1_8
-	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
-	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_snvs_usdhc1_cd>;
-	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_snvs_usdhc1_cd>;
-	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_snvs_usdhc1_cd>;
-	pinctrl-3 = <&pinctrl_usdhc1 &pinctrl_snvs_usdhc1_cd_sleep>;
-	vqmmc-supply = <&reg_sd1_vqmmc>;
-	sd-uhs-sdr12;
-	sd-uhs-sdr25;
-	sd-uhs-sdr50;
-	sd-uhs-sdr104;
-#else
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_snvs_usdhc1_cd>;
-	pinctrl-1 = <&pinctrl_usdhc1 &pinctrl_snvs_usdhc1_cd_sleep>;
-	no-1-8-v;
-#endif
-	cd-gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
-	disable-wp;
-	enable-sdio-wakeup;
-	keep-power-in-suspend;
 	vmmc-supply = <&reg_3v3>;
 	status = "okay";
 };

@@ -144,56 +144,10 @@
 	status = "okay";
 };
 
-/* The define SD_1_8 allows to use the SD interface at a higher speed mode
- * if the card supports it. For this the signaling voltage is switched from
- * 3.3V to 1.8V under the usdhc1's drivers control.
- * All pins supplied with NVCC_SD1 must be able to cope with this
- * and must (MUST!!!) not be driven with a voltage higher than 1.8V or
- * the interface will not work.
- */
-#define SD_1_8
 &usdhc1 {
-#ifdef SD_1_8
-	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
-	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_cd_usdhc1>;
-	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_cd_usdhc1>;
-	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_cd_usdhc1>;
-	pinctrl-3 = <&pinctrl_usdhc1_sleep &pinctrl_cd_usdhc1_sleep>;
-	vqmmc-supply = <&reg_LDO2>;
-	sd-uhs-sdr12;
-	sd-uhs-sdr25;
-	sd-uhs-sdr50;
-	sd-uhs-sdr104;
-#else
-	pinctrl-names = "default", "sleep";
-	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_cd_usdhc1>;
-	pinctrl-1 = <&pinctrl_usdhc1_sleep &pinctrl_cd_usdhc1_sleep>;
-	no-1-8-v;
-#endif
-	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
-	disable-wp;
-	enable-sdio-wakeup;
 	cap-power-off-card;
-	wakeup-source;
+	/delete-property/ keep-power-in-suspend;
+	/delete-property/ no-1-8-v;
 	vmmc-supply = <&reg_3v3_vmmc>;
 	status = "okay";
-};
-
-&iomuxc {
-	pinctrl_usdhc1_sleep: usdhc1-slp-grp {
-		fsl,pins = <
-			MX7D_PAD_SD1_CMD__SD1_CMD	0x10
-			MX7D_PAD_SD1_CLK__SD1_CLK	0x10
-			MX7D_PAD_SD1_DATA0__SD1_DATA0	0x10
-			MX7D_PAD_SD1_DATA1__SD1_DATA1	0x10
-			MX7D_PAD_SD1_DATA2__SD1_DATA2	0x10
-			MX7D_PAD_SD1_DATA3__SD1_DATA3	0x10
-		>;
-	};
-
-	pinctrl_cd_usdhc1_sleep: usdhc1-cd-slp-grp {
-		fsl,pins = <
-			MX7D_PAD_LPSR_GPIO1_IO00__GPIO1_IO0	0x0 /* CD */
-		>;
-	};
 };

@@ -270,9 +270,20 @@
 };
 
 &usdhc1 {
+	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
+	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_snvs_usdhc1_cd>;
+	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_snvs_usdhc1_cd>;
+	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_snvs_usdhc1_cd>;
+	pinctrl-3 = <&pinctrl_usdhc1 &pinctrl_snvs_usdhc1_sleep_cd>;
 	assigned-clocks = <&clks IMX6UL_CLK_USDHC1_SEL>, <&clks IMX6UL_CLK_USDHC1>;
 	assigned-clock-parents = <&clks IMX6UL_CLK_PLL2_PFD2>;
 	assigned-clock-rates = <0>, <198000000>;
+	bus-width = <4>;
+	cd-gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
+	keep-power-in-suspend;
+	no-1-8-v;
+	vqmmc-supply = <&reg_sd1_vqmmc>;
+	wakeup-source;
 };
 
 &wdog1 {
@@ -664,13 +675,7 @@
 		>;
 	};
 
-	pinctrl_snvs_usdhc1_cd_sleep: snvs-usdhc1-cd-slp-grp {
-		fsl,pins = <
-			MX6ULL_PAD_SNVS_TAMPER0__GPIO5_IO00	0x0
-		>;
-	};
-
-	pinctrl_snvs_usdhc1_sleep_cd: snvs-usdhc1-cd-grp-slp {
+	pinctrl_snvs_usdhc1_sleep_cd: snvs-usdhc1-cd-slp-grp {
 		fsl,pins = <
 			MX6ULL_PAD_SNVS_TAMPER0__GPIO5_IO00	0x0
 		>;

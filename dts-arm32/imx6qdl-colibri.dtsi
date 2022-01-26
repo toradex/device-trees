@@ -751,34 +751,18 @@
 
 /* Colibri MMC */
 &usdhc1 {
-/*
- * The define SD_1_8 allows to use the SD interface at a higher speed mode
- * if the card supports it. For this the signaling voltage is switched from
- * 3.3V to 1.8V under the usdhc1's drivers control which is supported starting
- * with hardware revision V1.1A.
- */
-#ifdef SD_1_8
-	pinctrl-names = "default", "state_100mhz", "state_200mhz";
+	pinctrl-names = "default", "state_100mhz", "state_200mhz", "sleep";
 	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_mmc_cd>;
 	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_mmc_cd>;
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_mmc_cd>;
-	vqmmc-supply = <&vgen3_reg>;
-	sd-uhs-sdr12;
-	sd-uhs-sdr25;
-	sd-uhs-sdr50;
-	sd-uhs-sdr104;
-#else
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_usdhc1 &pinctrl_mmc_cd>;
-	no-1-8-v;
-#endif
+	pinctrl-3 = <&pinctrl_usdhc1_sleep &pinctrl_mmc_cd_sleep>;
 	label = "MMC1";
+	bus-width = <4>;
 	cd-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>; /* MMCD */
-	disable-wp;
 	enable-sdio-wakeup;
 	keep-power-in-suspend;
-	vmmc-supply = <&reg_3p3v>;
-	bus-width = <4>;
+	no-1-8-v;
+	vqmmc-supply = <&vgen3_reg>;
 	status = "disabled";
 };
 
@@ -1176,6 +1160,23 @@
 			MX6QDL_PAD_SD1_DAT1__SD1_DATA1 0x170f1
 			MX6QDL_PAD_SD1_DAT2__SD1_DATA2 0x170f1
 			MX6QDL_PAD_SD1_DAT3__SD1_DATA3 0x170f1
+		>;
+	};
+
+	pinctrl_mmc_cd_sleep: gpiommccdgrpslp {
+		fsl,pins = <
+			MX6QDL_PAD_NANDF_D5__GPIO2_IO05	0x0
+		>;
+	};
+
+	pinctrl_usdhc1_sleep: usdhc1grp_sleep {
+		fsl,pins = <
+			MX6QDL_PAD_SD1_CMD__SD1_CMD	0x3000
+			MX6QDL_PAD_SD1_CLK__SD1_CLK	0x3000
+			MX6QDL_PAD_SD1_DAT0__SD1_DATA0	0x3000
+			MX6QDL_PAD_SD1_DAT1__SD1_DATA1	0x3000
+			MX6QDL_PAD_SD1_DAT2__SD1_DATA2	0x3000
+			MX6QDL_PAD_SD1_DAT3__SD1_DATA3	0x3000
 		>;
 	};
 
