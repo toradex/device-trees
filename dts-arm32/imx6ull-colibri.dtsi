@@ -280,6 +280,7 @@
 	assigned-clock-rates = <0>, <198000000>;
 	bus-width = <4>;
 	cd-gpios = <&gpio5 0 GPIO_ACTIVE_LOW>;
+	disable-wp;
 	keep-power-in-suspend;
 	no-1-8-v;
 	vqmmc-supply = <&reg_sd1_vqmmc>;

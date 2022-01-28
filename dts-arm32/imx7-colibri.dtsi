@@ -696,6 +696,7 @@
 	pinctrl-3 = <&pinctrl_usdhc1_sleep &pinctrl_cd_usdhc1_sleep>;
 	bus-width = <4>;
 	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+	disable-wp;
 	keep-power-in-suspend;
 	no-1-8-v;
 	vqmmc-supply = <&reg_LDO2>;

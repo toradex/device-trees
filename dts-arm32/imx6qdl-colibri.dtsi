@@ -759,6 +759,7 @@
 	label = "MMC1";
 	bus-width = <4>;
 	cd-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>; /* MMCD */
+	disable-wp;
 	enable-sdio-wakeup;
 	keep-power-in-suspend;
 	no-1-8-v;
