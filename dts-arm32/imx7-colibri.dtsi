@@ -579,6 +579,7 @@
 	pinctrl-1 = <&pinctrl_usdhc1_100mhz &pinctrl_cd_usdhc1>;
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_cd_usdhc1>;
 	cd-gpios = <&gpio1 0 GPIO_ACTIVE_LOW>;
+	disable-wp;
 	no-1-8-v;
 	vqmmc-supply = <&reg_LDO2>;
 };

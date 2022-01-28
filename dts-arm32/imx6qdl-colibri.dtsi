@@ -677,6 +677,7 @@
 	pinctrl-2 = <&pinctrl_usdhc1_200mhz &pinctrl_mmc_cd>;
 	cd-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>; /* MMCD */
 	bus-width = <4>;
+	disable-wp;
 	no-1-8-v;
 	vqmmc-supply = <&vgen3_reg>;
 	status = "disabled";
