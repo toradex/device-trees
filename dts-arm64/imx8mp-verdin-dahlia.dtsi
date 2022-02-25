@@ -4,6 +4,13 @@
  */
 
 / {
+	extcon_usb_1_id: usb_1_id {
+		compatible = "linux,extcon-usb-gpio";
+		id-gpio = <&gpio2 10 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb_1_id>;
+	};
+
 	/* Carrier Board Supply +V1.8 */
 	reg_1p8v: regulator-1p8v {
 		compatible = "regulator-fixed";
@@ -192,12 +199,6 @@
 	status = "okay";
 };
 
-/* Verdin UART_4 */
-/* Often used by the M7 and then should not be enabled here. */
-&uart4 {
-	status = "disabled";
-};
-
 /* Verdin USB_1 */
 &usb3_phy0 {
 	status = "okay";
@@ -216,11 +217,16 @@
 	status = "okay";
 };
 
+&usb_dwc3_0 {
+	extcon = <&extcon_usb_1_id>;
+};
+
 &usb3_1 {
 	status = "okay";
 };
 
 &usb_dwc3_1 {
+	disable-over-current;
 	status = "okay";
 };
 

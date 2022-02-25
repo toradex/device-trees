@@ -17,6 +17,31 @@
 	};
 };
 
+&gpio3 {
+	gpio-line-names = "";
+};
+
+&gpio4 {
+	gpio-line-names = "";
+};
+
+&iomuxc {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_gpio1>, <&pinctrl_gpio2>,
+		    <&pinctrl_gpio3>, <&pinctrl_gpio4>,
+		    <&pinctrl_gpio7>, <&pinctrl_gpio8>,
+		    <&pinctrl_gpio_hog2>, <&pinctrl_gpio_hog3>, <&pinctrl_gpio_hog4>,
+		    <&pinctrl_hdmi_hog>;
+};
+
+/* On-module Bluetooth */
+&uart4 {
+	fsl,uart-has-rtscts;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_bt_uart>;
+	status = "okay";
+};
+
 /* On-module Wi-Fi */
 &usdhc1 {
 	bus-width = <4>;
@@ -30,12 +55,4 @@
 	vmmc-supply = <&reg_wifi_en>;
 	wifi-host;
 	status = "okay";
-};
-
-&gpio3 {
-	gpio-line-names = "";
-};
-
-&gpio4 {
-	gpio-line-names = "";
 };
