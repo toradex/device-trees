@@ -576,6 +576,14 @@
 		reg = <0x57>;
 		status = "disabled";
 	};
+
+	/* USB_1 ID */
+	extcon_usb_1_id: usb_1_id {
+		compatible = "linux,extcon-usb-gpio";
+		id-gpio = <&gpio2 10 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb_1_id>;
+	};
 };
 
 &ldb {
@@ -720,6 +728,7 @@
 };
 
 &usb_dwc3_0 {
+	extcon = <&extcon_usb_1_id>;
 	dr_mode = "otg";
 	hnp-disable;
 	srp-disable;

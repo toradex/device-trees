@@ -4,13 +4,6 @@
  */
 
 / {
-	extcon_usb_1_id: usb_1_id {
-		compatible = "linux,extcon-usb-gpio";
-		id-gpio = <&gpio2 10 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_usb_1_id>;
-	};
-
 	/* Carrier Board Supply +V1.8 */
 	reg_1p8v: regulator-1p8v {
 		compatible = "regulator-fixed";
@@ -215,10 +208,6 @@
 /* Verdin USB_2 */
 &usb3_phy1 {
 	status = "okay";
-};
-
-&usb_dwc3_0 {
-	extcon = <&extcon_usb_1_id>;
 };
 
 &usb3_1 {
