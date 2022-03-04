@@ -44,6 +44,14 @@
 		status = "disabled";
 	};
 
+	/* USB_1 ID */
+	extcon_usb_1_id: usb_1_id {
+		compatible = "linux,extcon-usb-gpio";
+		id-gpio = <&gpio2 10 GPIO_ACTIVE_HIGH>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_usb_1_id>;
+	};
+
 	gpio-keys {
 		compatible = "gpio-keys";
 		pinctrl-names = "default";
@@ -575,14 +583,6 @@
 		pagesize = <16>;
 		reg = <0x57>;
 		status = "disabled";
-	};
-
-	/* USB_1 ID */
-	extcon_usb_1_id: usb_1_id {
-		compatible = "linux,extcon-usb-gpio";
-		id-gpio = <&gpio2 10 GPIO_ACTIVE_HIGH>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_usb_1_id>;
 	};
 };
 
