@@ -238,11 +238,44 @@
 };
 
 &gpio1 {
-	gpio-line-names = "";
+	gpio-line-names = "SODIMM_206",
+			  "SODIMM_208",
+			  "",
+			  "",
+			  "",
+			  "SODIMM_210",
+			  "SODIMM_212",
+			  "SODIMM_216",
+			  "SODIMM_218",
+			  "",
+			  "",
+			  "SODIMM_16",
+			  "SODIMM_155",
+			  "SODIMM_157",
+			  "SODIMM_185",
+			  "SODIMM_91";
 };
 
 &gpio2 {
-	gpio-line-names = "";
+	gpio-line-names = "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SODIMM_143",
+			  "SODIMM_141",
+			  "",
+			  "",
+			  "SODIMM_161",
+			  "",
+			  "SODIMM_84",
+			  "SODIMM_78",
+			  "SODIMM_74",
+			  "SODIMM_80",
+			  "SODIMM_82",
+			  "SODIMM_70",
+			  "SODIMM_72";
 
 	ctrl_sleep_moci {
 		gpio-hog;
@@ -255,8 +288,72 @@
 	};
 };
 
-&gpio5 {
-	gpio-line-names = "";
+&gpio3 {
+	gpio-line-names = "SODIMM_52",
+			  "SODIMM_54",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SODIMM_56",
+			  "SODIMM_58",
+			  "SODIMM_60",
+			  "SODIMM_62",
+			  "",
+			  "",
+			  "",
+			  "",
+			  "SODIMM_66",
+			  "",
+			  "SODIMM_64",
+			  "",
+			  "",
+			  "SODIMM_34",
+			  "SODIMM_19",
+			  "",
+			  "SODIMM_32",
+			  "",
+			  "",
+			  "SODIMM_30",
+			  "SODIMM_59",
+			  "SODIMM_57",
+			  "SODIMM_63",
+			  "SODIMM_61";
+};
+
+&gpio4 {
+	gpio-line-names = "SODIMM_252",
+			  "SODIMM_222",
+			  "SODIMM_36",
+			  "SODIMM_220",
+			  "SODIMM_193",
+			  "SODIMM_191",
+			  "SODIMM_201",
+			  "SODIMM_203",
+			  "SODIMM_205",
+			  "SODIMM_207",
+			  "SODIMM_199",
+			  "SODIMM_197",
+			  "SODIMM_221",
+			  "SODIMM_219",
+			  "SODIMM_217",
+			  "SODIMM_215",
+			  "SODIMM_211",
+			  "SODIMM_213",
+			  "SODIMM_189",
+			  "SODIMM_244",
+			  "SODIMM_38",
+			  "",
+			  "SODIMM_76",
+			  "SODIMM_135",
+			  "SODIMM_133",
+			  "SODIMM_17",
+			  "SODIMM_24",
+			  "SODIMM_26",
+			  "SODIMM_21",
+			  "SODIMM_256",
+			  "SODIMM_48",
+			  "SODIMM_44";
 };
 
 /* On-module I2C */
