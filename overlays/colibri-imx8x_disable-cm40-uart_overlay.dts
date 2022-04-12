@@ -1,0 +1,21 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2021 Toradex
+ */
+
+// Disables, at the Linux side, the UART that is shared with Cortex-M
+
+/dts-v1/;
+/plugin/;
+
+/{
+	compatible = "toradex,colibri-imx8";
+};
+
+&cm40_lpuart {
+	status = "disabled";
+};
+
+&cm40_uart_lpcg {
+	status = "disabled";
+};
