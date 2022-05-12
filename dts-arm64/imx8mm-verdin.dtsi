@@ -32,10 +32,10 @@
 	};
 
 	/* fixed clock dedicated to SPI CAN controller */
-	clk20m: oscillator {
+	clk40m: oscillator {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <20000000>;
+		clock-frequency = <40000000>;
 	};
 
 	gpio-keys {
@@ -169,7 +169,7 @@
 
 	can1: can@0 {
 		compatible = "microchip,mcp2517fd";
-		clocks = <&clk20m>;
+		clocks = <&clk40m>;
 		gpio-controller;
 		interrupt-parent = <&gpio1>;
 		interrupts = <6 IRQ_TYPE_EDGE_FALLING>;
@@ -183,7 +183,7 @@
 
 	can2: can@1 {
 		compatible = "microchip,mcp2517fd";
-		clocks = <&clk20m>;
+		clocks = <&clk40m>;
 		gpio-controller;
 		interrupt-parent = <&gpio1>;
 		interrupts = <7 IRQ_TYPE_EDGE_FALLING>;
