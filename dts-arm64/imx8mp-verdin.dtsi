@@ -149,6 +149,14 @@
 	init-on-array = <IMX8MP_CLK_HSIO_ROOT>;
 };
 
+&cpu_alert0 {
+	temperature = <95000>;
+};
+
+&cpu_crit0 {
+	temperature = <105000>;
+};
+
 /* Verdin SPI_1 */
 &ecspi1 {
 	#address-cells = <1>;
