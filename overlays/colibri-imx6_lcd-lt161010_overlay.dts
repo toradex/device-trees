@@ -21,7 +21,7 @@
 };
 
 &mxcfb1 {
-	mode_str ="800x480M@60";
+	mode_str ="FusionF07A";
 	status = "okay";
 };
 
