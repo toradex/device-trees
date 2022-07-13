@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2022 Toradex
+ */
+
+// Resistive touchscreen enablement.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+	compatible = "toradex,apalis-imx8";
+};
+
+&adc1 {
+	/* remove the pinctrl-adc1 to use the touchscreen */
+	pinctrl-0 = <>;
+};
+
+&touchscreen {
+	status = "okay";
+};
