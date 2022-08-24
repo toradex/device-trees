@@ -6,6 +6,7 @@
 / {
 	aliases {
 		rtc0 = &rtc_i2c;
+		rtc1 = &rtc;
 	};
 
 	extcon_usbc_det: usbc_det {
