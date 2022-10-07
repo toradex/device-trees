@@ -768,6 +768,7 @@
 };
 
 &usbphynop2 {
+	power-domains = <&usb_otg2_pd>;
 	vcc-supply = <&reg_aux_usb>;
 };
 
