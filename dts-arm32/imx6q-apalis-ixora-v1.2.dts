@@ -107,6 +107,7 @@
 		regulator-name = "can1_supply";
 		gpio = <&gpio2 3 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
+		startup-delay-us = <1000>;
 	};
 
 	reg_can2_supply: regulator-can2-supply {
@@ -116,6 +117,7 @@
 		regulator-name = "can2_supply";
 		gpio = <&gpio3 15 GPIO_ACTIVE_HIGH>;
 		enable-active-high;
+		startup-delay-us = <1000>;
 	};
 };
 
