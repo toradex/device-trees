@@ -7,43 +7,12 @@
 
 /dts-v1/;
 
-#include <dt-bindings/gpio/gpio.h>
-#include <dt-bindings/input/input.h>
-#include <dt-bindings/interrupt-controller/irq.h>
-#include <dt-bindings/pwm/pwm.h>
-#include "imx6q.dtsi"
-#include "imx6qdl-apalis.dtsi"
+#include "imx6q-apalis-eval.dtsi"
 
 / {
 	model = "Toradex Apalis iMX6Q/D Module on Apalis Evaluation Board";
 	compatible = "toradex,apalis_imx6q-eval", "toradex,apalis_imx6q",
 		     "fsl,imx6q";
-
-	aliases {
-		i2c0 = &i2c1;
-		i2c1 = &i2c3;
-		i2c2 = &i2c2;
-		rtc0 = &rtc_i2c;
-		rtc1 = &snvs_rtc;
-	};
-
-	chosen {
-		stdout-path = "serial0:115200n8";
-	};
-
-	gpio-keys {
-		compatible = "gpio-keys";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpio_keys>;
-
-		wakeup {
-			label = "Wake-Up";
-			gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
-			linux,code = <KEY_WAKEUP>;
-			debounce-interval = <10>;
-			wakeup-source;
-		};
-	};
 
 	reg_pcie_switch: regulator-pcie-switch {
 		compatible = "regulator-fixed";
@@ -55,15 +24,6 @@
 		enable-active-high;
 		status = "okay";
 	};
-
-	reg_3v3_sw: regulator-3v3-sw {
-		compatible = "regulator-fixed";
-		regulator-name = "3.3V_SW";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-always-on;
-	};
-
 };
 
 &can1 {
@@ -100,154 +60,19 @@
 
 /* I2C1_SDA/SCL on MXM3 209/211 (e.g. RTC on carrier board) */
 &i2c1 {
-	status = "okay";
-
+	/* PCIe Switch */
 	pcie-switch@58 {
 		compatible = "plx,pex8605";
 		reg = <0x58>;
 	};
-
-	/* M41T0M6 real time clock on carrier board */
-	rtc_i2c: rtc@68 {
-		compatible = "st,m41t0";
-		reg = <0x68>;
-	};
-};
-
-/*
- * I2C3_SDA/SCL (CAM) on MXM3 pin 201/203 (e.g. camera sensor on carrier
- * board)
- */
-&i2c3 {
-	status = "okay";
-
-	adv7280: adv7280@21 {
-		compatible = "adv7280";
-		reg = <0x21>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ipu1_csi0 &pinctrl_cam_mclk>;
-		clocks = <&clks IMX6QDL_CLK_CKO2>;
-		clock-names = "csi_mclk";
-		DOVDD-supply = <&reg_3p3v>;
-		AVDD-supply = <&reg_3p3v>;
-		DVDD-supply = <&reg_3p3v>;
-		PVDD-supply = <&reg_3p3v>;
-		csi_id = <0>;
-		mclk = <24000000>;
-		mclk_source = <1>;
-		status = "okay";
-	};
-
-	/* Video ADC on Analog Camera Module */
-	adv7180: adv7180@21 {
-		compatible = "adv,adv7180";
-		reg = <0x21>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ipu1_csi0 &pinctrl_cam_mclk>;
-		clocks = <&clks IMX6QDL_CLK_CKO2>;
-		clock-names = "csi_mclk";
-		DOVDD-supply = <&reg_3p3v>; /* 3.3v */
-		AVDD-supply = <&reg_3p3v>;  /* 1.8v */
-		DVDD-supply = <&reg_3p3v>;  /* 1.8v */
-		PVDD-supply = <&reg_3p3v>;  /* 1.8v */
-		csi_id = <0>;
-		mclk = <24000000>;
-		mclk_source = <1>;
-		cvbs = <1>;
-		status = "disabled";
-	};
-
-	max9526: max9526@20 {
-		compatible = "maxim,max9526";
-		reg = <0x20>;
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_ipu1_csi0 &pinctrl_cam_mclk>;
-		clocks = <&clks IMX6QDL_CLK_CKO2>;
-		clock-names = "csi_mclk";
-		DVDDIO-supply = <&reg_3p3v>; /* 3.3v */
-		AVDD-supply = <&reg_3p3v>;  /* 1.8v */
-		DVDD-supply = <&reg_3p3v>;  /* 1.8v */
-		csi_id = <0>;
-		mclk = <24000000>;
-		mclk_source = <1>;
-		cvbs = <1>;
-		status = "okay";
-	};
 };
 
 &pcie {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_reset_moci>;
-	/* active-high meaning opposite of regular PERST# active-low polarity */
-	reset-gpio = <&gpio1 28 GPIO_ACTIVE_HIGH>;
 	vpcie-supply = <&reg_pcie_switch>;
 	status = "okay";
 };
 
-&pwm1 {
-	status = "okay";
-};
-
-&pwm2 {
-	status = "okay";
-};
-
-&pwm3 {
-	status = "okay";
-};
-
-&pwm4 {
-	status = "okay";
-};
-
-&reg_usb_host_vbus {
-	status = "okay";
-};
-
-&reg_usb_otg_vbus {
-	status = "okay";
-};
-
-&sata {
-	status = "okay";
-};
-
 &sound_spdif {
-	status = "okay";
-};
-
-&spdif {
-	status = "okay";
-};
-
-&uart1 {
-	status = "okay";
-};
-
-&uart2 {
-	status = "okay";
-#if 0
-	linux,rs485-enabled-at-boot-time;
-	rs485-rts-active-low;
-	rs485-rx-during-tx;
-#endif
-};
-
-&uart4 {
-	status = "okay";
-};
-
-&uart5 {
-	status = "okay";
-};
-
-&usbh1 {
-	vbus-supply = <&reg_usb_host_vbus>;
-	status = "okay";
-};
-
-&usbotg {
-	vbus-supply = <&reg_usb_otg_vbus>;
 	status = "okay";
 };
 
@@ -262,13 +87,4 @@
 	pinctrl-0 = <&pinctrl_usdhc2 &pinctrl_sd_cd>;
 	cd-gpios = <&gpio6 14 GPIO_ACTIVE_LOW>;
 	status = "okay";
-};
-
-&iomuxc {
-	/* Mux the Apalis GPIOs */
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_apalis_gpio1 &pinctrl_apalis_gpio2
-		     &pinctrl_apalis_gpio3 &pinctrl_apalis_gpio4
-		     &pinctrl_apalis_gpio7 &pinctrl_apalis_gpio8
-		    >;
 };
