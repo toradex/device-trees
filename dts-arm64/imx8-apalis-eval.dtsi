@@ -179,14 +179,6 @@
 	status = "okay";
 };
 
-&flexcan1 {
-	status = "okay";
-};
-
-&flexcan2 {
-	status = "okay";
-};
-
 &gpu_3d0{
 	status = "okay";
 };
@@ -340,16 +332,6 @@
 &usbotg3 {
 	dr_mode = "host";
 	vbus-supply = <&reg_usb_host_vbus>;
-	status = "okay";
-};
-
-/* Apalis MMC1 */
-&usdhc2 {
-	status = "okay";
-};
-
-/* Apalis SD1 */
-&usdhc3 {
 	status = "okay";
 };
 
